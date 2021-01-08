@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Sales Admin</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_admin_email">Email Address</string>
+    <string name="login">Login</string>
+    <string name="create_an_admin_account">Create an admin account</string>
+    <string name="admin_name">Enter Your Name</string>
+    <string name="admin_email">Email Address</string>
+    <string name="admin_phone">Phone Number</string>
+    <string name="admin_password">Password</string>
+    <string name="admin_address">Address</string>
+    <string name="signUp_button">SignUp</string>
+    <string name="login_register_button">Already registered! Login me</string>
+    <string name="login_email">Email Address</string>
+    <string name="login_password">Password</string>
+    <string name="Login_header">Login</string>
+    <string name="Signup_header">SignUp</string>
+    <string name="add_employee">Add Employee</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/adminDashboard">
+
+    <fragment
+        android:id="@+id/adminDashboard"
+        android:name="com.example.salesadmin.admin.AdminDashboard"
+        android:label="AdminDashboard" >
+        <action
+            android:id="@+id/action_adminDashboard_to_addEmployee"
+            app:destination="@id/addEmployee" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEmployee"
+        android:name="com.example.salesadmin.admin.AddEmployee"
+        android:label="add_employee"
+        tools:layout="@layout/add_employee" />
+</navigation>

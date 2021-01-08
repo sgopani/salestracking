@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "932103621640",
+    "firebase_url": "https://sales-employee-tracking-ac000.firebaseio.com",
+    "project_id": "sales-employee-tracking-ac000",
+    "storage_bucket": "sales-employee-tracking-ac000.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932103621640:android:62a118ffb4062f3a6755bd",
+        "android_client_info": {
+          "package_name": "com.example.salestracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932103621640-8eis3v000umdk3495e2na35kmuuloahp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.salestracking",
+            "certificate_hash": "fb1d14d78c1a856122ceaafaa54f8a95f574b4b3"
+          }
+        },
+        {
+          "client_id": "932103621640-43hpruh3bdk72hrgo5t9n9ppe92a7j40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDklqaN4Gxa4Ej2xhj936gfEmvbG7eOtjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932103621640-43hpruh3bdk72hrgo5t9n9ppe92a7j40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
