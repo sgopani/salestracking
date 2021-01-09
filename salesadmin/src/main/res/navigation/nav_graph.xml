@@ -11,11 +11,43 @@
         android:label="AdminDashboard" >
         <action
             android:id="@+id/action_adminDashboard_to_addEmployee"
-            app:destination="@id/addEmployee" />
+            app:destination="@id/addEmployee"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_adminDashboard_to_addProduct"
+            app:destination="@id/addProduct"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/addEmployee"
         android:name="com.example.salesadmin.admin.AddEmployee"
-        android:label="add_employee"
-        tools:layout="@layout/add_employee" />
+        android:label="Add Employee"
+        tools:layout="@layout/add_employee" >
+        <action
+            android:id="@+id/action_addEmployee_to_adminDashboard"
+            app:destination="@id/adminDashboard"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addProduct"
+        android:name="com.example.salesadmin.admin.AddProduct"
+        android:label="add_product"
+        tools:layout="@layout/add_product" >
+        <action
+            android:id="@+id/action_addProduct_to_adminDashboard"
+            app:destination="@id/adminDashboard"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
 </navigation>

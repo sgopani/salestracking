@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
         }
         val register = findViewById<Button>(R.id.admin_sign_up)
         register.setOnClickListener {
-            val intent = Intent(this@LoginActivity, RegisterAdmin::class.java)
+            val intent = Intent(this@LoginActivity,RegisterAdmin::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()

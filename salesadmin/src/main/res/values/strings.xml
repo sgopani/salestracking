@@ -17,4 +17,12 @@
     <string name="Login_header">Login</string>
     <string name="Signup_header">SignUp</string>
     <string name="add_employee">Add Employee</string>
+    <string name="enter_employee_name">Enter employee name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="cancel">Cancel</string>
+    <string name="Product_name">Product Name</string>
+    <string name="Product_price">Price</string>
+    <string name="Product_quantity">Quantity</string>
+    <string name="add_product">Add Product</string>
+    <string name="products">Products</string>
 </resources>

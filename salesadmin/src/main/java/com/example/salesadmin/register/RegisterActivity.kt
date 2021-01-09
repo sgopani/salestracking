@@ -31,7 +31,7 @@ class RegisterAdmin : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_admin)
-        name=findViewById<EditText>(R.id.admin_name)
+        name=findViewById<EditText>(R.id.et_product_name)
         email=findViewById<EditText>(R.id.signUp_email)
         password=findViewById<EditText>(R.id.SignUp_Password)
         phoneNumber=findViewById<EditText>(R.id.signUp_phoneno)
@@ -70,13 +70,14 @@ class RegisterAdmin : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener(this){task->
             if (task.isSuccessful){
                 val user = auth.currentUser
-                val df: DocumentReference = fstore.collection("Admin").document(user?.uid!!)
+                val df: DocumentReference = fstore.collection("{${user?.uid}}").document("Admin").collection("${user?.email}").document("Information")
                 val userInfo= mutableMapOf<String,String>()
                 userInfo["name"] = name.text.toString()
                 userInfo["email Id"] = email.text.toString()
                 userInfo["Phone no"]= phoneNumber.text.toString()
                 userInfo["Address"]= address.text.toString()
                 userInfo["isAdmin"]="1"
+                userInfo["location"]="15632162132165"
                 Toast.makeText(this,"Successful",Toast.LENGTH_SHORT).show()
                 df.set(userInfo).addOnSuccessListener {
                     Log.d("Database","Inserted Successfully")
@@ -121,6 +122,7 @@ class RegisterAdmin : AppCompatActivity() {
                     valid = false
                 }
             }
+
             else -> {
                 valid = true
             }

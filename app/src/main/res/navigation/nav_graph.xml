@@ -11,7 +11,11 @@
         tools:layout="@layout/fragment_employee">
         <action
             android:id="@+id/action_employeeDashboard_to_notes2"
-            app:destination="@id/Notes" />
+            app:destination="@id/Notes"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/Notes"
@@ -19,7 +23,11 @@
         tools:layout="@layout/fragment_notes">
         <action
             android:id="@+id/action_Notes_to_addNotes"
-            app:destination="@id/addNotes" />
+            app:destination="@id/addNotes"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/addNotes"
@@ -28,7 +36,11 @@
             android:id="@+id/action_addNotes_to_Notes"
             app:destination="@id/Notes"
             app:popUpTo="@id/Notes"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <argument
             android:name="Note"
             android:defaultValue="@null"
