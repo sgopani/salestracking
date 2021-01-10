@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name=".register.RegisterAdmin" />
+        <activity android:name=".register.RegisterEmployee" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

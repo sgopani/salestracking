@@ -8,9 +8,11 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.salestracking.MainActivity
 import com.example.salestracking.R
+import com.example.salestracking.register.RegisterEmployee
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,7 +22,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var auth: FirebaseAuth
-    private lateinit var fstore: FirebaseFirestore
+    private lateinit var registerLink:TextView
+
+
     private val TAG = "LoginActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +37,17 @@ class LoginActivity : AppCompatActivity() {
         emailId = findViewById(R.id.email_add_login)
         passwordEditText = findViewById(R.id.login_password)
         loginButton = findViewById(R.id.login_button)
+        registerLink=findViewById(R.id.registerLink)
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
             loginUser()
         }
+        registerLink.setOnClickListener {
+            val intent = Intent(this, RegisterEmployee::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     public override fun onStart() {

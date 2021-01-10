@@ -70,7 +70,7 @@ class RegisterAdmin : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener(this){task->
             if (task.isSuccessful){
                 val user = auth.currentUser
-                val df: DocumentReference = fstore.collection("{${user?.uid}}").document("Admin").collection("${user?.email}").document("Information")
+                val df: DocumentReference = fstore.collection("Sales").document("${user?.uid}").collection("admin").document(" Admin Info")
                 val userInfo= mutableMapOf<String,String>()
                 userInfo["name"] = name.text.toString()
                 userInfo["email Id"] = email.text.toString()

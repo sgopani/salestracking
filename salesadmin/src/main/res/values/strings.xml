@@ -25,4 +25,6 @@
     <string name="Product_quantity">Quantity</string>
     <string name="add_product">Add Product</string>
     <string name="products">Products</string>
+    <string name="register">Register</string>
+
 </resources>

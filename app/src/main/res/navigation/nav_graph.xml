@@ -47,4 +47,9 @@
             app:argType="com.example.salestracking.databse.model.Notes"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/registerEmployee"
+        android:name="com.example.salestracking.register.RegisterEmployee"
+        android:label="register_employee"
+        tools:layout="@layout/register_employee" />
 </navigation>

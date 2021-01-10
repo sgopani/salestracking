@@ -1,6 +1,7 @@
 package com.example.salesadmin.admin
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.salesadmin.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 
 class AddProduct : Fragment() {
     private lateinit var rootView: View
@@ -20,6 +24,7 @@ class AddProduct : Fragment() {
     private lateinit var productQuantity:EditText
     private lateinit var addProduct:Button
     private lateinit var fstore: FirebaseFirestore
+    private lateinit var user:FirebaseUser
     private var valid:Boolean=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +47,7 @@ class AddProduct : Fragment() {
             checkField(productPrice)
             checkField(productQuantity)
             if(valid){
-                addProduct()
+                checkIfProductExist()
             }
             else{
                 Toast.makeText(this.requireContext(),"Please enter fields properly", Toast.LENGTH_SHORT).show()
@@ -50,9 +55,23 @@ class AddProduct : Fragment() {
         }
         return rootView
     }
+    private  fun checkIfProductExist(){
+        user= FirebaseAuth.getInstance().currentUser!!
+        val documentReference=fstore.collection("Sales").document(user?.uid)
+            .collection("Products").document(productName.text.toString())
+        documentReference.get().addOnSuccessListener {document->
+            if(document.exists()){
+                Toast.makeText(this.requireContext(),"Product With this name already exist",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                addProduct()
+            }
+
+        }
+        }
 
     private fun addProduct() {
-        val df: DocumentReference = fstore.collection("Sales").document("admin").collection("Products").document(
+        val df: DocumentReference = fstore.collection("Sales").document(user.uid).collection("Products").document(
             productName.text.toString())
         val productInfo= mutableMapOf<String, String>()
         productInfo[" Product name"] = productName.text.toString()
@@ -60,14 +79,13 @@ class AddProduct : Fragment() {
         productInfo[" Product quantity"] = productQuantity.text.toString()
         productInfo["Product Id"]=df.id
         df.set(productInfo).addOnSuccessListener {
-            Toast.makeText(this.requireContext()," Added Successful",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.requireContext()," Product added Successfully",Toast.LENGTH_SHORT).show()
             val action=AddProductDirections.actionAddProductToAdminDashboard()
             findNavController().navigate(action)
         }.addOnFailureListener {
             Toast.makeText(this.requireContext()," Unable to add",Toast.LENGTH_SHORT).show()
         }
 
-        Toast.makeText(this.requireContext(),"Successful",Toast.LENGTH_SHORT).show()
     }
     private fun checkField(textField: EditText): Boolean {
         when {
