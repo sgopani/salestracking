@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -12,12 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.salesadmin.MainActivity
 import com.example.salesadmin.R
 import com.example.salesadmin.login.LoginActivity
+import com.example.salesadmin.model.RegisterAdmin
+import com.example.salesadmin.repository.FireStoreViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 private lateinit var auth: FirebaseAuth
-private lateinit var fstore:FirebaseFirestore
 private lateinit var name: EditText
 private lateinit var email:EditText
 private lateinit var password:EditText
@@ -26,8 +28,9 @@ private lateinit var address:EditText
 private lateinit var signUpButton: Button
 private lateinit var registerLogin:Button
 private var valid:Boolean=true
+private lateinit var viewModel:FireStoreViewModel
 private lateinit var progressBar: ProgressBar
-class RegisterAdmin : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_admin)
@@ -38,8 +41,9 @@ class RegisterAdmin : AppCompatActivity() {
         address=findViewById<EditText>(R.id.signUp_address)
         signUpButton=findViewById<Button>(R.id.signUp_button)
         registerLogin=findViewById<Button>(R.id.login_register_button)
+        progressBar=findViewById(R.id.progress_bar)
         auth= FirebaseAuth.getInstance()
-        fstore= FirebaseFirestore.getInstance()
+
         signUpButton.setOnClickListener{
             registerAdmin()
         }
@@ -59,6 +63,7 @@ class RegisterAdmin : AppCompatActivity() {
         checkField(phoneNumber)
         checkField(address)
         if (valid){
+            progressBar.visibility= View.VISIBLE
             createUser()
         }
         else{
@@ -69,25 +74,31 @@ class RegisterAdmin : AppCompatActivity() {
     private fun createUser(){
         auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener(this){task->
             if (task.isSuccessful){
-                val user = auth.currentUser
-                val df: DocumentReference = fstore.collection("Sales").document("${user?.uid}").collection("admin").document(" Admin Info")
-                val userInfo= mutableMapOf<String,String>()
-                userInfo["name"] = name.text.toString()
-                userInfo["email Id"] = email.text.toString()
-                userInfo["Phone no"]= phoneNumber.text.toString()
-                userInfo["Address"]= address.text.toString()
-                userInfo["isAdmin"]="1"
-                userInfo["location"]="15632162132165"
-                Toast.makeText(this,"Successful",Toast.LENGTH_SHORT).show()
-                df.set(userInfo).addOnSuccessListener {
-                    Log.d("Database","Inserted Successfully")
-                }
+                viewModel= FireStoreViewModel()
+                //val user = auth.currentUser
+                val registerAdmin=RegisterAdmin(name.text.toString(),email.text.toString(),phoneNumber.text.toString()
+                        ,address.text.toString(),"1", auth.currentUser?.uid!!)
+                viewModel.registerAdminFirebase(registerAdmin)
+//                val df: DocumentReference = fstore.collection("Sales").document("${user?.uid}")
+//                        .collection("admin").document(" Admin Info")
+//                val userInfo= mutableMapOf<String,String>()
+//                userInfo["name"] = name.text.toString()
+//                userInfo["email Id"] = email.text.toString()
+//                userInfo["Phone no"]= phoneNumber.text.toString()
+//                userInfo["Address"]= address.text.toString()
+//                userInfo["isAdmin"]="1"
+                Toast.makeText(this," Registered successfully",Toast.LENGTH_SHORT).show()
+//                df.set(userInfo).addOnSuccessListener {
+                    progressBar.visibility= View.GONE
+//                    Log.d("Database","Inserted Successfully")
+//                }
                 val intent = Intent(this, LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
 
             }
             else{
+                progressBar.visibility= View.GONE
                 Toast.makeText(baseContext, "User Already exists",
                     Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)

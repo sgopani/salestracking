@@ -11,11 +11,12 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.salesadmin.R
+import com.example.salesadmin.model.Products
+import com.example.salesadmin.repository.FireStoreViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 
 class AddProduct : Fragment() {
     private lateinit var rootView: View
@@ -24,13 +25,14 @@ class AddProduct : Fragment() {
     private lateinit var productQuantity:EditText
     private lateinit var addProduct:Button
     private lateinit var fstore: FirebaseFirestore
+    private lateinit var viewModel: FireStoreViewModel
     private lateinit var user:FirebaseUser
     private var valid:Boolean=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    fun init() {
+    private fun init() {
         productName=rootView.findViewById(R.id.et_product_name)
         productPrice=rootView.findViewById(R.id.et_product_Price)
         productQuantity=rootView.findViewById(R.id.et_product_quantity)
@@ -71,20 +73,23 @@ class AddProduct : Fragment() {
         }
 
     private fun addProduct() {
-        val df: DocumentReference = fstore.collection("Sales").document(user.uid).collection("Products").document(
-            productName.text.toString())
-        val productInfo= mutableMapOf<String, String>()
-        productInfo[" Product name"] = productName.text.toString()
-        productInfo[" Product price"] = productPrice.text.toString()
-        productInfo[" Product quantity"] = productQuantity.text.toString()
-        productInfo["Product Id"]=df.id
-        df.set(productInfo).addOnSuccessListener {
+//        val df: DocumentReference = fstore.collection("Sales").document(user.uid).collection("Products").document(
+//            productName.text.toString())
+//        val productInfo= mutableMapOf<String, String>()
+//        productInfo["Product name"] = productName.text.toString()
+//        productInfo["Product price"] = productPrice.text.toString()
+//        productInfo["Product quantity"] = productQuantity.text.toString()
+//        productInfo["Product Id"]=df.id
+        viewModel= FireStoreViewModel()
+        val products=Products(productName.text.toString(),productPrice.text.toString(),productQuantity.text.toString(),productName.text.toString())
+        viewModel.addProductFirebase(products)
+//        df.set(productInfo).addOnSuccessListener {
             Toast.makeText(this.requireContext()," Product added Successfully",Toast.LENGTH_SHORT).show()
             val action=AddProductDirections.actionAddProductToAdminDashboard()
             findNavController().navigate(action)
-        }.addOnFailureListener {
-            Toast.makeText(this.requireContext()," Unable to add",Toast.LENGTH_SHORT).show()
-        }
+//        }.addOnFailureListener {
+//            Toast.makeText(this.requireContext()," Unable to add",Toast.LENGTH_SHORT).show()
+//        }
 
     }
     private fun checkField(textField: EditText): Boolean {

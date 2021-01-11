@@ -19,8 +19,8 @@
     <string name="notes">notes</string>
     <string name="take_note">Take Note</string>
 <!--    <string name="uid">Enter comapny id</string>-->
-    <string name="uid1">Enter Comapny Id</string>
+    <string name="uid1"> Unique company Id</string>
     <string name="login_link">Already registered? Login here</string>
     <string name="register">Register</string>
-    <string name="register_link">New in this app? Register here</string>>/>
+    <string name="register_link">New here? Register here</string>
 </resources>

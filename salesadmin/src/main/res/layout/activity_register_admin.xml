@@ -5,7 +5,7 @@
     android:id="@+id/register_admin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".register.RegisterAdmin">
+    tools:context=".register.RegisterActivity">
 
     <EditText
         android:id="@+id/et_product_name"
@@ -159,6 +159,18 @@
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        layout="@layout/include_progress_bar"
+        android:layout_width="68dp"
+        android:layout_height="52dp"
+        android:foregroundGravity="center"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

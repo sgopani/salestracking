@@ -4,17 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
 import com.example.salestracking.MainActivity
 import com.example.salestracking.R
 import com.example.salestracking.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.example.salestracking.COMPANYUID
+import com.example.salestracking.databse.model.Employee
+import com.example.salestracking.repository.FireStoreViewModel
 
 class RegisterEmployee : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -28,6 +30,8 @@ class RegisterEmployee : AppCompatActivity() {
     private lateinit var companyId: EditText
     private lateinit var signUpButton: Button
     private lateinit var user: FirebaseAuth
+    private lateinit var progressBar: ProgressBar
+    private lateinit var viewModel: FireStoreViewModel
     private var valid: Boolean = true
     private lateinit var loginLink: TextView
     private lateinit var uid:String
@@ -50,6 +54,7 @@ class RegisterEmployee : AppCompatActivity() {
         signUpButton= findViewById(R.id.add_employee_button)
         companyId = findViewById(R.id.company_id)
         loginLink=findViewById(R.id.loginLink)
+        progressBar=findViewById(R.id.progress_bar)
         fstore = FirebaseFirestore.getInstance()
         signUpButton.setOnClickListener{
             addEmployee()
@@ -76,6 +81,7 @@ class RegisterEmployee : AppCompatActivity() {
             valid = false
         } else {
             if (valid) {
+                progressBar.visibility= View.VISIBLE
                 checkIfEmployeeExist()
                 //Toast.makeText(this,"${companyId.text}",Toast.LENGTH_SHORT).show()
             } else {
@@ -99,6 +105,7 @@ class RegisterEmployee : AppCompatActivity() {
             }
             address.text.toString().length < 10 -> {
                 address.error = "Enter proper address"
+                valid=false
             }
             password.text.toString().length < 7 -> {
                 password.error = "Minimum 6 character password required"
@@ -126,13 +133,15 @@ class RegisterEmployee : AppCompatActivity() {
 
     private fun checkIfEmployeeExist() {
         uid=companyId.text.toString()
-        val documentReference=fstore.collection("Sales").document(uid).collection("admin")
-                .document(" Admin Info")
+        COMPANYUID=uid
+        val documentReference=fstore.collection("Sales").document("$COMPANYUID").collection("admin")
+                .document("Admin Info")
                 documentReference.get().addOnSuccessListener {document->
                     if(document.exists()) {
                        registerEmployee()
                     }
                     else{
+                        progressBar.visibility= View.GONE
                         Toast.makeText(this,"No company registered with this Id",Toast.LENGTH_LONG).show()
                     }
                 }
@@ -144,29 +153,36 @@ class RegisterEmployee : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val df: DocumentReference = fstore.collection("Sales").document(uid)
-                                .collection("employee").document("${email.text}")
-                        val userInfo = mutableMapOf<String, String>()
-                        userInfo["name"] = name.text.toString()
-                        userInfo["email Id"] = email.text.toString()
-                        userInfo["Phone no"] = phoneNumber.text.toString()
-                        userInfo["Address"] = address.text.toString()
-                        userInfo["Uid"] = user.currentUser!!.uid
-                        userInfo["isEmployee"] = "1"
-                        df.set(userInfo).addOnSuccessListener {
+                        viewModel= FireStoreViewModel()
+                        progressBar.visibility= View.GONE
+                        val employee=Employee(name.text.toString(),email.text.toString(),phoneNumber.text.toString(),address.text.toString()
+                        , auth.currentUser!!.uid,"1")
+                        viewModel.registerAdminFirebase(employee)
+//                        val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
+//                                .collection("employee").document("${email.text}")
+//                        val userInfo = mutableMapOf<String, String>()
+//                        userInfo["name"] = name.text.toString()
+//                        userInfo["email Id"] = email.text.toString()
+//                        userInfo["Phone no"] = phoneNumber.text.toString()
+//                        userInfo["Address"] = address.text.toString()
+//                        userInfo["Uid"] = user.currentUser!!.uid
+//                        userInfo["isEmployee"] = "1"
+//                        df.set(userInfo).addOnSuccessListener {
                             Toast.makeText(
                                     this,
                                     "Registered Successfully",
                                     Toast.LENGTH_SHORT
                             ).show()
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Unable to add", Toast.LENGTH_SHORT)
-                                    .show()
-                        }
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+
+//                        }.addOnFailureListener {
+//                            Toast.makeText(this, "Unable to add", Toast.LENGTH_SHORT)
+//                                    .show()
+//                        }
                     } else {
+                        progressBar.visibility= View.GONE
                         Toast.makeText(
                                 this,
                                 "Employee Already exists",

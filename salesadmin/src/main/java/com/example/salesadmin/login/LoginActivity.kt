@@ -5,18 +5,17 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.salesadmin.MainActivity
 import com.example.salesadmin.R
-import com.example.salesadmin.register.RegisterAdmin
+import com.example.salesadmin.register.RegisterActivity
 import com.google.android.gms.tasks.OnFailureListener
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -28,6 +27,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var auth: FirebaseAuth
     private lateinit var fstore: FirebaseFirestore
+    private lateinit var user:FirebaseUser
+    private lateinit var progressBar: ProgressBar
     private val TAG = "LoginActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,13 +41,15 @@ class LoginActivity : AppCompatActivity() {
         emailId = findViewById(R.id.email_add_login)
         passwordEditText = findViewById(R.id.login_password)
         loginButton = findViewById(R.id.login_button)
+        progressBar=findViewById(R.id.progress_bar)
+        fstore= FirebaseFirestore.getInstance()
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
             loginUser()
         }
         val register = findViewById<Button>(R.id.admin_sign_up)
         register.setOnClickListener {
-            val intent = Intent(this@LoginActivity,RegisterAdmin::class.java)
+            val intent = Intent(this@LoginActivity,RegisterActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()
@@ -70,14 +73,10 @@ class LoginActivity : AppCompatActivity() {
         }
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             Log.d(TAG, "Logging in user.")
+            progressBar.visibility= View.VISIBLE
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 //mProgressBar!!.hide()
                 if (task.isSuccessful) {
-                    Toast.makeText(
-                        this,
-                        " Welcome ${auth.currentUser?.email}",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     updateUI()
                     //}
                 }
@@ -103,18 +102,38 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, exeption.localizedMessage,Toast.LENGTH_SHORT).show()
                     }
                 }
+                progressBar.visibility=View.GONE
 
             })
         }
         else {
+            progressBar.visibility=View.GONE
             emailId.error="Field cannot be empty"
             passwordEditText.error="Field cannot be empty"
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         }
     }
     private fun updateUI() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        user= auth.currentUser!!
+        val documentReference=fstore.collection("Sales").document(user.uid)
+                .collection("admin").document("Admin Info")
+        documentReference.get().addOnSuccessListener {document->
+            if(document.exists()){
+                progressBar.visibility=View.GONE
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+                Toast.makeText(this, " Welcome ${auth.currentUser?.email}", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                progressBar.visibility=View.GONE
+                Toast.makeText(this, "This Login credentials are not associated with any admin account", Toast.LENGTH_SHORT).show()
+                auth.signOut()
+            }
+        }.addOnFailureListener {
+            progressBar.visibility=View.GONE
+            Log.w(TAG, "Error getting documents: ")
+        }
+
     }
 }

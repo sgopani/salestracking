@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
+import com.example.salestracking.COMPANYUID
 import com.example.salestracking.MainActivity
 import com.example.salestracking.R
 import com.example.salestracking.register.RegisterEmployee
@@ -23,6 +22,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var auth: FirebaseAuth
     private lateinit var registerLink:TextView
+    private lateinit var fstore: FirebaseFirestore
+    private lateinit var progressBar: ProgressBar
 
 
     private val TAG = "LoginActivity"
@@ -38,6 +39,8 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.login_password)
         loginButton = findViewById(R.id.login_button)
         registerLink=findViewById(R.id.registerLink)
+        progressBar=findViewById(R.id.progress_bar)
+        fstore=FirebaseFirestore.getInstance()
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
             loginUser()
@@ -66,12 +69,8 @@ class LoginActivity : AppCompatActivity() {
             Log.d(TAG, "Logging in user.")
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 //mProgressBar!!.hide()
+                progressBar.visibility=View.VISIBLE
                 if (task.isSuccessful) {
-                    Toast.makeText(
-                        this,
-                        " Welcome ${auth.currentUser?.email}",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     updateUI()
                     //}
                 }
@@ -97,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, exeption.localizedMessage,Toast.LENGTH_SHORT).show()
                     }
                 }
+                progressBar.visibility=View.GONE
 
             })
         }
@@ -107,8 +107,26 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     private fun updateUI() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        val documentReference=fstore.collection("Sales").document(COMPANYUID)
+                .collection("employee").document(emailId.text.toString())
+        documentReference.get().addOnSuccessListener {document->
+            if(document.exists()){
+                progressBar.visibility=View.GONE
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+                Toast.makeText(this, " Welcome ${auth.currentUser?.email}", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                progressBar.visibility=View.GONE
+                Toast.makeText(this, "This Login credentials are not associated with any employee account", Toast.LENGTH_SHORT).show()
+                auth.signOut()
+            }
+
+        }.addOnFailureListener {
+            progressBar.visibility=View.GONE
+            Log.w(TAG, "Error getting documents: ")
+        }
+
     }
 }

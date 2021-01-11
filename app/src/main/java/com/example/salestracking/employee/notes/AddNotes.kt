@@ -85,7 +85,7 @@ class AddNotes : Fragment(), View.OnClickListener {
             }
         }
     }
-    fun deleteNote(){
+    private fun deleteNote(){
         AlertDialog.Builder(context).apply {
             setTitle("Are you sure?")
             setMessage("You cannot undo this operation")
