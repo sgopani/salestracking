@@ -17,8 +17,8 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_adminDashboard_to_addProduct"
-            app:destination="@id/addProduct"
+            android:id="@+id/action_adminDashboard_to_productsList"
+            app:destination="@id/productsList"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
@@ -40,14 +40,36 @@
     <fragment
         android:id="@+id/addProduct"
         android:name="com.example.salesadmin.admin.AddProduct"
-        android:label="add_product"
-        tools:layout="@layout/add_product" >
+        android:label="Add Product"
+        tools:layout="@layout/add_product">
         <action
-            android:id="@+id/action_addProduct_to_adminDashboard"
+            android:id="@+id/action_addProduct_to_productsList"
+            app:destination="@id/productsList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/productsList"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/productsList"
+        android:name="com.example.salesadmin.admin.ProductsList"
+        android:label="Products List"
+        tools:layout="@layout/products_list">
+        <action
+            android:id="@+id/action_productsList_to_adminDashboard"
             app:destination="@id/adminDashboard"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_productsList_to_addProduct"
+            app:destination="@id/addProduct"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 </navigation>

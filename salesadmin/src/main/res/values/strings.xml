@@ -21,10 +21,14 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="cancel">Cancel</string>
     <string name="Product_name">Product Name</string>
-    <string name="Product_price">Price</string>
+    <string name="Product_price">Rs: </string>
     <string name="Product_quantity">Quantity</string>
     <string name="add_product">Add Product</string>
     <string name="products">Products</string>
     <string name="register">Register</string>
+    <string name="Hello">Hello, %1$s!</string>
+    <string name="add_new_product">Add new Product</string>
+    <string name="name">Name</string>
+    <string name="no_product">No Product Added</string>
 
 </resources>

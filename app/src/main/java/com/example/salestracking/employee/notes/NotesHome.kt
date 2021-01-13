@@ -25,7 +25,7 @@ class NotesHome : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        val rootView= inflater.inflate(R.layout.fragment_notes, container, false)
+        rootView= inflater.inflate(R.layout.fragment_notes, container, false)
         salesDatabase= SalesDatabase.getInstance(this.requireContext())
         viewModel = NotesViewModel(salesDatabase)
         viewModel.getAllNotes()

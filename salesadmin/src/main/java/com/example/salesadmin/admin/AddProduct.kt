@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.salesadmin.R
@@ -27,6 +28,7 @@ class AddProduct : Fragment() {
     private lateinit var fstore: FirebaseFirestore
     private lateinit var viewModel: FireStoreViewModel
     private lateinit var user:FirebaseUser
+    private lateinit var progressBar: ProgressBar
     private var valid:Boolean=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,17 +40,21 @@ class AddProduct : Fragment() {
         productQuantity=rootView.findViewById(R.id.et_product_quantity)
         addProduct=rootView.findViewById(R.id.bt_add_product)
         fstore= FirebaseFirestore.getInstance()
+        progressBar=rootView.findViewById(R.id.progress_bar)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
          rootView=inflater.inflate(R.layout.add_product, container, false)
         init()
+
         addProduct.setOnClickListener{
             checkField(productName)
             checkField(productPrice)
             checkField(productQuantity)
+
             if(valid){
+                progressBar.visibility=View.VISIBLE
                 checkIfProductExist()
             }
             else{
@@ -63,6 +69,7 @@ class AddProduct : Fragment() {
             .collection("Products").document(productName.text.toString())
         documentReference.get().addOnSuccessListener {document->
             if(document.exists()){
+                progressBar.visibility=View.GONE
                 Toast.makeText(this.requireContext(),"Product With this name already exist",Toast.LENGTH_SHORT).show()
             }
             else{
@@ -83,9 +90,10 @@ class AddProduct : Fragment() {
         viewModel= FireStoreViewModel()
         val products=Products(productName.text.toString(),productPrice.text.toString(),productQuantity.text.toString(),productName.text.toString())
         viewModel.addProductFirebase(products)
+        progressBar.visibility=View.GONE
 //        df.set(productInfo).addOnSuccessListener {
             Toast.makeText(this.requireContext()," Product added Successfully",Toast.LENGTH_SHORT).show()
-            val action=AddProductDirections.actionAddProductToAdminDashboard()
+            val action=AddProductDirections.actionAddProductToProductsList()
             findNavController().navigate(action)
 //        }.addOnFailureListener {
 //            Toast.makeText(this.requireContext()," Unable to add",Toast.LENGTH_SHORT).show()

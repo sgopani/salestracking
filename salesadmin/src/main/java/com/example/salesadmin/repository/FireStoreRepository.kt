@@ -1,5 +1,8 @@
 package com.example.salesadmin.repository
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.salesadmin.model.Products
 import com.example.salesadmin.model.RegisterAdmin
 import com.example.salesadmin.register.RegisterActivity
@@ -12,6 +15,9 @@ class FireStoreRepository {
     val TAG = "FIREBASE_REPOSITORY"
     var fstore = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
+    private  val _productList = MutableLiveData<List<Products>>()
+    val productList : LiveData<List<Products>>
+        get() = _productList
 
     fun registerAdmin(registerAdmin:RegisterAdmin): Task<Void> {
         val df: DocumentReference = fstore.collection("Sales").document("${user?.uid}")
@@ -24,6 +30,8 @@ class FireStoreRepository {
                 .document(products.productName)
         return df.set(products)
     }
+
+
 
 
 }
