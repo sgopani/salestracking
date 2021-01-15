@@ -44,8 +44,8 @@ class AdminDashboard : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.cv_add_employee ->{
-//                val action=AdminDashboardDirections.actionAdminDashboardToAddEmployee()
-//                findNavController().navigate(action)
+                val action=AdminDashboardDirections.actionAdminDashboardToEmployeeList()
+                findNavController().navigate(action)
             }
             R.id.cv_products->{
                 val action=AdminDashboardDirections.actionAdminDashboardToProductsList()

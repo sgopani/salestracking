@@ -10,32 +10,19 @@
         android:name="com.example.salesadmin.admin.AdminDashboard"
         android:label="AdminDashboard" >
         <action
-            android:id="@+id/action_adminDashboard_to_addEmployee"
-            app:destination="@id/addEmployee"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
             android:id="@+id/action_adminDashboard_to_productsList"
             app:destination="@id/productsList"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
-    </fragment>
-    <fragment
-        android:id="@+id/addEmployee"
-        android:name="com.example.salesadmin.admin.AddEmployee"
-        android:label="Add Employee"
-        tools:layout="@layout/add_employee" >
         <action
-            android:id="@+id/action_addEmployee_to_adminDashboard"
-            app:destination="@id/adminDashboard"
+            android:id="@+id/action_adminDashboard_to_employeeList"
+            app:destination="@id/employeeList"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/addProduct"
@@ -67,6 +54,19 @@
         <action
             android:id="@+id/action_productsList_to_addProduct"
             app:destination="@id/addProduct"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeList"
+        android:name="com.example.salesadmin.admin.EmployeeList"
+        android:label="Employee List"
+        tools:layout="@layout/employee_list">
+        <action
+            android:id="@+id/action_employeeList_to_adminDashboard"
+            app:destination="@id/adminDashboard"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"

@@ -10,8 +10,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.salesadmin.CheckNetClass
 import com.example.salesadmin.R
+import com.example.salesadmin.SalesApiStatus
+import com.example.salesadmin.isInternetOn
 import com.example.salesadmin.model.Products
 import com.example.salesadmin.repository.FireStoreViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -48,17 +52,21 @@ class AddProduct : Fragment() {
          rootView=inflater.inflate(R.layout.add_product, container, false)
         init()
 
-        addProduct.setOnClickListener{
+        addProduct.setOnClickListener {
             checkField(productName)
             checkField(productPrice)
             checkField(productQuantity)
+            if (CheckNetClass.checknetwork(this.requireContext())) {
 
-            if(valid){
-                progressBar.visibility=View.VISIBLE
+            if (valid) {
+                progressBar.visibility = View.VISIBLE
                 checkIfProductExist()
+            } else {
+                Toast.makeText(this.requireContext(), "Please enter fields properly", Toast.LENGTH_SHORT).show()
             }
+        }
             else{
-                Toast.makeText(this.requireContext(),"Please enter fields properly", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.requireContext(),"Sorry,no internet connectivty",Toast.LENGTH_LONG).show();
             }
         }
         return rootView
@@ -80,13 +88,6 @@ class AddProduct : Fragment() {
         }
 
     private fun addProduct() {
-//        val df: DocumentReference = fstore.collection("Sales").document(user.uid).collection("Products").document(
-//            productName.text.toString())
-//        val productInfo= mutableMapOf<String, String>()
-//        productInfo["Product name"] = productName.text.toString()
-//        productInfo["Product price"] = productPrice.text.toString()
-//        productInfo["Product quantity"] = productQuantity.text.toString()
-//        productInfo["Product Id"]=df.id
         viewModel= FireStoreViewModel()
         val products=Products(productName.text.toString(),productPrice.text.toString(),productQuantity.text.toString(),productName.text.toString())
         viewModel.addProductFirebase(products)
@@ -122,4 +123,5 @@ class AddProduct : Fragment() {
         }
         return valid
     }
+
 }
