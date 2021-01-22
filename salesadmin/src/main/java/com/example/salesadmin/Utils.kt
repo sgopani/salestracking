@@ -2,9 +2,12 @@ package com.example.salesadmin
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.google.firebase.ktx.Firebase
 
 
 enum class SalesApiStatus { LOADING, ERROR, DONE,EMPTY}
+const val FirebaseServerID="AAAA2QW0jAg:APA91bEL9VqKft9atwHnw-" +
+        "JVZKM8GISb6-KQ4dEQIdnV3JOozsDOgvo4igofgdzEP0bAwQFKNtdS7Wl3d65DfmlKHehzNh8gvLZRQV1M4Do4CdmqvNyRaF2YyoB2MFKIxD5L8MJ2a_lC"
 
 fun isInternetOn(context: Context): Boolean {
     val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager

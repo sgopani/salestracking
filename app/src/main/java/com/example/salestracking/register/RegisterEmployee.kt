@@ -85,11 +85,8 @@ class RegisterEmployee : AppCompatActivity() {
                 checkIfEmployeeExist()
                 //Toast.makeText(this,"${companyId.text}",Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(
-                    this,
-                    "Please enter every field correctly",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Please enter every field correctly", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 //        else{
@@ -134,7 +131,9 @@ class RegisterEmployee : AppCompatActivity() {
     private fun checkIfEmployeeExist() {
         uid=companyId.text.toString()
         COMPANYUID=uid
-        val documentReference=fstore.collection("Sales").document("$COMPANYUID").collection("admin")
+        val documentReference=fstore
+                .collection("Sales")
+                .document("$COMPANYUID").collection("admin")
                 .document("Admin Info")
                 documentReference.get().addOnSuccessListener {document->
                     if(document.exists()) {
@@ -158,16 +157,6 @@ class RegisterEmployee : AppCompatActivity() {
                         val employee=Employee(name.text.toString(),email.text.toString(),phoneNumber.text.toString(),address.text.toString()
                         , auth.currentUser!!.uid,"1")
                         viewModel.registerAdminFirebase(employee)
-//                        val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
-//                                .collection("employee").document("${email.text}")
-//                        val userInfo = mutableMapOf<String, String>()
-//                        userInfo["name"] = name.text.toString()
-//                        userInfo["email Id"] = email.text.toString()
-//                        userInfo["Phone no"] = phoneNumber.text.toString()
-//                        userInfo["Address"] = address.text.toString()
-//                        userInfo["Uid"] = user.currentUser!!.uid
-//                        userInfo["isEmployee"] = "1"
-//                        df.set(userInfo).addOnSuccessListener {
                             Toast.makeText(
                                     this,
                                     "Registered Successfully",

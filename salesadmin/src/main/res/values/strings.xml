@@ -16,7 +16,7 @@
     <string name="login_password">Password</string>
     <string name="Login_header">Login</string>
     <string name="Signup_header">SignUp</string>
-    <string name="add_employee">Add Employee</string>
+    <string name="add_employee">Employee</string>
     <string name="enter_employee_name">Enter employee name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="cancel">Cancel</string>
@@ -28,10 +28,25 @@
     <string name="register">Register</string>
     <string name="Hello">Hello, %1$s!</string>
     <string name="add_new_product">Add new Product</string>
+    <string name="api_key">AIzaSyDklqaN4Gxa4Ej2xhj936gfEmvbG7eOtjk</string>
     <string name="name">Name:</string>
     <string name="no_product">No Product Added</string>
     <string name="no_employee">No Employee Added</string>
     <string name="email">Email:</string>
     <string name="mob_no">Mobile No:</string>
+    <string name="parties">Parties</string>
+    <string name="party_name">Party name</string>
+    <string name="contact_name">Contact person name</string>
+    <string name="add_party">Add Party</string>
+    <string name="add_new_party">Add new party</string>
+    <string name="send_notificatio">Send Notification</string>
+    <string name="notification_title">Title </string>
+    <string name="notification_msg">Message</string>
+    <string name="send_notification">Send Notification</string>
+    <string name="pin_code">Pin Code</string>
+    <string name="district">District</string>
+    <string name="state">State</string>
+    <string name="check">Check</string>
+    <string name="Edit">edit</string>
 
 </resources>

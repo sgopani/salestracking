@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.salesadmin.SalesApiStatus
-import com.example.salesadmin.model.Employee
-import com.example.salesadmin.model.Products
-import com.example.salesadmin.model.RegisterAdmin
+import com.example.salesadmin.model.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -37,6 +35,10 @@ class FireStoreViewModel:ViewModel() {
     val status: LiveData<SalesApiStatus>
         get() = _status
 
+    private val _partiesList = MutableLiveData<List<Party>>()
+    val partiesList: LiveData<List<Party>>
+        get() = _partiesList
+
 
     var firebaseRepository = FireStoreRepository()
     fun registerAdminFirebase(registerAdmin: RegisterAdmin) {
@@ -44,6 +46,25 @@ class FireStoreViewModel:ViewModel() {
             _status.value = SalesApiStatus.DONE
         }.addOnFailureListener {
             _status.value = SalesApiStatus.ERROR
+        }
+    }
+    fun addParty(party: Party){
+        coroutineScope.launch {
+            firebaseRepository.addParty(party).addOnCompleteListener {
+                _status.value = SalesApiStatus.DONE
+            }.addOnFailureListener {
+                _status.value = SalesApiStatus.ERROR
+            }
+        }
+    }
+
+    fun addNotification(notification: Notification){
+        coroutineScope.launch {
+            firebaseRepository.addNotification(notification).addOnCompleteListener {
+                _status.value = SalesApiStatus.DONE
+            }.addOnFailureListener {
+                _status.value = SalesApiStatus.ERROR
+            }
         }
     }
 
@@ -90,6 +111,31 @@ class FireStoreViewModel:ViewModel() {
         }
     }
 
+    fun getAllParty() {
+        coroutineScope.launch {
+            val productList = fstore.collection("Sales").document(user!!.uid).collection("Party")
+            productList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _status.value = SalesApiStatus.EMPTY
+                        Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                        val innerEvents = querySnapshot?.toObjects(Party::class.java)
+                        _partiesList.postValue(innerEvents)
+                        _status.value = SalesApiStatus.DONE
+                    }
+
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
+
+
+            }
+        }
+    }
+
     fun getAllEmployee() {
         coroutineScope.launch {
             val employeeList = fstore.collection("Sales").document(user!!.uid).collection("employee")
@@ -113,4 +159,5 @@ class FireStoreViewModel:ViewModel() {
             }
         }
     }
+
 }

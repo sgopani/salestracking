@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Employee
-import com.example.salesadmin.model.Products
 
 class EmployeeListAdapter(var employeeList: List<Employee>): RecyclerView.Adapter<EmployeeListAdapter.EmployeeItem>() {
     override fun onCreateViewHolder(
@@ -29,8 +28,8 @@ class EmployeeListAdapter(var employeeList: List<Employee>): RecyclerView.Adapte
         holder.bind(employee)
     }
     class EmployeeItem(itemView: View): RecyclerView.ViewHolder(itemView){
-        val tvEmployeeName=itemView.findViewById<TextView>(R.id.tv_employee_name)
-        val tvPhoneNumber=itemView.findViewById<TextView>(R.id.tv_employee_phoneno)
+        val tvEmployeeName=itemView.findViewById<TextView>(R.id.tv_notification_message)
+        val tvPhoneNumber=itemView.findViewById<TextView>(R.id.tv_party_phoneno)
         val tvEmail=itemView.findViewById<TextView>(R.id.tv_employee_email)
         companion object{
             fun createViewHolder(parent: ViewGroup): EmployeeItem {

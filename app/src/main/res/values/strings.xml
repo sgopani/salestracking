@@ -18,9 +18,16 @@
     <string name="Signup_header">SignUp</string>
     <string name="notes">notes</string>
     <string name="take_note">Take Note</string>
-<!--    <string name="uid">Enter comapny id</string>-->
+    <string name="home_navigation">Home</string>
+    <string name="profile_navigation">Profile</string>
+    <string name="notification_navigation">Notification</string>
+    <!--    <string name="uid">Enter comapny id</string>-->
     <string name="uid1"> Unique company Id</string>
     <string name="login_link">Already registered? Login here</string>
     <string name="register">Register</string>
     <string name="register_link">New here? Register here</string>
+    <string name="no_notification">No notifications available</string>
+    <string name="name">Name</string>
+    <string name="update">Update </string>
+    <string name="sign_Out">Sign Out</string>
 </resources>

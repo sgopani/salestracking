@@ -1,5 +1,6 @@
 package com.example.salesadmin.admin
 
+import android.app.Notification
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +22,8 @@ class AdminDashboard : Fragment(), View.OnClickListener {
     private lateinit var products:CardView
     private lateinit var user:FirebaseUser
     private lateinit var tvemail:TextView
+    private lateinit var parties:CardView
+    private lateinit var notification: CardView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,10 +37,14 @@ class AdminDashboard : Fragment(), View.OnClickListener {
         addEmployee=rootView.findViewById(R.id.cv_add_employee)
         user= FirebaseAuth.getInstance().currentUser!!
         tvemail=rootView.findViewById(R.id.tv_email_address)
+        notification=rootView.findViewById(R.id.cv_send_notification)
         tvemail.text=getString(R.string.Hello,user.email)
         addEmployee.setOnClickListener(this)
+        parties=rootView.findViewById(R.id.cv_parties)
+        parties.setOnClickListener (this)
         products=rootView.findViewById(R.id.cv_products)
         products.setOnClickListener(this)
+        notification.setOnClickListener(this)
         return rootView
     }
 
@@ -51,6 +58,15 @@ class AdminDashboard : Fragment(), View.OnClickListener {
                 val action=AdminDashboardDirections.actionAdminDashboardToProductsList()
                 findNavController().navigate(action)
             }
+            R.id.cv_parties->{
+                val action=AdminDashboardDirections.actionAdminDashboardToPartiesList()
+                findNavController().navigate(action)
+            }
+            R.id.cv_send_notification->{
+                val action=AdminDashboardDirections.actionAdminDashboardToSendNotification()
+                findNavController().navigate(action)
+            }
+
         }
     }
 

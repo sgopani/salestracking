@@ -16,65 +16,61 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.R
 import com.example.salesadmin.SalesApiStatus
 import com.example.salesadmin.isInternetOn
-import com.example.salesadmin.model.Products
+import com.example.salesadmin.model.Party
 import com.example.salesadmin.repository.FireStoreViewModel
 import java.util.ArrayList
 
-class ProductsList : Fragment() {
+class PartiesList : Fragment() {
     private lateinit var rootView: View
-    private lateinit var addProductBtn: Button
-    private lateinit var adapter: ProductListAdapter
+    private lateinit var addPartyBtn: Button
+    private lateinit var adapter: PartiesListAdapter
     private lateinit var viewModel: FireStoreViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
-    private lateinit var noProduct:TextView
-    private var productList: List<Products> = ArrayList()
+    private lateinit var noProduct: TextView
+    private var partyList: List<Party> = ArrayList()
 
-    // TODO: Rename and change types of parameters
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-    fun init() {
-        addProductBtn = rootView.findViewById(R.id.add_product_btn)
-        recyclerView = rootView.findViewById(R.id.rv_productList)
+    private fun init() {
+        addPartyBtn = rootView.findViewById(R.id.add_parties_btn)
+        recyclerView = rootView.findViewById(R.id.rv_partiesList)
         noProduct=rootView.findViewById(R.id.no_product)
         progressBar = rootView.findViewById(R.id.progress_bar)
     }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        rootView = inflater.inflate(R.layout.products_list, container, false)
+        rootView=inflater.inflate(R.layout.parties_list, container, false)
         init()
-        adapter = ProductListAdapter(productList)
+        adapter = PartiesListAdapter(partyList)
         progressBar.visibility = View.VISIBLE
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.setHasFixedSize(true)
         viewModel = FireStoreViewModel()
-        viewModel.getAllProducts()
-        viewModel.productList.observe(this.requireActivity(), Observer { products ->
+        viewModel.getAllParty()
+        viewModel.partiesList.observe(this.requireActivity(), Observer { parties ->
             //Log.d("loadData1","${viewModel.productList.value}")
             noProduct.visibility=View.GONE
-            productList = products
-            progressBar.visibility=View.GONE
-            adapter.productList = productList
+            partyList = parties
+            //progressBar.visibility=View.GONE
+            adapter.partyList = partyList
             adapter.notifyDataSetChanged()
         })
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkInternet(status)
         })
-        addProductBtn.setOnClickListener {
-            val action = ProductsListDirections.actionProductsListToAddProduct()
+        addPartyBtn.setOnClickListener {
+            val action = PartiesListDirections.actionPartiesListToAddParties()
             findNavController().navigate(action)
         }
         //loadData()
         return rootView
-    }
 
+    }
     private fun checkInternet(status: SalesApiStatus) {
         when (status) {
             SalesApiStatus.LOADING -> {

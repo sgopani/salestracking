@@ -3,6 +3,8 @@ package com.example.salesadmin.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.salesadmin.model.Notification
+import com.example.salesadmin.model.Party
 import com.example.salesadmin.model.Products
 import com.example.salesadmin.model.RegisterAdmin
 import com.example.salesadmin.register.RegisterActivity
@@ -29,6 +31,16 @@ class FireStoreRepository {
         val df: DocumentReference = fstore.collection("Sales").document(user?.uid!!).collection("Products")
                 .document(products.productName)
         return df.set(products)
+    }
+    fun addParty(party:Party): Task<Void> {
+        val df: DocumentReference = fstore.collection("Sales").document(user?.uid!!).collection("Party")
+            .document(party.name)
+        return df.set(party)
+    }
+    fun addNotification(notification: Notification): Task<Void>{
+        val df =fstore.collection("Sales").document(user?.uid!!)
+            .collection("Notification").document(notification.time.toString())
+        return df.set(notification)
     }
 
 
