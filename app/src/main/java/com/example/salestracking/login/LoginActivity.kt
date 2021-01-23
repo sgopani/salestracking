@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var registerLink:TextView
     private lateinit var fstore: FirebaseFirestore
     private lateinit var progressBar: ProgressBar
+    private lateinit var forgotPassword: TextView
 
 
     private val TAG = "LoginActivity"
@@ -41,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         registerLink=findViewById(R.id.registerLink)
         progressBar=findViewById(R.id.progress_bar)
         fstore=FirebaseFirestore.getInstance()
+        forgotPassword=findViewById(R.id.forgot_password_tv)
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
             loginUser()
@@ -49,6 +51,10 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterEmployee::class.java)
             startActivity(intent)
             finish()
+        }
+        forgotPassword.setOnClickListener{
+            val intent = Intent(this, ForgotPassword::class.java)
+            startActivity(intent)
         }
 
     }
@@ -107,7 +113,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     private fun updateUI() {
-        val documentReference=fstore.collection("Sales").document(COMPANYUID)
+        val documentReference=fstore.collection("Sales").document("OgpCRNT7mSg17vA5eCTEDjK6svk1")
                 .collection("employee").document(emailId.text.toString())
         documentReference.get().addOnSuccessListener {document->
             if(document.exists()){

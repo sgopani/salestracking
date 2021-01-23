@@ -30,4 +30,6 @@
     <string name="name">Name</string>
     <string name="update">Update </string>
     <string name="sign_Out">Sign Out</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="send_email">Send reset password link</string>
 </resources>

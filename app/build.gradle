@@ -72,6 +72,7 @@ dependencies {
     //recyclerview
     implementation "com.android.support:recyclerview-v7:$support_version"
 
+    implementation "com.google.android.material:material:1.2.1"
     //room
     implementation 'androidx.room:room-runtime:2.2.6'
     annotationProcessor 'androidx.room:room-compiler:2.2.6'

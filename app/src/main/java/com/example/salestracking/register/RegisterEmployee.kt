@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.salestracking.COMPANYUID
+import com.example.salestracking.PrefManager
 import com.example.salestracking.databse.model.Employee
 import com.example.salestracking.repository.FireStoreViewModel
 
@@ -35,6 +36,7 @@ class RegisterEmployee : AppCompatActivity() {
     private var valid: Boolean = true
     private lateinit var loginLink: TextView
     private lateinit var uid:String
+    private lateinit var prefManager: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +65,7 @@ class RegisterEmployee : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+        prefManager = PrefManager(this)
     }
 
 
@@ -157,7 +160,7 @@ class RegisterEmployee : AppCompatActivity() {
                         val employee=Employee(name.text.toString(),email.text.toString(),phoneNumber.text.toString(),address.text.toString()
                         , auth.currentUser!!.uid,"1")
                         viewModel.registerAdminFirebase(employee)
-                            Toast.makeText(
+                        Toast.makeText(
                                     this,
                                     "Registered Successfully",
                                     Toast.LENGTH_SHORT
