@@ -22,10 +22,6 @@ class PartiesListAdapter( var partyList: List<Party>): RecyclerView.Adapter<Part
         val parties=getItem(position)
         holder.bind(parties)
     }
-//    fun submitList(list:MutableList<Products>){
-//        productList = list
-//        notifyDataSetChanged()
-//    }
 
     override fun getItemCount(): Int {
         Log.d("getItemCount","${partyList.size}")
@@ -33,7 +29,7 @@ class PartiesListAdapter( var partyList: List<Party>): RecyclerView.Adapter<Part
 
     }
     class PartyItem(itemView: View): RecyclerView.ViewHolder(itemView){
-        val tvName=itemView.findViewById<TextView>(R.id.tv_notification_message)
+        val tvName=itemView.findViewById<TextView>(R.id.tv_party_name)
         val tvPhoneNo=itemView.findViewById<TextView>(R.id.tv_party_phoneno)
         companion object{
             fun createViewHolder(parent: ViewGroup): PartyItem {

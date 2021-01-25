@@ -16,6 +16,7 @@
         android:theme="@style/Theme.AppCompat.Light"
         tools:targetApi="m">
         <activity android:name=".register.RegisterActivity" />
+        <activity android:name=".login.ForgotPassword" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

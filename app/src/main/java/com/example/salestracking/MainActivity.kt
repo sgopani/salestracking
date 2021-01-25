@@ -30,10 +30,12 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         if (user != null)
         {
-            Toast.makeText(this, "{ $COMPANYUID }", Toast.LENGTH_SHORT).show()
+
             Log.i("User Token ", user.uid)
             val firebaseRepository = FireStoreRepository()
             val prefManager=PrefManager(this.applicationContext)
+            COMPANYUID="OgpCRNT7mSg17vA5eCTEDjK6svk1" 
+                    //prefManager.getCompanyId().toString()
             firebaseRepository.getUserInfo().addOnSuccessListener {document->
                 if (document.data!=null) {
                     val userInfo = document.toObject(Employee::class.java)
@@ -42,6 +44,10 @@ class MainActivity : AppCompatActivity() {
                     prefManager.setAddress(userInfo?.Address.toString())
                     prefManager.setEmail(userInfo?.emailId.toString())
                     prefManager.setPhone(userInfo?.phoneNo.toString())
+                    prefManager.setCompanyID(userInfo?.companyId.toString())
+                    //prefManager.setCompanyID(userInfo?.time.toString())
+
+                    Toast.makeText(this, "{ ${COMPANYUID} }", Toast.LENGTH_SHORT).show()
 //            name.setText(prefManager.getFullName())
 //            address.setText(prefManager.getAddress())
 //            phoneNo.setText(prefManager.getPhoneNo())

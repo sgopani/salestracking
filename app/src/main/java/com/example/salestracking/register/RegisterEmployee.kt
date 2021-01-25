@@ -133,10 +133,10 @@ class RegisterEmployee : AppCompatActivity() {
 
     private fun checkIfEmployeeExist() {
         uid=companyId.text.toString()
-        COMPANYUID=uid
+        COMPANYUID=uid.toString()
         val documentReference=fstore
                 .collection("Sales")
-                .document("$COMPANYUID").collection("admin")
+                .document("$uid").collection("admin")
                 .document("Admin Info")
                 documentReference.get().addOnSuccessListener {document->
                     if(document.exists()) {
@@ -152,13 +152,14 @@ class RegisterEmployee : AppCompatActivity() {
         user = FirebaseAuth.getInstance()
         auth = FirebaseAuth.getInstance()
         fstore=FirebaseFirestore.getInstance()
+        val time=System.currentTimeMillis()
         auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         viewModel= FireStoreViewModel()
                         progressBar.visibility= View.GONE
                         val employee=Employee(name.text.toString(),email.text.toString(),phoneNumber.text.toString(),address.text.toString()
-                        , auth.currentUser!!.uid,"1")
+                        , auth.currentUser!!.uid,"1",companyId.text.toString(),time.toString())
                         viewModel.registerAdminFirebase(employee)
                         Toast.makeText(
                                     this,

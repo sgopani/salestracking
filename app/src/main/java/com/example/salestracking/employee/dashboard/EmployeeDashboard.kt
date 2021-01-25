@@ -17,11 +17,9 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 class EmployeeDashboard : Fragment(), View.OnClickListener {
-    // TODO: Rename and change types of parameters
     private lateinit var notes: CardView
     private lateinit var rootView: View
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +29,6 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
         notes=rootView.findViewById(R.id.notes)
         notes.setOnClickListener(this)
         return rootView
-
     }
 
     override fun onClick(view: View?) {

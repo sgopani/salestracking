@@ -28,7 +28,7 @@ class FireStoreRepository {
     }
     fun getUserInfo(): Task<DocumentSnapshot> {
         val userList=fstore.collection("Sales")
-                    .document("OgpCRNT7mSg17vA5eCTEDjK6svk1").collection("employee")
+                    .document(COMPANYUID).collection("employee")
                     .document(user!!.email.toString())
         return userList.get()
     }

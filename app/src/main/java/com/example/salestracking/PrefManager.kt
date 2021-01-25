@@ -5,19 +5,21 @@ import android.content.SharedPreferences
 import java.net.Inet6Address
 
 class PrefManager(var context: Context) {
-    private lateinit var mPreference: SharedPreferences
+    private  var mPreference: SharedPreferences
 
     init {
         mPreference = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
     }
 
     companion object {
-        private const val PREF_NAME = "pebble-pref";
+        private const val PREF_NAME = "Sales-pref";
         private const val PRIVATE_MODE = 0;
         private const val KEY_FULL_NAME = "FULL_NAME";
         private const val KEY_EMAIL = "EMAIL";
         private const val ADDRESS="ADDRESS"
         private const val PHONENO="PHONENO"
+        private const val COMPANYID="COMPANYID"
+        private const val DOJ="DOJ"
     }
     fun setFullName(fullName: String) {
         val editor : SharedPreferences.Editor = mPreference.edit();
@@ -55,6 +57,25 @@ class PrefManager(var context: Context) {
         return mPreference.getString(PHONENO, "")
 
     }
+    fun setCompanyID(companyId: String) {
+        val editor : SharedPreferences.Editor = mPreference.edit();
+        editor.putString(COMPANYID, companyId);
+        editor.apply()
+    }
+
+    fun getCompanyId() : String? {
+        return mPreference.getString(COMPANYID, "")
+    }
+    fun setDOJ(timeInMillisecond: Long) {
+        val editor : SharedPreferences.Editor = mPreference.edit();
+        editor.putLong(DOJ, timeInMillisecond);
+        editor.apply()
+    }
+
+    fun getDOJ() : Long? {
+        return mPreference.getLong(DOJ, 0L)
+    }
+
 
 }
 

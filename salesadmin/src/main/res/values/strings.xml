@@ -17,6 +17,8 @@
     <string name="Login_header">Login</string>
     <string name="Signup_header">SignUp</string>
     <string name="add_employee">Employee</string>
+    <string name="send_email">Send reset password link</string>
+    <string name="forgot_password">Forgot password?</string>
     <string name="enter_employee_name">Enter employee name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="cancel">Cancel</string>

@@ -25,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var fstore: FirebaseFirestore
     private lateinit var progressBar: ProgressBar
     private lateinit var forgotPassword: TextView
+    private lateinit var companyID:EditText
 
 
     private val TAG = "LoginActivity"
@@ -43,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
         progressBar=findViewById(R.id.progress_bar)
         fstore=FirebaseFirestore.getInstance()
         forgotPassword=findViewById(R.id.forgot_password_tv)
+        companyID=findViewById(R.id.company_id_login)
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
             loginUser()
@@ -66,12 +68,13 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser() {
         val email = emailId.text.toString()
         val password = passwordEditText.text.toString()
+        val id=companyID.text.toString()
         if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches() || password.length < 7) {
             emailId.error = "Enter valid details"
             passwordEditText.error = "Enter valid details"
             return
         }
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(id)) {
             Log.d(TAG, "Logging in user.")
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 //mProgressBar!!.hide()
@@ -109,11 +112,12 @@ class LoginActivity : AppCompatActivity() {
         else {
             emailId.error="Field cannot be empty"
             passwordEditText.error="Field cannot be empty"
+            companyID.error="Field cannot be empty"
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         }
     }
     private fun updateUI() {
-        val documentReference=fstore.collection("Sales").document("OgpCRNT7mSg17vA5eCTEDjK6svk1")
+        val documentReference=fstore.collection("Sales").document(companyID.text.toString())
                 .collection("employee").document(emailId.text.toString())
         documentReference.get().addOnSuccessListener {document->
             if(document.exists()){

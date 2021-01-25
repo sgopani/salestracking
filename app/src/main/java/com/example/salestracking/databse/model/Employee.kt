@@ -6,6 +6,8 @@ data class Employee(
         var phoneNo:String="",
         var Address:String="",
         var Uid:String="",
-        var isEmployee:String=""
+        var isEmployee:String="",
+        var companyId:String="",
+        var time:String=""
 ) {
 }

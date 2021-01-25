@@ -8,16 +8,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.navigation.fragment.findNavController
+import com.example.salestracking.COMPANYUID
 import com.example.salestracking.PrefManager
 import com.example.salestracking.R
 import com.example.salestracking.databse.model.Employee
 import com.example.salestracking.login.LoginActivity
 import com.example.salestracking.repository.FireStoreRepository
+import com.example.salestracking.toSimpleDateFormat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import java.net.Inet4Address
 
 class ProfileInfo : Fragment() {
@@ -31,6 +33,10 @@ class ProfileInfo : Fragment() {
     private lateinit var prefManager: PrefManager
     private lateinit var tv_name:TextView
     private lateinit var signOut:Button
+    private lateinit var updateBtn:Button
+    private lateinit var edit:TextView
+    private lateinit var dateOfJoining:EditText
+    private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -42,7 +48,11 @@ class ProfileInfo : Fragment() {
         prefManager = PrefManager(this.requireContext())
         tv_name=rootView.findViewById(R.id.tv_name)
         signOut=rootView.findViewById(R.id.sign_Out)
+        updateBtn=rootView.findViewById(R.id.update_profile_btn)
         firebaseAuth= FirebaseAuth.getInstance()
+        progressBar = rootView.findViewById(R.id.progress_bar)
+        edit=rootView.findViewById(R.id.tv_edit_profile)
+        dateOfJoining=rootView.findViewById(R.id.et_date_of_joining)
     }
 
     override fun onCreateView(
@@ -58,6 +68,7 @@ class ProfileInfo : Fragment() {
         address.setText(prefManager.getAddress())
         phoneNo.setText(prefManager.getPhoneNo())
         email.setText(prefManager.getEmail())
+        dateOfJoining.setText(toSimpleDateFormat(prefManager.getDOJ()!!))
         firebaseRepository.getUserInfo().addOnSuccessListener {document->
             if (document.data!=null) {
                 val userInfo = document.toObject(Employee::class.java)
@@ -66,10 +77,14 @@ class ProfileInfo : Fragment() {
                 prefManager.setAddress(userInfo?.Address.toString())
                 prefManager.setEmail(userInfo?.emailId.toString())
                 prefManager.setPhone(userInfo?.phoneNo.toString())
+                prefManager.setDOJ(userInfo?.time!!.toLong())
                 name.setText(prefManager.getFullName())
                 address.setText(prefManager.getAddress())
                 phoneNo.setText(prefManager.getPhoneNo())
                 email.setText(prefManager.getEmail())
+                tv_name.text = prefManager.getFullName()
+                dateOfJoining.setText(toSimpleDateFormat(prefManager.getDOJ()!!))
+
             }
         }.addOnFailureListener {
             Toast.makeText(this.requireContext(),"Failed",Toast.LENGTH_SHORT).show()
@@ -80,6 +95,39 @@ class ProfileInfo : Fragment() {
             val intent= Intent(this.requireActivity(), LoginActivity::class.java)
             startActivity(intent)
             this.activity?.finish()
+        }
+        edit.setOnClickListener {
+            name.isEnabled=true
+            address.isEnabled=true
+            edit.visibility=View.GONE
+            updateBtn.visibility=View.VISIBLE
+        }
+        updateBtn.setOnClickListener {
+
+            if(name.text.isNotEmpty() && address.text.isNotEmpty()) {
+                progressBar.visibility = View.VISIBLE
+                val fstore = FirebaseFirestore.getInstance()
+                val user = FirebaseAuth.getInstance().currentUser
+                val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
+                        .collection("employee").document("${user?.email}")
+                df.update("name", name.text.toString(), "address", address.text.toString())
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                progressBar.visibility = View.GONE
+                                updateBtn.visibility = View.GONE
+                                edit.visibility = View.VISIBLE
+                                name.isEnabled=false
+                                address.isEnabled=false
+                                Toast.makeText(this.requireContext(), "Updated Successfully", Toast.LENGTH_SHORT).show()
+                            } else {
+                                progressBar.visibility = View.GONE
+                                Toast.makeText(this.requireContext(), "Failed", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+            }
+            else{
+                Toast.makeText(this.requireContext(), "Field cannot be empty", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return rootView

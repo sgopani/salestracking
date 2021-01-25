@@ -6,10 +6,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.salesadmin.MainActivity
 import com.example.salesadmin.R
@@ -28,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var fstore: FirebaseFirestore
     private lateinit var user:FirebaseUser
+    private lateinit var forgotPassword: TextView
     private lateinit var progressBar: ProgressBar
     private val TAG = "LoginActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.login_password)
         loginButton = findViewById(R.id.login_button)
         progressBar=findViewById(R.id.progress_bar)
+        forgotPassword=findViewById(R.id.forgot_password_tv)
         fstore= FirebaseFirestore.getInstance()
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
@@ -54,6 +53,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        forgotPassword.setOnClickListener{
+            val intent = Intent(this, ForgotPassword::class.java)
+            startActivity(intent)
+        }
+
     }
 
     public override fun onStart() {
