@@ -20,6 +20,8 @@ import com.example.salesadmin.FirebaseServerID
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Notification
 import com.example.salesadmin.repository.FireStoreViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.messaging.FirebaseMessaging
 import org.json.JSONException
 import org.json.JSONObject
@@ -36,6 +38,7 @@ class SendNotification : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var viewModel: FireStoreViewModel
     private lateinit var notificationFireStore:Notification
+    private lateinit var user:FirebaseAuth
     private val requestQueue: RequestQueue by lazy {
         Volley.newRequestQueue(this.context)
     }
@@ -44,12 +47,13 @@ class SendNotification : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/Enter_topic")
+        //FirebaseMessaging.getInstance().subscribeToTopic("/topics/Enter_topic")
         rootView=inflater.inflate(R.layout.send_notification, container, false)
         text=rootView.findViewById(R.id.msg)
         message=rootView.findViewById(R.id.tv_title)
         submit=rootView.findViewById(R.id.submit)
         progressBar=rootView.findViewById(R.id.progress_bar)
+        user= FirebaseAuth.getInstance()
         submit.setOnClickListener {
             checkField(text)
             checkField(message)
@@ -59,7 +63,7 @@ class SendNotification : Fragment() {
                     progressBar.visibility=View.VISIBLE
                     viewModel= FireStoreViewModel()
                     notificationFireStore=Notification(message.text.toString(),text.text.toString(),time=time)
-                    val topic = "/topics/Enter_topic" //topic has to match what the receiver subscribed to
+                    val topic = "/topics/${user.currentUser?.uid}" //topic has to match what the receiver subscribed to
                     val notification = JSONObject()
                     val notifcationBody = JSONObject()
                     try {

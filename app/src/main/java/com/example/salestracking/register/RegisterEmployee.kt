@@ -160,6 +160,7 @@ class RegisterEmployee : AppCompatActivity() {
                         progressBar.visibility= View.GONE
                         val employee=Employee(name.text.toString(),email.text.toString(),phoneNumber.text.toString(),address.text.toString()
                         , auth.currentUser!!.uid,"1",companyId.text.toString(),time.toString())
+                        prefManager.setCompanyID(companyId.text.toString())
                         viewModel.registerAdminFirebase(employee)
                         Toast.makeText(
                                     this,

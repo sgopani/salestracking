@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class EmployeeDashboard : Fragment(), View.OnClickListener {
     private lateinit var notes: CardView
+    private lateinit var applyLeave:CardView
     private lateinit var rootView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,8 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
         val user = FirebaseAuth.getInstance().currentUser
         rootView= inflater.inflate(R.layout.fragment_employee, container, false)
         notes=rootView.findViewById(R.id.notes)
+        applyLeave=rootView.findViewById(R.id.cv_apply_leave)
+        applyLeave.setOnClickListener(this)
         notes.setOnClickListener(this)
         return rootView
     }
@@ -37,6 +40,10 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
             val action= EmployeeDashboardDirections.actionEmployeeDashboardToNotes2()
             findNavController().navigate(action)
         }
+            R.id.cv_apply_leave->{
+                val action= EmployeeDashboardDirections.actionEmployeeDashboardToApplyLeave()
+                findNavController().navigate(action)
+            }
         }
     }
 }

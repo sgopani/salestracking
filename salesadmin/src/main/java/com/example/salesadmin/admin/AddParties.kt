@@ -241,6 +241,7 @@ class AddParties : Fragment() {
                     if(checkPinCode){
                         edit_tv.visibility=View.VISIBLE
                         pinCodeEdit.isEnabled=false
+                        pinCodeEdit.error=null
                     }
                     valid=true
                     district_tv.text=district

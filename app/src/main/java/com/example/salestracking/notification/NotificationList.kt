@@ -26,10 +26,11 @@ class NotificationList : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar:ProgressBar
     private lateinit var noNotification:TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-    fun init() {
+    private fun init() {
         recyclerView = rootView.findViewById(R.id.rv_notification_list)
         progressBar = rootView.findViewById(R.id.progress_bar)
         noNotification=rootView.findViewById(R.id.no_notification)

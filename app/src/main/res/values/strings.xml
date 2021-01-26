@@ -34,4 +34,22 @@
     <string name="send_email">Send reset password link</string>
     <string name="edit">edit</string>
     <string name="date_of_joining">Date of Joining</string>
-</resources>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="reason">Reason</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="leave">Leave</string>
+    <string name="selected_item">Selected item:</string>
+    <string-array name="leave_type">
+        <item>Sick Leave</item>
+        <item>Family Responsibility Leave</item>
+        <item>Study Leave</item>
+        <item>Leave for religious holiday</item>
+        <item>Annual Leave</item>
+        <item>Leave in Lieu</item>
+        <item>Compassionate Leave</item>
+        <item>Paternity Leave</item>
+        <item>Miscellaneous/Others</item>
+    </string-array>
+    </resources>

@@ -142,6 +142,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_apply_leave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
@@ -162,15 +163,15 @@
                             android:id="@+id/imageView4"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/calendar" />
 
                         <TextView
                             android:id="@+id/textView6"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="TextView"
                             android:gravity="center"
+                            android:text="@string/leave"
                             android:textColor="#6f6f6f"
                             android:textSize="18sp" />
                     </LinearLayout>

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/Enter_topic")
+
         val user = FirebaseAuth.getInstance().currentUser
 
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("User Token ", user.uid)
             val firebaseRepository = FireStoreRepository()
             val prefManager=PrefManager(this.applicationContext)
-            COMPANYUID="OgpCRNT7mSg17vA5eCTEDjK6svk1" 
+            COMPANYUID=prefManager.getCompanyId().toString()
                     //prefManager.getCompanyId().toString()
             firebaseRepository.getUserInfo().addOnSuccessListener {document->
                 if (document.data!=null) {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                     prefManager.setPhone(userInfo?.phoneNo.toString())
                     prefManager.setCompanyID(userInfo?.companyId.toString())
                     //prefManager.setCompanyID(userInfo?.time.toString())
-
+                    FirebaseMessaging.getInstance().subscribeToTopic("/topics/$COMPANYUID")
                     Toast.makeText(this, "{ ${COMPANYUID} }", Toast.LENGTH_SHORT).show()
 //            name.setText(prefManager.getFullName())
 //            address.setText(prefManager.getAddress())

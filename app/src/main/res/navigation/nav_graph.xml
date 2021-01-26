@@ -16,6 +16,9 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_employeeDashboard_to_applyLeave"
+            app:destination="@id/applyLeave" />
     </fragment>
     <fragment
         android:id="@+id/Notes"
@@ -55,4 +58,12 @@
         android:id="@+id/profileInfo"
         android:name="com.example.salestracking.profile.ProfileInfo"
         tools:layout="@layout/profile_info" />
+    <fragment
+        android:id="@+id/applyLeave"
+        android:name="com.example.salestracking.leave.ApplyLeave"
+        tools:layout="@layout/apply_leave">
+        <action
+            android:id="@+id/action_applyLeave_to_employeeDashboard"
+            app:destination="@id/employeeDashboard" />
+    </fragment>
 </navigation>

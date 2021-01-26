@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.salestracking.COMPANYUID
 import com.example.salestracking.SalesApiStatus
 import com.example.salestracking.databse.model.Employee
 import com.example.salestracking.models.Notification
@@ -36,7 +37,7 @@ class FireStoreViewModel:ViewModel() {
     fun getAllNotification() {
         coroutineScope.launch {
             val notificationList = fstore.collection("Sales")
-                .document("OgpCRNT7mSg17vA5eCTEDjK6svk1").collection("Notification")
+                .document(COMPANYUID).collection("Notification")
                     .orderBy("time",Query.Direction.DESCENDING)
             notificationList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
