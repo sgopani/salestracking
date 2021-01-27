@@ -41,7 +41,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
             findNavController().navigate(action)
         }
             R.id.cv_apply_leave->{
-                val action= EmployeeDashboardDirections.actionEmployeeDashboardToApplyLeave()
+                val action= EmployeeDashboardDirections.actionEmployeeDashboardToLeaveList()
                 findNavController().navigate(action)
             }
         }

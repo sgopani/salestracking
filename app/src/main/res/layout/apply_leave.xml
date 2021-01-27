@@ -134,5 +134,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_reason_textInput" />
 
+        <include
+            layout="@layout/include_progress_bar"
+            android:layout_width="77dp"
+            android:layout_height="57dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.53" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

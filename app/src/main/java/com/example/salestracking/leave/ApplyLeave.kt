@@ -8,8 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.navigation.fragment.findNavController
 import androidx.room.Room
 import com.example.salestracking.R
+import com.example.salestracking.USER
+import com.example.salestracking.databse.model.Leave
+import com.example.salestracking.repository.FireStoreViewModel
 import com.example.salestracking.toSimpleDateFormat
 import java.security.cert.CertPathValidatorException
 import java.text.SimpleDateFormat
@@ -25,6 +29,9 @@ class ApplyLeave : Fragment(), View.OnClickListener {
     private lateinit var reason: EditText
     private lateinit var leaveTypeDb:String
     private lateinit var submitBtn:Button
+    private lateinit var viewModel: FireStoreViewModel
+    private lateinit var progressBar: ProgressBar
+    private lateinit var cancelBtn:Button
     private  var startDate:Long=0L
     private  var valid:Boolean=false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +43,9 @@ class ApplyLeave : Fragment(), View.OnClickListener {
         reason=rootView.findViewById(R.id.et_reason)
         spinner=rootView.findViewById(R.id.leave_spinner)
         submitBtn=rootView.findViewById(R.id.btn_submit)
+        viewModel= FireStoreViewModel()
+        progressBar=rootView.findViewById(R.id.progress_bar)
+        cancelBtn=rootView.findViewById(R.id.btn_cancel)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +56,7 @@ class ApplyLeave : Fragment(), View.OnClickListener {
         fromDate.setOnClickListener(this)
         toDate.setOnClickListener(this)
         submitBtn.setOnClickListener(this)
+        cancelBtn.setOnClickListener(this)
         val leaveType = resources.getStringArray(R.array.leave_type)
         val adapter = ArrayAdapter(this.requireContext(),
             android.R.layout.simple_spinner_dropdown_item, leaveType)
@@ -55,7 +66,7 @@ class ApplyLeave : Fragment(), View.OnClickListener {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>,
                                         view: View, position: Int, id: Long) {
-                leaveTypeDb=getString(R.string.selected_item) + " " +leaveType[position]
+                leaveTypeDb=leaveType[position]
 //                            "" + leaveType[position]
 //                Toast.makeText(context,
 //                    getString(R.string.selected_item) + " " +
@@ -132,17 +143,38 @@ class ApplyLeave : Fragment(), View.OnClickListener {
                 checkField(toDate)
                 checkField(reason)
                 if(notNull){
-                    Toast.makeText(this.context,
-                        fromDate.text.toString()+toDate.text.toString()+leaveTypeDb+reason.text.toString(),Toast.LENGTH_LONG).show()
-                    Log.d("data",
-                        fromDate.text.toString()+toDate.text.toString()+leaveTypeDb+reason.text.toString()
-                    )
+                    progressBar.visibility= View.VISIBLE
+                    addLeave()
                 }
+            }
+            R.id.btn_cancel->{
+                val action=ApplyLeaveDirections.actionApplyLeaveToLeaveList()
+                findNavController().navigate(action)
             }
         }
     }
 
+    private fun addLeave() {
+        try {
+            val leave=Leave(fromDate.text.toString(),toDate.text.toString(),leaveTypeDb,reason.text.toString(),System.currentTimeMillis()
+                    , USER?.uid!!)
+            viewModel.applyLeaveFirebase(leave)
+            progressBar.visibility= View.GONE
+            fromDate.text.clear()
+            toDate.text.clear()
+            reason.text.clear()
+            Toast.makeText(this.requireContext(),"Leave applied successfully",Toast.LENGTH_LONG).show()
+            val action=ApplyLeaveDirections.actionApplyLeaveToLeaveList()
+            findNavController().navigate(action)
+        }
+        catch (e:Exception){
+            progressBar.visibility= View.GONE
+            Toast.makeText(this.requireContext(),"Something went wrong",Toast.LENGTH_LONG).show()
+            Log.i("Error","${e.message}")
+        }
 
+
+    }
 
 
 }

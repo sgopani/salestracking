@@ -17,8 +17,12 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
         <action
-            android:id="@+id/action_employeeDashboard_to_applyLeave"
-            app:destination="@id/applyLeave" />
+            android:id="@+id/action_employeeDashboard_to_leaveList"
+            app:destination="@id/leaveList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/Notes"
@@ -63,7 +67,32 @@
         android:name="com.example.salestracking.leave.ApplyLeave"
         tools:layout="@layout/apply_leave">
         <action
-            android:id="@+id/action_applyLeave_to_employeeDashboard"
-            app:destination="@id/employeeDashboard" />
+            android:id="@+id/action_applyLeave_to_leaveList"
+            app:destination="@id/leaveList"
+            app:popUpTo="@id/leaveList"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/leaveList"
+        android:name="com.example.salestracking.leave.LeaveList"
+        tools:layout="@layout/leave_list">
+        <action
+            android:id="@+id/action_leaveList_to_applyLeave"
+            app:destination="@id/applyLeave"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_leaveList_to_employeeDashboard"
+            app:destination="@id/employeeDashboard"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 </navigation>

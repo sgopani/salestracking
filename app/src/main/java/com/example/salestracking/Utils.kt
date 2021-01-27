@@ -2,11 +2,16 @@ package com.example.salestracking
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.example.salestracking.repository.FireStoreViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 var COMPANYUID:String = ""
+var USER=FirebaseAuth.getInstance().currentUser
+
 enum class SalesApiStatus { LOADING, ERROR, DONE,EMPTY}
 fun isInternetOn(context: Context): Boolean {
     val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager

@@ -46,7 +46,7 @@ class RegisterEmployee : AppCompatActivity() {
 //        return rootView
     }
 
-    fun init() {
+    private fun init() {
         name = findViewById(R.id.et_employee_name)
         email = findViewById(R.id.tv_add_emailAddress)
         phoneNumber = findViewById(R.id.et_add_phoneNumber)

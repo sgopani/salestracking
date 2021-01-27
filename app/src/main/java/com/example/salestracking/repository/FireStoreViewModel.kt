@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.salestracking.COMPANYUID
 import com.example.salestracking.SalesApiStatus
 import com.example.salestracking.databse.model.Employee
+import com.example.salestracking.databse.model.Leave
 import com.example.salestracking.models.Notification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,6 +31,10 @@ class FireStoreViewModel:ViewModel() {
     private val _notificationList = MutableLiveData<List<Notification>>()
     val notificationList: LiveData<List<Notification>>
         get() = _notificationList
+
+    private val _leaveList = MutableLiveData<List<Leave>>()
+    val leaveList: LiveData<List<Leave>>
+        get() = _leaveList
 
     fun registerAdminFirebase(employee: Employee){
             firebaseRepository.registerEmployee(employee)
@@ -56,6 +61,38 @@ class FireStoreViewModel:ViewModel() {
                     _status.value = SalesApiStatus.ERROR
                 }
 
+
+            }
+        }
+    }
+    fun applyLeaveFirebase(leave: Leave){
+        coroutineScope.launch {
+            firebaseRepository.applyLeave(leave)
+        }
+
+    }
+    fun getAllLeaveList(){
+        coroutineScope.launch {
+            val leaveList = fstore.collection("Sales")
+                .document(COMPANYUID).collection("Leaves").whereEqualTo("userUid", user?.uid.toString())
+                .orderBy("time",Query.Direction.DESCENDING)
+
+            leaveList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _status.value = SalesApiStatus.EMPTY
+                        Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                        val innerEvents = querySnapshot?.toObjects(Leave::class.java)
+                        _leaveList.postValue(innerEvents)
+                        _status.value = SalesApiStatus.DONE
+                    }
+
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
 
             }
         }

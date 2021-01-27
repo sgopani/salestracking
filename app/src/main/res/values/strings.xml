@@ -37,10 +37,16 @@
     <string name="from_date">From Date</string>
     <string name="to_date">To Date</string>
     <string name="reason">Reason</string>
+    <string name="from_to_date_list">Dates :</string>
+    <string name="reason_list">Reason :</string>
+    <string name="leave_type_list">Type :</string>
+    <string name="status">Status :</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
     <string name="leave">Leave</string>
     <string name="selected_item">Selected item:</string>
+    <string name="apply_for_leave">Apply for leave</string>
+    <string name="leave_type">Leave type</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>
@@ -52,4 +58,4 @@
         <item>Paternity Leave</item>
         <item>Miscellaneous/Others</item>
     </string-array>
-    </resources>
+</resources>
