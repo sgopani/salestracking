@@ -1,4 +1,4 @@
-package com.example.salestracking.leave
+package com.example.salesadmin.leave
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salestracking.R
-import com.example.salestracking.databse.model.Leave
+import com.example.salesadmin.ItemClickListener
+import com.example.salesadmin.R
+import com.example.salesadmin.model.Leave
+import kotlinx.coroutines.withContext
 
-class LeaveListAdapter(var LeaveList: List<Leave>): RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
+class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:ItemClickListener): RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
     //    private var productList= mutableListOf<Products>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeaveItem {
@@ -23,6 +25,9 @@ class LeaveListAdapter(var LeaveList: List<Leave>): RecyclerView.Adapter<LeaveLi
     override fun onBindViewHolder(holder: LeaveItem, position: Int) {
         val leave=getItem(position)
         holder.bind(leave)
+        holder.itemView.setOnClickListener{
+            leaveItemClickListeners.onLeaveItemClick(leave)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -31,9 +36,8 @@ class LeaveListAdapter(var LeaveList: List<Leave>): RecyclerView.Adapter<LeaveLi
 
     }
     class LeaveItem(itemView: View): RecyclerView.ViewHolder(itemView){
-        val tvDate=itemView.findViewById<TextView>(R.id.tv_date)
-        val tvLeaveType=itemView.findViewById<TextView>(R.id.tv_leave_type)
-        val tvreason=itemView.findViewById<TextView>(R.id.tv_reason)
+        val tvname=itemView.findViewById<TextView>(R.id.tv_employee_name)
+        val tvDate=itemView.findViewById<TextView>(R.id.tv_leave_date)
         val tvStatus=itemView.findViewById<TextView>(R.id.tv_status)
         companion object{
             fun createViewHolder(parent: ViewGroup): LeaveItem {
@@ -43,13 +47,11 @@ class LeaveListAdapter(var LeaveList: List<Leave>): RecyclerView.Adapter<LeaveLi
             }
         }
         fun bind(leave: Leave) {
+            val name=leave.name
             val date=leave.fromdate+" to "+leave.toDate
-            val leaveType=leave.leaveType
-            val reason=leave.reason
             val status=leave.status
+            tvname.text=name
             tvDate.text=date
-            tvLeaveType.text=leaveType
-            tvreason.text=reason
             tvStatus.text=status
             if(tvStatus.text=="Accepted"){
                 tvStatus.setTextColor(ContextCompat.getColor(this.itemView.context,R.color.green))
@@ -57,7 +59,6 @@ class LeaveListAdapter(var LeaveList: List<Leave>): RecyclerView.Adapter<LeaveLi
             else{
                 tvStatus.setTextColor(ContextCompat.getColor(this.itemView.context,R.color.colorRed))
             }
-
         }
     }
 }

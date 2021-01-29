@@ -1,11 +1,10 @@
-package com.example.salestracking.leave
+package com.example.salesadmin.leave
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -13,47 +12,47 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salestracking.R
-import com.example.salestracking.SalesApiStatus
-import com.example.salestracking.databse.model.Leave
-import com.example.salestracking.isInternetOn
-import com.example.salestracking.models.Notification
-import com.example.salestracking.notification.NotificationAdapter
-import com.example.salestracking.repository.FireStoreViewModel
+import com.example.salesadmin.ItemClickListener
+import com.example.salesadmin.R
+import com.example.salesadmin.SalesApiStatus
+import com.example.salesadmin.admin.AdminDashboardDirections
+import com.example.salesadmin.isInternetOn
+import com.example.salesadmin.model.Leave
+import com.example.salesadmin.repository.FireStoreViewModel
 import java.util.ArrayList
 
-class LeaveList : Fragment() {
-    private lateinit var rootView:View
-    private lateinit var applyLeaveBtn:Button
+
+class LeavesList : Fragment() {
+    private lateinit var rootView: View
     private var leaveList: List<Leave> = ArrayList()
     private lateinit var adapter: LeaveListAdapter
     private lateinit var viewModel: FireStoreViewModel
     private lateinit var recyclerView: RecyclerView
-    //private lateinit var progressBar: ProgressBar
-    private lateinit var noLeaves:TextView
+    private lateinit var noLeaves: TextView
+    private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
     }
     private fun init() {
-        recyclerView = rootView.findViewById(R.id.rv_leave_list)
-        //progressBar = rootView.findViewById(R.id.progress_bar)
+        recyclerView = rootView.findViewById(R.id.rv_leaves)
+        progressBar = rootView.findViewById(R.id.progress_bar)
         noLeaves=rootView.findViewById(R.id.no_leaves)
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        rootView=inflater.inflate(R.layout.leave_list, container, false)
+
+       rootView= inflater.inflate(R.layout.leaves_list, container, false)
         init()
-        adapter= LeaveListAdapter(leaveList)
+        adapter= LeaveListAdapter(leaveList,getNewsItemClickListener())
         recyclerView.adapter=adapter
-        //progressBar.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.setHasFixedSize(true)
         viewModel = FireStoreViewModel()
-        viewModel.getAllLeaveList()
-
+        viewModel.getAllLeaves()
         viewModel.leaveList.observe(this.requireActivity(), Observer {leaves->
             leaveList=leaves
             adapter.LeaveList=leaveList
@@ -62,17 +61,22 @@ class LeaveList : Fragment() {
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkInternet(status)
         })
-        applyLeaveBtn=rootView.findViewById(R.id.apply_leave_btn)
-        applyLeaveBtn.setOnClickListener{
-            val action=LeaveListDirections.actionLeaveListToApplyLeave()
-            findNavController().navigate(action)
-        }
+        viewModel.selectedLeave.observe(this.viewLifecycleOwner, Observer { leaves ->
+            if (leaves != null) {
+                val action= LeavesListDirections.actionLeavesListToLeaveInfo(leaves)
+                findNavController().navigate(action)
+                //val navController=this.findNavController()
+                //navController.navigate(NewsListDirections.actionNewsList2ToNewsInfoFragment2(article))
+                //NewsListDirections.actionNewsList2ToNewsInfoFragment2(article)
+                viewModel.eventNavigateToNewsDetailCompleted()
+            }
+        })
         return rootView
     }
     private fun checkInternet(status: SalesApiStatus) {
         when (status) {
             SalesApiStatus.LOADING -> {
-                //progressBar.visibility=View.VISIBLE
+                progressBar.visibility=View.VISIBLE
             }
             SalesApiStatus.ERROR -> {
                 if (isInternetOn(this.requireContext())) {
@@ -81,16 +85,24 @@ class LeaveList : Fragment() {
                 } else {
                     Toast.makeText(this.context, "Please Check Your Internet Connection", Toast.LENGTH_SHORT).show()
                 }
-                //progressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
 
             }
             SalesApiStatus.DONE -> {
                 noLeaves.visibility=View.INVISIBLE
-                //progressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
             }
             SalesApiStatus.EMPTY->{
                 noLeaves.visibility=View.VISIBLE
-                //progressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
+            }
+        }
+    }
+    private fun getNewsItemClickListener(): ItemClickListener {
+        return object : ItemClickListener {
+
+            override fun onLeaveItemClick(leave: Leave) {
+                viewModel.eventNavigateToNewsDetail(leave)
             }
         }
     }

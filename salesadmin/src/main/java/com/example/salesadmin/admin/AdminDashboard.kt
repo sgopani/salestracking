@@ -24,6 +24,7 @@ class AdminDashboard : Fragment(), View.OnClickListener {
     private lateinit var tvemail:TextView
     private lateinit var parties:CardView
     private lateinit var notification: CardView
+    private lateinit var leaveList:CardView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,6 +39,7 @@ class AdminDashboard : Fragment(), View.OnClickListener {
         user= FirebaseAuth.getInstance().currentUser!!
         tvemail=rootView.findViewById(R.id.tv_email_address)
         notification=rootView.findViewById(R.id.cv_send_notification)
+        leaveList=rootView.findViewById(R.id.cv_leaves)
         tvemail.text=getString(R.string.Hello,user.email)
         addEmployee.setOnClickListener(this)
         parties=rootView.findViewById(R.id.cv_parties)
@@ -45,6 +47,7 @@ class AdminDashboard : Fragment(), View.OnClickListener {
         products=rootView.findViewById(R.id.cv_products)
         products.setOnClickListener(this)
         notification.setOnClickListener(this)
+        leaveList.setOnClickListener(this)
         return rootView
     }
 
@@ -64,6 +67,10 @@ class AdminDashboard : Fragment(), View.OnClickListener {
             }
             R.id.cv_send_notification->{
                 val action=AdminDashboardDirections.actionAdminDashboardToSendNotification()
+                findNavController().navigate(action)
+            }
+            R.id.cv_leaves->{
+                val action=AdminDashboardDirections.actionAdminDashboardToLeavesList()
                 findNavController().navigate(action)
             }
 

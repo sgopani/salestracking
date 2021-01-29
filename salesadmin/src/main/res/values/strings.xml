@@ -50,5 +50,19 @@
     <string name="state">State</string>
     <string name="check">Check</string>
     <string name="Edit">edit</string>
+    <string name="employee">Employee name :</string>
+    <string name="leave_date">Leave date :</string>
+    <string name="reason">Reason :</string>
+    <string name="leave_type">Leave type :</string>
+    <string name="status">Status :</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
+
+    <string name="emp_leaves">Employee leaves</string>
+    <string name="no_leaves">No leaves requests from the employee</string>
+    <string name="from_date">From Date :</string>
+    <string name="to_date">To Date :</string>
 
 </resources>

@@ -1,5 +1,10 @@
-package com.example.salestracking.databse.model
+package com.example.salesadmin.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+
+@Parcelize
 data class Leave(
         var fromdate:String="",
         var toDate:String="",
@@ -9,5 +14,5 @@ data class Leave(
         var userUid:String="",
         var status:String="Pending",
         var name:String=""
-) {
+): Parcelable {
 }

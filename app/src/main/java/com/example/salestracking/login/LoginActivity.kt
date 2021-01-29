@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.*
 import com.example.salestracking.COMPANYUID
 import com.example.salestracking.MainActivity
+import com.example.salestracking.PrefManager
 import com.example.salestracking.R
 import com.example.salestracking.register.RegisterEmployee
 import com.google.android.gms.tasks.OnFailureListener
@@ -26,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var forgotPassword: TextView
     private lateinit var companyID:EditText
+    private lateinit var prefManager: PrefManager
 
 
     private val TAG = "LoginActivity"
@@ -45,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
         fstore=FirebaseFirestore.getInstance()
         forgotPassword=findViewById(R.id.forgot_password_tv)
         companyID=findViewById(R.id.company_id_login)
+        prefManager = PrefManager(this)
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
             loginUser()
@@ -125,6 +128,8 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
+                COMPANYUID=companyID.text.toString()
+                prefManager.setCompanyID(companyID.text.toString())
                 Toast.makeText(this, " Welcome ${auth.currentUser?.email}", Toast.LENGTH_SHORT).show()
             }
             else{

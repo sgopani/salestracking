@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
+import com.example.salestracking.PrefManager
 import com.example.salestracking.R
 import com.example.salestracking.USER
 import com.example.salestracking.databse.model.Leave
@@ -34,6 +35,8 @@ class ApplyLeave : Fragment(), View.OnClickListener {
     private lateinit var cancelBtn:Button
     private  var startDate:Long=0L
     private  var valid:Boolean=false
+    private var notNull=false
+    private lateinit var prefManager: PrefManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,6 +47,7 @@ class ApplyLeave : Fragment(), View.OnClickListener {
         spinner=rootView.findViewById(R.id.leave_spinner)
         submitBtn=rootView.findViewById(R.id.btn_submit)
         viewModel= FireStoreViewModel()
+        prefManager = PrefManager(this.requireContext())
         progressBar=rootView.findViewById(R.id.progress_bar)
         cancelBtn=rootView.findViewById(R.id.btn_cancel)
     }
@@ -78,6 +82,22 @@ class ApplyLeave : Fragment(), View.OnClickListener {
             }
         }
         return rootView
+    }
+    private fun checkField(textField: EditText){
+        notNull=false
+        when {
+            textField.text.toString().isEmpty() -> {
+                textField.error = "Field cannot be empty"
+                notNull = false
+            }
+            leaveTypeDb.isEmpty() -> {
+                notNull=false
+            }
+            else -> {
+                textField.error=null
+                notNull=true
+            }
+        }
     }
 
     override fun onClick(view: View?) {
@@ -123,28 +143,21 @@ class ApplyLeave : Fragment(), View.OnClickListener {
 
             }
             R.id.btn_submit->{
-                var notNull=false
-                fun checkField(textField: EditText){
-                    when {
-                        textField.text.toString().isEmpty() -> {
-                            textField.error = "Field cannot be empty"
-                            notNull = false
-                        }
-                        leaveTypeDb.isEmpty() -> {
-                            notNull=false
-                        }
-                        else -> {
-                            textField.error=null
-                            notNull=true
-                        }
-                    }
-                }
+                //Toast.makeText(this.requireContext(), toDate.text.toString()+fromDate.text.toString(),Toast.LENGTH_LONG).show()
                 checkField(fromDate)
                 checkField(toDate)
                 checkField(reason)
                 if(notNull){
-                    progressBar.visibility= View.VISIBLE
-                    addLeave()
+                    if(fromDate.text.isNotEmpty() && toDate.text.isNotEmpty()){
+                        //Toast.makeText(this.requireContext(), toDate.text.toString()+fromDate.text.toString(),Toast.LENGTH_LONG).show()
+                        progressBar.visibility= View.VISIBLE
+                        addLeave()
+                    }
+                    else{
+                        Toast.makeText(this.requireContext(), "Field cannot be empty",Toast.LENGTH_LONG).show()
+                    }
+
+                    //addLeave()
                 }
             }
             R.id.btn_cancel->{
@@ -157,7 +170,7 @@ class ApplyLeave : Fragment(), View.OnClickListener {
     private fun addLeave() {
         try {
             val leave=Leave(fromDate.text.toString(),toDate.text.toString(),leaveTypeDb,reason.text.toString(),System.currentTimeMillis()
-                    , USER?.uid!!)
+                    ,USER?.uid!!,name = prefManager.getFullName().toString())
             viewModel.applyLeaveFirebase(leave)
             progressBar.visibility= View.GONE
             fromDate.text.clear()

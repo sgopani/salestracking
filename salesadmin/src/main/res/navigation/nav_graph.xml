@@ -37,6 +37,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_adminDashboard_to_leavesList"
+            app:destination="@id/leavesList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/addProduct"
@@ -104,10 +111,18 @@
         tools:layout="@layout/parties_list" >
         <action
             android:id="@+id/action_partiesList_to_addParties"
-            app:destination="@id/addParties" />
+            app:destination="@id/addParties"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_partiesList_to_adminDashboard"
-            app:destination="@id/adminDashboard" />
+            app:destination="@id/adminDashboard"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/sendNotification"
@@ -120,5 +135,27 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/leavesList"
+        android:name="com.example.salesadmin.leave.LeavesList"
+        android:label="List of leaves"
+        tools:layout="@layout/leaves_list">
+        <action
+            android:id="@+id/action_leavesList_to_leaveInfo"
+            app:destination="@id/leaveInfo"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/leaveInfo"
+        android:name="com.example.salesadmin.leave.LeaveInfo"
+        android:label="Leave request details"
+        tools:layout="@layout/leave_info">
+        <argument
+            android:name="leaves"
+            app:argType="com.example.salesadmin.model.Leave" />
     </fragment>
 </navigation>
