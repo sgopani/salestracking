@@ -48,6 +48,10 @@
     <string name="selected_item">Selected item:</string>
     <string name="apply_for_leave">Apply for leave</string>
     <string name="leave_type">Leave type</string>
+    <string name="add_party">Add Party</string>
+    <string name="amount_received">Amount Received</string>
+    <string name="collection_note">Collection Note</string>
+    <string name="collection_task">Collections</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>
@@ -58,5 +62,9 @@
         <item>Compassionate Leave</item>
         <item>Paternity Leave</item>
         <item>Miscellaneous/Others</item>
+    </string-array>
+    <string-array name="payment_type">
+    <item>Cash</item>
+    <item>Cheque</item>
     </string-array>
 </resources>

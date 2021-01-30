@@ -93,8 +93,9 @@
                 android:id="@+id/et_reason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/reason"
                 android:inputType="textCapSentences|textMultiLine"
-                android:hint="@string/reason" />
+                android:maxLength="120" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

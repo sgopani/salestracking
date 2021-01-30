@@ -38,6 +38,7 @@
                     android:layout_marginTop="6dp"
                     android:gravity="center"
                     android:text="TextView"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -48,6 +49,7 @@
                     android:layout_marginTop="0dp"
                     android:gravity="center"
                     android:text="My Dashboard"
+                    android:textColor="@color/black"
                     android:textSize="24sp" />
 
                 <ImageView
@@ -99,13 +101,14 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="TextView"
-                            android:textColor="#6f6f6f"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_collections"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
@@ -133,9 +136,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="TextView"
                             android:gravity="center"
-                            android:textColor="#6f6f6f"
+                            android:text="@string/collection_task"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -172,7 +175,7 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/leave"
-                            android:textColor="#6f6f6f"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -211,7 +214,7 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/take_note"
-                            android:textColor="#6f6f6f"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -245,9 +248,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="TextView"
                             android:gravity="center"
-                            android:textColor="#6f6f6f"
+                            android:text="TextView"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -281,9 +284,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="TextView"
                             android:gravity="center"
-                            android:textColor="#6f6f6f"
+                            android:text="TextView"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -317,9 +320,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:text="TextView"
                             android:gravity="center"
-                            android:textColor="#6f6f6f"
+                            android:text="TextView"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 

@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initialize() {
         auth = FirebaseAuth.getInstance()
         emailId = findViewById(R.id.email_add_login)
-        passwordEditText = findViewById(R.id.login_password)
+        passwordEditText = findViewById(R.id.et_amount)
         loginButton = findViewById(R.id.login_button)
         registerLink=findViewById(R.id.registerLink)
         progressBar=findViewById(R.id.progress_bar)

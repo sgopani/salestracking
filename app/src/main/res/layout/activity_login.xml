@@ -92,7 +92,7 @@
             app:layout_constraintTop_toBottomOf="@+id/forgot_password_tv" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etPasswordLayout"
+        android:id="@+id/etamountLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -106,7 +106,7 @@
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_password"
+            android:id="@+id/et_amount"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edittext_height"
             android:hint="@string/admin_password"
@@ -165,7 +165,7 @@
         android:textColor="@color/background"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/etamountLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
