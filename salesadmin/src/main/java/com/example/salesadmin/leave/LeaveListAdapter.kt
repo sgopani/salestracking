@@ -12,7 +12,8 @@ import com.example.salesadmin.R
 import com.example.salesadmin.model.Leave
 import kotlinx.coroutines.withContext
 
-class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:ItemClickListener): RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
+class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:ItemClickListener):
+    RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
     //    private var productList= mutableListOf<Products>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeaveItem {

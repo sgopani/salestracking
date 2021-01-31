@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.navigation.fragment.findNavController
 import com.example.salestracking.R
 import com.example.salestracking.toSimpleDateFormat
 
@@ -13,6 +14,7 @@ class AddCollection : Fragment() {
     private lateinit var date:EditText
     private lateinit var rootView: View
     private lateinit var spinner: Spinner
+    private lateinit var addParty:EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -26,14 +28,27 @@ class AddCollection : Fragment() {
         date=rootView.findViewById(R.id.et_date)
         date.setText(toSimpleDateFormat(System.currentTimeMillis()))
         spinner=rootView.findViewById(R.id.collection_spinner)
+        addParty=rootView.findViewById(R.id.add_party)
+        addParty.setOnClickListener {
+            val action= AddCollectionDirections.actionAddCollectionToPartyList()
+            findNavController().navigate(action)
+        }
+        val partyDetails =AddCollectionArgs.fromBundle(requireArguments()).party
+
+        if(partyDetails!=null){
+            Toast.makeText(context, partyDetails?.address,Toast.LENGTH_LONG).show()
+            addParty.setText(partyDetails?.name)
+        }
+
         val paymentType = resources.getStringArray(R.array.payment_type)
         val adapter = ArrayAdapter(this.requireContext(),
             android.R.layout.simple_spinner_dropdown_item, paymentType)
+
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>,
-                                        view: View, position: Int, id: Long) {
+                                        view: View?, position: Int, id: Long) {
                 Toast.makeText(context, paymentType[position],Toast.LENGTH_LONG).show()
             }
 

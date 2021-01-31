@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.ItemClickListener
 import com.example.salesadmin.R
 import com.example.salesadmin.SalesApiStatus
-import com.example.salesadmin.admin.AdminDashboardDirections
 import com.example.salesadmin.isInternetOn
 import com.example.salesadmin.model.Leave
 import com.example.salesadmin.repository.FireStoreViewModel
@@ -68,7 +67,7 @@ class LeavesList : Fragment() {
                 //val navController=this.findNavController()
                 //navController.navigate(NewsListDirections.actionNewsList2ToNewsInfoFragment2(article))
                 //NewsListDirections.actionNewsList2ToNewsInfoFragment2(article)
-                viewModel.eventNavigateToNewsDetailCompleted()
+                viewModel.eventNavigateToLeaveDetailCompleted()
             }
         })
         return rootView
@@ -102,7 +101,7 @@ class LeavesList : Fragment() {
         return object : ItemClickListener {
 
             override fun onLeaveItemClick(leave: Leave) {
-                viewModel.eventNavigateToNewsDetail(leave)
+                viewModel.eventNavigateToLeaveDetail(leave)
             }
         }
     }

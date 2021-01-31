@@ -48,10 +48,10 @@ class FireStoreViewModel:ViewModel() {
     val selectedLeave :LiveData<Leave>
         get() = _selectedLeave
 
-    fun eventNavigateToNewsDetail(leave: Leave){
+    fun eventNavigateToLeaveDetail(leave: Leave){
         _selectedLeave.value=leave
     }
-    fun eventNavigateToNewsDetailCompleted(){
+    fun eventNavigateToLeaveDetailCompleted(){
         _selectedLeave.value = null
     }
     var firebaseRepository = FireStoreRepository()

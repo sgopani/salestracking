@@ -113,5 +113,24 @@
         <action
             android:id="@+id/action_addCollection_to_employeeDashboard"
             app:destination="@id/employeeDashboard" />
+        <action
+            android:id="@+id/action_addCollection_to_partyList"
+            app:destination="@id/partyList" />
+        <argument
+            android:name="party"
+            app:argType="com.example.salestracking.databse.model.Party"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/partyList"
+        android:name="com.example.salestracking.parties.PartyList"
+        android:label="Select Party"
+        tools:layout="@layout/party_list">
+        <action
+            android:id="@+id/action_partyList_to_addCollection"
+            app:destination="@id/addCollection"
+            app:popUpTo="@id/addCollection"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
