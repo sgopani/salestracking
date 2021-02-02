@@ -53,6 +53,14 @@
     <string name="collection_note">Collection Note</string>
     <string name="collection_task">Collections</string>
     <string name="mobile_no">Mobile No</string>
+    <string name="add_collection">Add Collection</string>
+    <string name="party_name">Party name :</string>
+    <string name="amount_recevied_collection">Amount Received :</string>
+    <string name="collection_type">Collection type :</string>
+    <string name="date">Date :</string>
+    <string name="no_collection">No collections taken</string>
+    <string name="employee">Employee name :</string>
+    <string name="note">Note :</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>

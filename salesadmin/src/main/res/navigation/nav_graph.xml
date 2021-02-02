@@ -44,6 +44,9 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_adminDashboard_to_collectionList"
+            app:destination="@id/collectionList" />
     </fragment>
     <fragment
         android:id="@+id/addProduct"
@@ -157,5 +160,27 @@
         <argument
             android:name="leaves"
             app:argType="com.example.salesadmin.model.Leave" />
+    </fragment>
+    <fragment
+        android:id="@+id/collectionList"
+        android:name="com.example.salesadmin.collections.CollectionList"
+        android:label="CollectionList" >
+        <action
+            android:id="@+id/action_collectionList_to_adminDashboard"
+            app:destination="@id/adminDashboard" />
+        <action
+            android:id="@+id/action_collectionList_to_collectionInfo"
+            app:destination="@id/collectionInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/collectionInfo"
+        android:name="com.example.salesadmin.collections.CollectionInfo"
+        android:label="CollectionInfo" >
+        <action
+            android:id="@+id/action_collectionInfo_to_collectionList"
+            app:destination="@id/collectionList" />
+        <argument
+            android:name="collections"
+            app:argType="com.example.salesadmin.model.Collections" />
     </fragment>
 </navigation>

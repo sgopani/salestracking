@@ -27,6 +27,7 @@ class LeaveInfo : Fragment() {
     private lateinit var accept:ImageView
     private lateinit var reject:ImageView
     private lateinit var editButton:FloatingActionButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

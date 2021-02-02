@@ -17,6 +17,7 @@
     <string name="Login_header">Login</string>
     <string name="Signup_header">SignUp</string>
     <string name="add_employee">Employee</string>
+    <string name="no_collection">No collections taken</string>
     <string name="send_email">Send reset password link</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="enter_employee_name">Enter employee name</string>
@@ -64,5 +65,11 @@
     <string name="no_leaves">No leaves requests from the employee</string>
     <string name="from_date">From Date :</string>
     <string name="to_date">To Date :</string>
+    <string name="collections">Collections</string>
+    <string name="amount">Amount :</string>
+    <string name="collection_type">Collection type :</string>
+    <string name="party_name_collection">Party name :</string>
+    <string name="date">Date :</string>
+    <string name="note">Note :</string>
 
 </resources>

@@ -1,7 +1,9 @@
 package com.example.salestracking.repository
 
 import android.util.Log
+import android.widget.Toast
 import com.example.salestracking.COMPANYUID
+import com.example.salestracking.databse.model.Collections
 import com.example.salestracking.databse.model.Employee
 import com.example.salestracking.databse.model.Leave
 import com.google.android.gms.tasks.Task
@@ -42,6 +44,16 @@ class FireStoreRepository {
             Log.i(TAG,"Failure")
         }
 
+    }
+    fun addCollection(collection: Collections): Task<Void> {
+        val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
+                .collection("Collections").document(collection.time.toString())
+        return df.set(collection).addOnSuccessListener {
+            //Toast.makeText(c,"",Toast.LENGTH_LONG)
+            Log.i(TAG,"Success")
+        }.addOnFailureListener {
+            Log.i(TAG,"Failure")
+        }
     }
 
 

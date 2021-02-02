@@ -26,7 +26,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val user = FirebaseAuth.getInstance().currentUser
+        //val user = FirebaseAuth.getInstance().currentUser
         rootView= inflater.inflate(R.layout.fragment_employee, container, false)
         notes=rootView.findViewById(R.id.notes)
         applyLeave=rootView.findViewById(R.id.cv_apply_leave)
@@ -48,7 +48,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
                 findNavController().navigate(action)
             }
             R.id.cv_collections->{
-                val action= EmployeeDashboardDirections.actionEmployeeDashboardToAddCollection()
+                val action= EmployeeDashboardDirections.actionEmployeeDashboardToCollectionList()
                 findNavController().navigate(action)
             }
         }

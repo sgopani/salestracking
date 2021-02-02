@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salesadmin.ItemClickListener
+import com.example.salesadmin.LeaveItemClickListener
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Leave
-import kotlinx.coroutines.withContext
 
-class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:ItemClickListener):
+class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:LeaveItemClickListener):
     RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
     //    private var productList= mutableListOf<Products>()
 

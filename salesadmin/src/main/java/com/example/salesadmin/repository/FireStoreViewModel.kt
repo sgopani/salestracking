@@ -48,13 +48,28 @@ class FireStoreViewModel:ViewModel() {
     val selectedLeave :LiveData<Leave>
         get() = _selectedLeave
 
+    private val _selectedCollection = MutableLiveData<Collections>()
+    val selectedCollection :LiveData<Collections>
+        get() = _selectedCollection
     fun eventNavigateToLeaveDetail(leave: Leave){
         _selectedLeave.value=leave
     }
     fun eventNavigateToLeaveDetailCompleted(){
         _selectedLeave.value = null
     }
+
+    fun eventNavigateToCollectionDetail(collections: Collections){
+        _selectedCollection.value=collections
+    }
+    fun eventNavigateToCollectionDetailCompleted(){
+        _selectedCollection.value = null
+    }
+    private val _collectionList = MutableLiveData<List<Collections>>()
+    val collectionList: LiveData<List<Collections>>
+        get() = _collectionList
+
     var firebaseRepository = FireStoreRepository()
+
     fun registerAdminFirebase(registerAdmin: RegisterAdmin) {
         firebaseRepository.registerAdmin(registerAdmin).addOnCompleteListener {
             _status.value = SalesApiStatus.DONE
@@ -187,6 +202,32 @@ class FireStoreViewModel:ViewModel() {
                     } else {
                         val innerEvents = querySnapshot?.toObjects(Leave::class.java)
                         _leaveList.postValue(innerEvents)
+                        _status.value = SalesApiStatus.DONE
+                    }
+
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
+
+            }
+        }
+    }
+    fun getAllCollectionsList(){
+        coroutineScope.launch {
+            val collectionsList = fstore.collection("Sales")
+                    .document(user?.uid!!).collection("Collections")
+                    .orderBy("time",Query.Direction.DESCENDING)
+
+            collectionsList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _status.value = SalesApiStatus.EMPTY
+                        Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                        val innerEvents = querySnapshot?.toObjects(Collections::class.java)
+                        _collectionList.postValue(innerEvents)
                         _status.value = SalesApiStatus.DONE
                     }
 

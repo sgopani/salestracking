@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".leave.LeaveInfo" >
+    tools:context=".collection.CollectionInfo">
+
 
     <TextView
         android:id="@+id/textView7"
@@ -15,10 +16,10 @@
         android:layout_marginTop="32dp"
         android:drawableLeft="@drawable/calendar"
         android:paddingLeft="8dp"
-        android:text="@string/to_date"
+        android:text="@string/date"
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fromdate_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_employee_name_info" />
 
     <TextView
         android:id="@+id/textView3"
@@ -27,9 +28,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="40dp"
-        android:drawableLeft="@drawable/info"
+        android:drawableLeft="@drawable/profile_image"
         android:paddingLeft="8dp"
-        android:text="@string/leave_type"
+        android:text="@string/party_name"
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,12 +42,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
-        android:drawableLeft="@drawable/calendar"
+        android:drawableLeft="@drawable/profile_image"
         android:paddingLeft="8dp"
-        android:text="@string/from_date"
+        android:text="@string/employee"
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_leave_type_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_party_name_info" />
 
     <TextView
         android:id="@+id/textView12"
@@ -57,10 +58,10 @@
         android:layout_marginTop="32dp"
         android:drawableLeft="@drawable/info"
         android:paddingLeft="8dp"
-        android:text="@string/reason"
+        android:text="@string/note"
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_status_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_collection_type_info" />
 
     <TextView
         android:id="@+id/textView14"
@@ -69,15 +70,15 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
-        android:drawableLeft="@drawable/check"
+        android:drawableLeft="@drawable/info"
         android:paddingLeft="8dp"
-        android:text="@string/status"
+        android:text="@string/collection_type"
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_todate_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_date_info" />
 
     <TextView
-        android:id="@+id/tv_leave_type_info"
+        android:id="@+id/tv_party_name_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -93,20 +94,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_fromdate_info"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_employee_name_info"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="@dimen/textSizeAll"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/tv_leave_type_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_party_name_info" />
 
     <TextView
-        android:id="@+id/tv_todate_info"
+        android:id="@+id/tv_date_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -116,10 +120,10 @@
         android:textColor="@color/black"
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fromdate_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_employee_name_info" />
 
     <TextView
-        android:id="@+id/tv_reason_info"
+        android:id="@+id/tv_note_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -132,10 +136,10 @@
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/tv_status_info" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_collection_type_info" />
 
     <TextView
-        android:id="@+id/tv_status_info"
+        android:id="@+id/tv_collection_type_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -145,42 +149,6 @@
         android:textColor="@color/black"
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/tv_todate_info" />
-
-    <ImageView
-        android:id="@+id/iv_accept"
-        android:layout_width="63dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="88dp"
-        android:layout_marginTop="64dp"
-        app:srcCompat="@drawable/tick"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_reason_info" />
-
-    <ImageView
-        android:id="@+id/iv_reject"
-        android:layout_width="63dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="64dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_accept"
-        app:layout_constraintTop_toBottomOf="@+id/tv_reason_info"
-        app:srcCompat="@drawable/reject" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="48dp"
-        android:clickable="true"
-        app:srcCompat="@drawable/edit"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_date_info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.salestracking.COMPANYUID
 import com.example.salestracking.SalesApiStatus
+import com.example.salestracking.databse.model.Collections
 import com.example.salestracking.databse.model.Employee
 import com.example.salestracking.databse.model.Leave
 import com.example.salestracking.databse.model.Party
@@ -41,17 +42,29 @@ class FireStoreViewModel:ViewModel() {
     val partiesList: LiveData<List<Party>>
         get() = _partiesList
 
+    private val _collectionList = MutableLiveData<List<Collections>>()
+    val collectionList: LiveData<List<Collections>>
+        get() = _collectionList
 
+    private val _selectedParty = MutableLiveData<Party>()
+    val selectedParty :LiveData<Party>
+        get() = _selectedParty
 
-    private val _selectedLeave = MutableLiveData<Party>()
-    val selectedLeave :LiveData<Party>
-        get() = _selectedLeave
+    private val _selectedCollection = MutableLiveData<Collections>()
+    val selectedCollection :LiveData<Collections>
+        get() = _selectedCollection
 
     fun eventNavigateToPartyList(party: Party){
-        _selectedLeave.value=party
+        _selectedParty.value=party
     }
     fun eventNavigateToPartyListCompleted(){
-        _selectedLeave.value = null
+        _selectedParty.value = null
+    }
+    fun eventNavigateToCollectionDetail(collections: Collections){
+        _selectedCollection.value=collections
+    }
+    fun eventNavigateToCollectionDetailCompleted(){
+        _selectedCollection.value = null
     }
     fun registerAdminFirebase(employee: Employee){
             firebaseRepository.registerEmployee(employee)
@@ -88,6 +101,7 @@ class FireStoreViewModel:ViewModel() {
         }
 
     }
+
     fun getAllLeaveList(){
         coroutineScope.launch {
             val leaveList = fstore.collection("Sales")
@@ -135,6 +149,38 @@ class FireStoreViewModel:ViewModel() {
                     _status.value = SalesApiStatus.ERROR
                 }
 
+
+            }
+        }
+    }
+
+    fun addCollectionsFirebase(collections: Collections){
+        coroutineScope.launch {
+            firebaseRepository.addCollection(collections)
+        }
+    }
+    fun getAllCollectionsList(){
+        coroutineScope.launch {
+            val collectionsList = fstore.collection("Sales")
+                    .document(COMPANYUID).collection("Collections").whereEqualTo("userUid", user?.uid.toString())
+                    .orderBy("time",Query.Direction.DESCENDING)
+
+            collectionsList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _status.value = SalesApiStatus.EMPTY
+                        Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                        val innerEvents = querySnapshot?.toObjects(Collections::class.java)
+                        _collectionList.postValue(innerEvents)
+                        _status.value = SalesApiStatus.DONE
+                    }
+
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
 
             }
         }
