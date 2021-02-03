@@ -18,44 +18,63 @@ class FireStoreRepository {
     var fstore = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
 
-    fun registerEmployee(employee: Employee): Task<Void>
-    {
+    fun registerEmployee(employee: Employee): Task<Void> {
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
-            .collection("employee").document("${user?.email}")
+                .collection("employee").document("${user?.email}")
         return df.set(employee).addOnSuccessListener {
-            Log.i(TAG,"Success")
+            Log.i(TAG, "Success")
         }.addOnFailureListener {
-            Log.i(TAG,"Failure")
+            Log.i(TAG, "Failure")
         }
 
     }
+
     fun getUserInfo(): Task<DocumentSnapshot> {
-        val userList=fstore.collection("Sales")
-                    .document(COMPANYUID).collection("employee")
-                    .document(user!!.email.toString())
+        val userList = fstore.collection("Sales")
+                .document(COMPANYUID).collection("employee")
+                .document(user!!.email.toString())
         return userList.get()
     }
-    fun applyLeave(leave: Leave): Task<Void>{
+
+    fun applyLeave(leave: Leave): Task<Void> {
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
                 .collection("Leaves").document(leave.time.toString())
         return df.set(leave).addOnSuccessListener {
-            Log.i(TAG,"Success")
+            Log.i(TAG, "Success")
         }.addOnFailureListener {
-            Log.i(TAG,"Failure")
+            Log.i(TAG, "Failure")
         }
 
     }
+
     fun addCollection(collection: Collections): Task<Void> {
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
                 .collection("Collections").document(collection.time.toString())
         return df.set(collection).addOnSuccessListener {
             //Toast.makeText(c,"",Toast.LENGTH_LONG)
-            Log.i(TAG,"Success")
+            Log.i(TAG, "Success")
         }.addOnFailureListener {
-            Log.i(TAG,"Failure")
+            Log.i(TAG, "Failure")
         }
     }
 
+    fun deleteCollection(date: Long) {
+        val df: Task<Void> = fstore.collection("Sales").document(COMPANYUID)
+                .collection("Collections").document(date.toString()).delete().addOnSuccessListener {
+                    Log.i(TAG, "Success")
+                }.addOnFailureListener {
+                    Log.i(TAG, "Failure")
+                }
+    }
+
+    fun deleteLeave(date: Long) {
+        val df: Task<Void> = fstore.collection("Sales").document(COMPANYUID)
+                .collection("Leaves").document(date.toString()).delete().addOnSuccessListener {
+                    Log.i(TAG, "Success")
+                }.addOnFailureListener {
+                    Log.i(TAG, "Failure")
+                }
 
 
+    }
 }

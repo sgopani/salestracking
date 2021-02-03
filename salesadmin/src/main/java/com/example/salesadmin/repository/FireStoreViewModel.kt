@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.salesadmin.SalesApiStatus
 import com.example.salesadmin.model.*
 import com.google.android.gms.tasks.Task
@@ -24,8 +25,8 @@ class FireStoreViewModel:ViewModel() {
 
     var fstore = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
-    private val _productList = MutableLiveData<List<Products>>()
-    val productList: LiveData<List<Products>>
+    private val _productList = MutableLiveData<MutableList<Products>>()
+    val productList: LiveData<MutableList<Products>>
         get() = _productList
 
     private val _employeeList = MutableLiveData<List<Employee>>()
@@ -36,8 +37,8 @@ class FireStoreViewModel:ViewModel() {
     val status: LiveData<SalesApiStatus>
         get() = _status
 
-    private val _partiesList = MutableLiveData<List<Party>>()
-    val partiesList: LiveData<List<Party>>
+    private val _partiesList = MutableLiveData<MutableList<Party>>()
+    val partiesList: LiveData<MutableList<Party>>
         get() = _partiesList
 
     private val _leaveList = MutableLiveData<List<Leave>>()
@@ -237,6 +238,16 @@ class FireStoreViewModel:ViewModel() {
                 }
 
             }
+        }
+    }
+    fun deleteProducts(name:String) {
+        viewModelScope.launch {
+            firebaseRepository.deleteProducts(name)
+        }
+    }
+    fun deleteParty(name: String) {
+        viewModelScope.launch {
+            firebaseRepository.deleteParty(name)
         }
     }
 

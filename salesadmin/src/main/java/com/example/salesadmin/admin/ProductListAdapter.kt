@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Products
 
-class ProductListAdapter( var productList: List<Products>): RecyclerView.Adapter<ProductListAdapter.ProductItem>() {
+class ProductListAdapter( var productList: MutableList<Products>): RecyclerView.Adapter<ProductListAdapter.ProductItem>() {
 //    private var productList= mutableListOf<Products>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItem {
         return ProductItem.createViewHolder(parent)
@@ -31,6 +31,13 @@ class ProductListAdapter( var productList: List<Products>): RecyclerView.Adapter
         Log.d("getItemCount","${productList.size}")
         return productList.size
 
+    }
+    fun getProductPosition(Position:Int):String{
+        return productList[Position].productName
+    }
+    fun remove(position: Int){
+        productList.removeAt(position)
+        notifyItemRemoved(position)
     }
     class ProductItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvProductName=itemView.findViewById<TextView>(R.id.text_view_title)

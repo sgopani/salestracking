@@ -10,7 +10,7 @@ import com.example.salestracking.CollectionItemClickListener
 import com.example.salestracking.R
 import com.example.salestracking.databse.model.Collections
 
-class CollectionListAdapter(var collectionList: List<Collections>,
+class CollectionListAdapter(var collectionList: MutableList<Collections>,
                             var collectionItemClickListeners: CollectionItemClickListener): RecyclerView.Adapter<CollectionListAdapter.CollectionItem>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionItem {
         return CollectionItem.createViewHolder(parent)
@@ -31,6 +31,13 @@ class CollectionListAdapter(var collectionList: List<Collections>,
         Log.d("getItemCount","${collectionList.size}")
         return collectionList.size
 
+    }
+    fun getCollectionPosition(Position:Int):Long{
+        return collectionList[Position].time
+    }
+    fun remove(position: Int){
+        collectionList.removeAt(position)
+        notifyItemRemoved(position)
     }
     class CollectionItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvDate=itemView.findViewById<TextView>(R.id.tv_date_collection)

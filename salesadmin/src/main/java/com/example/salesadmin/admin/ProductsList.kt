@@ -1,5 +1,9 @@
 package com.example.salesadmin.admin
 
+import android.app.AlertDialog
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.R
@@ -28,7 +33,7 @@ class ProductsList : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var noProduct:TextView
-    private var productList: List<Products> = ArrayList()
+    private var productList: MutableList<Products> = ArrayList()
 
     // TODO: Rename and change types of parameters
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,11 +54,9 @@ class ProductsList : Fragment() {
 
         rootView = inflater.inflate(R.layout.products_list, container, false)
         init()
-        adapter = ProductListAdapter(productList)
+        configureProductList()
         progressBar.visibility = View.VISIBLE
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        recyclerView.setHasFixedSize(true)
+
         viewModel = FireStoreViewModel()
         viewModel.getAllProducts()
         viewModel.productList.observe(this.requireActivity(), Observer { products ->
@@ -65,7 +68,7 @@ class ProductsList : Fragment() {
             adapter.notifyDataSetChanged()
         })
         viewModel.status.observe(this.requireActivity(), Observer { status ->
-            checkInternet(status)
+            checkStatus(status)
         })
         addProductBtn.setOnClickListener {
             val action = ProductsListDirections.actionProductsListToAddProduct()
@@ -74,8 +77,15 @@ class ProductsList : Fragment() {
         //loadData()
         return rootView
     }
+    private fun configureProductList(){
+        adapter = ProductListAdapter(productList)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        recyclerView.setHasFixedSize(true)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
 
-    private fun checkInternet(status: SalesApiStatus) {
+    private fun checkStatus(status: SalesApiStatus) {
         when (status) {
             SalesApiStatus.LOADING -> {
                 progressBar.visibility=View.VISIBLE
@@ -101,4 +111,69 @@ class ProductsList : Fragment() {
             }
         }
     }
+    private var itemTouchHelper: ItemTouchHelper = ItemTouchHelper(object :
+            ItemTouchHelper.SimpleCallback(
+                    0,
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+        private val background = ColorDrawable(Color.RED)
+        override fun onMove(
+                recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+            val position = viewHolder.layoutPosition
+            AlertDialog.Builder(context).apply {
+                setTitle("Are you sure you want to delete?")
+                setMessage("You cannot undo this operation")
+                setPositiveButton("Yes") { _, _ ->
+
+                    val collectionName=adapter.getProductPosition(position)
+                    viewModel.deleteProducts(collectionName)
+                    adapter.remove(position)
+                }
+                setNegativeButton("No") { _, _ ->
+                    adapter.notifyItemChanged(position)
+                }
+            }.create().show()
+
+
+        }
+
+        override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+        ) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            val itemView: View = viewHolder.itemView
+            val backgroundCornerOffset = -20
+            when {
+                dX > 0 -> { // Swiping to the right
+                    background.setBounds(
+                            itemView.left, itemView.top,
+                            itemView.left + dX.toInt() + backgroundCornerOffset,
+                            itemView.bottom
+                    )
+                }
+                dX < 0 -> { // Swiping to the left
+                    background.setBounds(
+                            itemView.right + dX.toInt() - backgroundCornerOffset,
+                            itemView.top, itemView.right, itemView.bottom
+                    )
+                }
+                else -> { // view is unSwiped
+                    background.setBounds(0, 0, 0, 0)
+                }
+            }
+            background.draw(c)
+        }
+    })
 }

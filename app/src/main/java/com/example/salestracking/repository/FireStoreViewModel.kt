@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.salestracking.COMPANYUID
 import com.example.salestracking.SalesApiStatus
 import com.example.salestracking.databse.model.Collections
@@ -34,16 +35,16 @@ class FireStoreViewModel:ViewModel() {
     val notificationList: LiveData<List<Notification>>
         get() = _notificationList
 
-    private val _leaveList = MutableLiveData<List<Leave>>()
-    val leaveList: LiveData<List<Leave>>
+    private val _leaveList = MutableLiveData<MutableList<Leave>>()
+    val leaveList: LiveData<MutableList<Leave>>
         get() = _leaveList
 
     private val _partiesList = MutableLiveData<List<Party>>()
     val partiesList: LiveData<List<Party>>
         get() = _partiesList
 
-    private val _collectionList = MutableLiveData<List<Collections>>()
-    val collectionList: LiveData<List<Collections>>
+    private val _collectionList = MutableLiveData<MutableList<Collections>>()
+    val collectionList: LiveData<MutableList<Collections>>
         get() = _collectionList
 
     private val _selectedParty = MutableLiveData<Party>()
@@ -185,5 +186,18 @@ class FireStoreViewModel:ViewModel() {
             }
         }
     }
+    fun deleteCollection(date: Long) {
+        viewModelScope.launch {
+            firebaseRepository.deleteCollection(date)
+        }
+    }
+    fun deleteLeaves(date: Long) {
+        viewModelScope.launch {
+            firebaseRepository.deleteLeave(date)
+        }
+    }
+
+
+
 
 }

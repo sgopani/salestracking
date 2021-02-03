@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Party
 
-class PartiesListAdapter( var partyList: List<Party>): RecyclerView.Adapter<PartiesListAdapter.PartyItem>() {
+class PartiesListAdapter( var partyList: MutableList<Party>): RecyclerView.Adapter<PartiesListAdapter.PartyItem>() {
     //    private var productList= mutableListOf<Products>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartyItem {
         return PartyItem.createViewHolder(parent)
@@ -28,9 +28,17 @@ class PartiesListAdapter( var partyList: List<Party>): RecyclerView.Adapter<Part
         return partyList.size
 
     }
+    fun getPartyPosition(Position:Int):String{
+        return partyList[Position].name
+    }
+    fun remove(position: Int){
+        partyList.removeAt(position)
+        notifyItemRemoved(position)
+    }
     class PartyItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvName=itemView.findViewById<TextView>(R.id.tv_party_name)
         val tvPhoneNo=itemView.findViewById<TextView>(R.id.tv_party_phoneno)
+        val tvAddress=itemView.findViewById<TextView>(R.id.tv_part_address)
         companion object{
             fun createViewHolder(parent: ViewGroup): PartyItem {
                 val view = LayoutInflater.from(parent.context)
@@ -41,8 +49,10 @@ class PartiesListAdapter( var partyList: List<Party>): RecyclerView.Adapter<Part
         fun bind(party: Party) {
             val partyName=party.name
             val phone_no=party.phoneNo
+            val address=party.address
             tvName.text=partyName
             tvPhoneNo.text=phone_no
+            tvAddress.text=address
 
         }
     }

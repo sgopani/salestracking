@@ -42,6 +42,25 @@ class FireStoreRepository {
             .collection("Notification").document(notification.time.toString())
         return df.set(notification)
     }
+    fun deleteParty(name:String) {
+        val df: Task<Void> = fstore.collection("Sales").document(user?.uid!!)
+                .collection("Party").document(name).delete().addOnSuccessListener {
+                    Log.i(TAG, "Success")
+                }.addOnFailureListener {
+                    Log.i(TAG, "Failure")
+                }
+    }
+
+    fun deleteProducts(name:String) {
+        val df: Task<Void> = fstore.collection("Sales").document(user?.uid!!)
+                .collection("Products").document(name).delete().addOnSuccessListener {
+                    Log.i(TAG, "Success")
+                }.addOnFailureListener {
+                    Log.i(TAG, "Failure")
+                }
+
+
+    }
 
 
 

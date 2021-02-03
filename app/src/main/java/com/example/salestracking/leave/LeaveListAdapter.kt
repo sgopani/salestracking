@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salestracking.R
 import com.example.salestracking.databse.model.Leave
 
-class LeaveListAdapter(var LeaveList: List<Leave>): RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
+class LeaveListAdapter(var LeaveList: MutableList<Leave>): RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
     //    private var productList= mutableListOf<Products>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeaveItem {
@@ -29,6 +29,13 @@ class LeaveListAdapter(var LeaveList: List<Leave>): RecyclerView.Adapter<LeaveLi
         Log.d("getItemCount","${LeaveList.size}")
         return LeaveList.size
 
+    }
+    fun getCollectionPosition(Position:Int):Long{
+        return LeaveList[Position].time
+    }
+    fun remove(position: Int){
+        LeaveList.removeAt(position)
+        notifyItemRemoved(position)
     }
     class LeaveItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvDate=itemView.findViewById<TextView>(R.id.tv_date)

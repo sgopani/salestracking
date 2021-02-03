@@ -71,5 +71,6 @@
     <string name="party_name_collection">Party name :</string>
     <string name="date">Date :</string>
     <string name="note">Note :</string>
+    <string name="party_address">Address :</string>
 
 </resources>

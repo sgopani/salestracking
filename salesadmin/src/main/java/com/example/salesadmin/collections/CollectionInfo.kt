@@ -20,6 +20,7 @@ class CollectionInfo : Fragment() {
     private lateinit var collectionType:TextView
     private lateinit var note:TextView
     private lateinit var viewModel: FireStoreViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

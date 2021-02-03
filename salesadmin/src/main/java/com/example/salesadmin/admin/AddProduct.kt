@@ -59,6 +59,7 @@ class AddProduct : Fragment() {
             if (CheckNetClass.checknetwork(this.requireContext())) {
 
             if (valid) {
+                addProduct.isClickable=false
                 progressBar.visibility = View.VISIBLE
                 checkIfProductExist()
             } else {
@@ -77,6 +78,7 @@ class AddProduct : Fragment() {
             .collection("Products").document(productName.text.toString())
         documentReference.get().addOnSuccessListener {document->
             if(document.exists()){
+                addProduct.isClickable=true
                 progressBar.visibility=View.GONE
                 Toast.makeText(this.requireContext(),"Product With this name already exist",Toast.LENGTH_SHORT).show()
             }
@@ -89,9 +91,15 @@ class AddProduct : Fragment() {
 
     private fun addProduct() {
         viewModel= FireStoreViewModel()
-        val products=Products(productName.text.toString(),productPrice.text.toString(),productQuantity.text.toString(),productName.text.toString())
+        val time=System.currentTimeMillis()
+        val products=Products(productName.text.toString(),productPrice.text.toString()
+                ,productQuantity.text.toString(),productName.text.toString(),time)
         viewModel.addProductFirebase(products)
+//        productName.text=null
+//        productQuantity.text=null
+//        productPrice.text=null
         progressBar.visibility=View.GONE
+        addProduct.isClickable=true
 //        df.set(productInfo).addOnSuccessListener {
             Toast.makeText(this.requireContext()," Product added Successfully",Toast.LENGTH_SHORT).show()
             val action=AddProductDirections.actionAddProductToProductsList()

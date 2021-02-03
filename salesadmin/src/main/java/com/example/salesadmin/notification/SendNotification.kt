@@ -59,6 +59,7 @@ class SendNotification : Fragment() {
             checkField(message)
             if (CheckNetClass.checknetwork(this.requireContext())) {
                 if (valid) {
+                    submit.isClickable=false
                     val time = System.currentTimeMillis()
                     progressBar.visibility=View.VISIBLE
                     viewModel= FireStoreViewModel()
@@ -73,6 +74,7 @@ class SendNotification : Fragment() {
                         notification.put("data", notifcationBody)
                         Log.e("TAG", "try")
                     } catch (e: JSONException) {
+                        submit.isClickable=true
                         Log.e("TAG", "onCreate: " + e.message)
                     }
 
@@ -116,12 +118,14 @@ class SendNotification : Fragment() {
                 Toast.makeText(this.context,"Notification sent Successfully",Toast.LENGTH_LONG).show()
                 viewModel.addNotification(notificationFireStore)
                 progressBar.visibility=View.GONE
+                submit.isClickable=true
             },
             Response.ErrorListener {
                 Toast.makeText(this.context, "Request error", Toast.LENGTH_LONG).show()
                 Log.i("TAG", "onErrorResponse: Didn't work")
                 Toast.makeText(this.context,"Something went Wrong",Toast.LENGTH_LONG).show()
                 progressBar.visibility=View.GONE
+                submit.isClickable=true
             }) {
 
             override fun getHeaders(): Map<String, String> {

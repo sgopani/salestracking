@@ -64,9 +64,6 @@ class PartyList : Fragment() {
             if (partyList != null) {
                 val action= PartyListDirections.actionPartyListToAddCollection(partyList)
                 findNavController().navigate(action)
-                //val navController=this.findNavController()
-                //navController.navigate(NewsListDirections.actionNewsList2ToNewsInfoFragment2(article))
-                //NewsListDirections.actionNewsList2ToNewsInfoFragment2(article)
                 viewModel.eventNavigateToPartyListCompleted()
             }
         })

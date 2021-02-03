@@ -8,14 +8,14 @@
     <fragment
         android:id="@+id/adminDashboard"
         android:name="com.example.salesadmin.admin.AdminDashboard"
-        android:label="AdminDashboard" >
+        android:label="Admin Dashboard">
         <action
             android:id="@+id/action_adminDashboard_to_productsList"
             app:destination="@id/productsList"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_adminDashboard_to_employeeList"
             app:destination="@id/employeeList"
@@ -29,21 +29,21 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_adminDashboard_to_sendNotification"
             app:destination="@id/sendNotification"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_adminDashboard_to_leavesList"
             app:destination="@id/leavesList"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_adminDashboard_to_collectionList"
             app:destination="@id/collectionList" />
@@ -66,7 +66,7 @@
     <fragment
         android:id="@+id/productsList"
         android:name="com.example.salesadmin.admin.ProductsList"
-        android:label="Products List"
+        android:label="List of products"
         tools:layout="@layout/products_list">
         <action
             android:id="@+id/action_productsList_to_adminDashboard"
@@ -86,7 +86,7 @@
     <fragment
         android:id="@+id/employeeList"
         android:name="com.example.salesadmin.admin.EmployeeList"
-        android:label="Employee List"
+        android:label="List of employee"
         tools:layout="@layout/employee_list">
         <action
             android:id="@+id/action_employeeList_to_adminDashboard"
@@ -99,8 +99,8 @@
     <fragment
         android:id="@+id/addParties"
         android:name="com.example.salesadmin.admin.AddParties"
-        android:label="add_parties"
-        tools:layout="@layout/add_parties" >
+        android:label="Add party"
+        tools:layout="@layout/add_parties">
         <action
             android:id="@+id/action_addParties_to_partiesList"
             app:destination="@id/partiesList"
@@ -110,34 +110,34 @@
     <fragment
         android:id="@+id/partiesList"
         android:name="com.example.salesadmin.admin.PartiesList"
-        android:label="parties_list"
-        tools:layout="@layout/parties_list" >
+        android:label="List of party"
+        tools:layout="@layout/parties_list">
         <action
             android:id="@+id/action_partiesList_to_addParties"
             app:destination="@id/addParties"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_partiesList_to_adminDashboard"
             app:destination="@id/adminDashboard"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/sendNotification"
         android:name="com.example.salesadmin.notification.SendNotification"
-        android:label="SendNotification" >
+        android:label="Send Notification">
         <action
             android:id="@+id/action_sendNotification_to_adminDashboard"
             app:destination="@id/adminDashboard"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/leavesList"
@@ -164,7 +164,7 @@
     <fragment
         android:id="@+id/collectionList"
         android:name="com.example.salesadmin.collections.CollectionList"
-        android:label="CollectionList" >
+        android:label="List of collections taken">
         <action
             android:id="@+id/action_collectionList_to_adminDashboard"
             app:destination="@id/adminDashboard" />
@@ -175,7 +175,7 @@
     <fragment
         android:id="@+id/collectionInfo"
         android:name="com.example.salesadmin.collections.CollectionInfo"
-        android:label="CollectionInfo" >
+        android:label="Collection Information">
         <action
             android:id="@+id/action_collectionInfo_to_collectionList"
             app:destination="@id/collectionList" />
