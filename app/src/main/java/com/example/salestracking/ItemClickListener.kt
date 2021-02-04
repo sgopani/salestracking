@@ -5,7 +5,9 @@ import com.example.salestracking.databse.model.Party
 
 
 interface ItemClickListener {
-    fun onLeaveItemClick(party:Party)
+    fun onPartyItemClick(party:Party)
+    fun onOrderPartyClick(party:Party)
+
 }
 interface CollectionItemClickListener{
     fun onCollectionItemClick(collection: Collections)

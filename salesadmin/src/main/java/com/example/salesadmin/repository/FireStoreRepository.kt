@@ -17,6 +17,7 @@ class FireStoreRepository {
     val TAG = "FIREBASE_REPOSITORY"
     var fstore = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
+
     private  val _productList = MutableLiveData<List<Products>>()
     val productList : LiveData<List<Products>>
         get() = _productList

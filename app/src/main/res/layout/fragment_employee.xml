@@ -72,6 +72,7 @@
                 app:rowCount="3">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_take_orders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
@@ -100,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            android:text="TextView"
+                            android:text="@string/orders"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>

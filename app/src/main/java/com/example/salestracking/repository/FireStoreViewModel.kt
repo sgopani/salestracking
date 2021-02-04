@@ -51,6 +51,11 @@ class FireStoreViewModel:ViewModel() {
     val selectedParty :LiveData<Party>
         get() = _selectedParty
 
+    private val _selectedOrderParty = MutableLiveData<Party>()
+    val selectedOrderParty :LiveData<Party>
+        get() = _selectedOrderParty
+
+
     private val _selectedCollection = MutableLiveData<Collections>()
     val selectedCollection :LiveData<Collections>
         get() = _selectedCollection
@@ -60,6 +65,12 @@ class FireStoreViewModel:ViewModel() {
     }
     fun eventNavigateToPartyListCompleted(){
         _selectedParty.value = null
+    }
+    fun eventNavigateToOderPartyList(party: Party){
+        _selectedOrderParty.value=party
+    }
+    fun eventNavigateToOderPartyListCompleted(){
+        _selectedOrderParty.value = null
     }
     fun eventNavigateToCollectionDetail(collections: Collections){
         _selectedCollection.value=collections

@@ -20,20 +20,26 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
     private lateinit var notes: CardView
     private lateinit var applyLeave:CardView
     private lateinit var collections:CardView
+    private lateinit var orders:CardView
     private lateinit var rootView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+     private fun init(){
+         notes=rootView.findViewById(R.id.notes)
+         applyLeave=rootView.findViewById(R.id.cv_apply_leave)
+         collections=rootView.findViewById(R.id.cv_collections)
+         orders=rootView.findViewById(R.id.cv_take_orders)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         //val user = FirebaseAuth.getInstance().currentUser
         rootView= inflater.inflate(R.layout.fragment_employee, container, false)
-        notes=rootView.findViewById(R.id.notes)
-        applyLeave=rootView.findViewById(R.id.cv_apply_leave)
-        collections=rootView.findViewById(R.id.cv_collections)
+        init()
         collections.setOnClickListener(this)
         applyLeave.setOnClickListener(this)
         notes.setOnClickListener(this)
+        orders.setOnClickListener(this)
         return rootView
     }
 
@@ -49,6 +55,10 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
             }
             R.id.cv_collections->{
                 val action= EmployeeDashboardDirections.actionEmployeeDashboardToCollectionList()
+                findNavController().navigate(action)
+            }
+            R.id.cv_take_orders->{
+                val action= EmployeeDashboardDirections.actionEmployeeDashboardToAddOrders()
                 findNavController().navigate(action)
             }
         }

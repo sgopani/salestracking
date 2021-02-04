@@ -67,6 +67,14 @@ class PartyList : Fragment() {
                 viewModel.eventNavigateToPartyListCompleted()
             }
         })
+
+        viewModel.selectedOrderParty.observe(this.viewLifecycleOwner, Observer { partyList->
+            if (partyList != null) {
+                val action= PartyListDirections.actionPartyListToAddOrders(partyList)
+                findNavController().navigate(action)
+                viewModel.eventNavigateToPartyListCompleted()
+            }
+        })
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkInternet(status)
         })
@@ -103,8 +111,13 @@ class PartyList : Fragment() {
     private fun getNewsItemClickListener(): ItemClickListener {
         return object : ItemClickListener {
 
-            override fun onLeaveItemClick(party: Party) {
+            override fun onPartyItemClick(party: Party) {
                 viewModel.eventNavigateToPartyList(party)
+
+            }
+
+            override fun onOrderPartyClick(party: Party) {
+                viewModel.eventNavigateToOderPartyList(party)
             }
         }
     }

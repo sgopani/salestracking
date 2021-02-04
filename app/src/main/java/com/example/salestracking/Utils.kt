@@ -10,6 +10,7 @@ import java.util.*
 
 
 var COMPANYUID:String = ""
+var requestCode=1
 var USER=FirebaseAuth.getInstance().currentUser
 
 enum class SalesApiStatus { LOADING, ERROR, DONE,EMPTY}

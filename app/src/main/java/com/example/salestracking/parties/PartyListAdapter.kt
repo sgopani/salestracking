@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salestracking.ItemClickListener
 import com.example.salestracking.R
 import com.example.salestracking.databse.model.Party
+import com.example.salestracking.requestCode
 
 class PartyListAdapter ( var partyList: List<Party>,var PartyItemClickListeners: ItemClickListener)
     : RecyclerView.Adapter<PartyListAdapter.PartyItem>() {
@@ -25,7 +26,13 @@ class PartyListAdapter ( var partyList: List<Party>,var PartyItemClickListeners:
         val parties=getItem(position)
         holder.bind(parties)
         holder.itemView.setOnClickListener{
-            PartyItemClickListeners.onLeaveItemClick(parties)
+            if(requestCode==1){
+                PartyItemClickListeners.onPartyItemClick(parties)
+            }
+            else{
+                PartyItemClickListeners.onOrderPartyClick(parties)
+            }
+
         }
     }
 

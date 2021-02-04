@@ -8,15 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.fragment.findNavController
-import com.example.salestracking.PrefManager
-import com.example.salestracking.R
-import com.example.salestracking.USER
+import com.example.salestracking.*
 import com.example.salestracking.databse.model.Collections
 import com.example.salestracking.databse.model.Leave
 import com.example.salestracking.databse.model.Party
 import com.example.salestracking.leave.ApplyLeaveDirections
 import com.example.salestracking.repository.FireStoreViewModel
-import com.example.salestracking.toSimpleDateFormat
 import com.google.firebase.auth.FirebaseAuth
 import java.time.temporal.TemporalAmount
 
@@ -102,6 +99,7 @@ class AddCollection : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.add_party ->{
+                requestCode=1
                 val action= AddCollectionDirections.actionAddCollectionToPartyList()
                 findNavController().navigate(action)
             }
