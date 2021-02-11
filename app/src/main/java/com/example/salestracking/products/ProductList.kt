@@ -1,4 +1,4 @@
-package com.example.salesadmin.admin
+package com.example.salestracking.products
 
 import android.app.AlertDialog
 import android.graphics.Canvas
@@ -18,21 +18,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salesadmin.R
-import com.example.salesadmin.SalesApiStatus
-import com.example.salesadmin.isInternetOn
-import com.example.salesadmin.model.Products
-import com.example.salesadmin.repository.FireStoreViewModel
+import com.example.salestracking.*
+import com.example.salestracking.databse.model.Party
+import com.example.salestracking.databse.model.Products
+import com.example.salestracking.parties.PartyListDirections
+import com.example.salestracking.repository.FireStoreViewModel
 import java.util.ArrayList
 
 class ProductsList : Fragment() {
     private lateinit var rootView: View
-    private lateinit var addProductBtn: Button
+    //private lateinit var addProductBtn: Button
     private lateinit var adapter: ProductListAdapter
     private lateinit var viewModel: FireStoreViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
-    private lateinit var noProduct:TextView
+    private lateinit var noProduct: TextView
     private var productList: MutableList<Products> = ArrayList()
 
     // TODO: Rename and change types of parameters
@@ -41,15 +41,15 @@ class ProductsList : Fragment() {
     }
 
     fun init() {
-        addProductBtn = rootView.findViewById(R.id.add_product_btn)
+        //addProductBtn = rootView.findViewById(R.id.add_product_btn)
         recyclerView = rootView.findViewById(R.id.rv_productList)
         noProduct=rootView.findViewById(R.id.no_product)
         progressBar = rootView.findViewById(R.id.progress_bar)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         rootView = inflater.inflate(R.layout.products_list, container, false)
@@ -67,25 +67,37 @@ class ProductsList : Fragment() {
             adapter.productList = productList
             adapter.notifyDataSetChanged()
         })
-
-
-
+        viewModel.selectedOrderProduct.observe(this.viewLifecycleOwner, Observer { productList->
+            if (productList != null) {
+                val action= ProductsListDirections.actionProductsListToAddOrders(party = null,productList)
+                findNavController().navigate(action)
+                //viewModel.eventNavigateProductDetailCompleted()
+            }
+        })
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkStatus(status)
         })
-        addProductBtn.setOnClickListener {
-            val action = ProductsListDirections.actionProductsListToAddProduct()
-            findNavController().navigate(action)
-        }
+//        addProductBtn.setOnClickListener {
+//            val action = ProductsListDirections.actionProductsListToAddProduct()
+//            findNavController().navigate(action)
+//        }
         //loadData()
         return rootView
     }
     private fun configureProductList(){
-        adapter = ProductListAdapter(productList)
+        adapter = ProductListAdapter(productList,getNewsItemClickListener())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.setHasFixedSize(true)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        //itemTouchHelper.attachToRecyclerView(recyclerView)
+    }
+    private fun getNewsItemClickListener():ProductItemClickListener {
+        return object : ProductItemClickListener {
+            override fun onProductItemClick(products: Products) {
+                //viewModel.eventNavigateToProductDetail(products)
+                viewModel.eventNavigateToOderProductList(products)
+            }
+        }
     }
 
     private fun checkStatus(status: SalesApiStatus) {
@@ -135,15 +147,13 @@ class ProductsList : Fragment() {
                 setPositiveButton("Yes") { _, _ ->
 
                     val collectionName=adapter.getProductPosition(position)
-                    viewModel.deleteProducts(collectionName)
+                    //viewModel.deleteProducts(collectionName)
                     adapter.remove(position)
                 }
                 setNegativeButton("No") { _, _ ->
                     adapter.notifyItemChanged(position)
                 }
             }.create().show()
-
-
         }
 
         override fun onChildDraw(

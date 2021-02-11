@@ -30,6 +30,42 @@
                 android:layout_marginRight="20dp">
 
 
+                <Button
+                    android:id="@+id/btn_check_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView4"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toStartOf="@+id/imageView"
+                    android:layout_toLeftOf="@+id/imageView"
+                    android:layout_toEndOf="@+id/textView4"
+                    android:layout_toRightOf="@+id/textView4"
+                    android:background="@color/colorRed"
+                    android:text="@string/check_out"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btn_check_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView4"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toStartOf="@+id/imageView"
+                    android:layout_toLeftOf="@+id/imageView"
+                    android:layout_toEndOf="@+id/textView4"
+                    android:layout_toRightOf="@+id/textView4"
+                    android:background="@drawable/btn_custom"
+                    android:text="@string/check_in"
+                    android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
@@ -150,6 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
+                    app:cardBackgroundColor="@color/background"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="6dp"
                     app:layout_columnWeight="1"
@@ -167,7 +204,7 @@
                             android:id="@+id/imageView4"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/calendar" />
+                            app:srcCompat="@drawable/calendar_dashboard" />
 
                         <TextView
                             android:id="@+id/textView6"
@@ -176,7 +213,7 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/leave"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -187,6 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
+                    app:cardBackgroundColor="@color/background"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="6dp"
                     app:layout_columnWeight="1"
@@ -204,8 +242,8 @@
                             android:id="@+id/iv_Notes"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/notes_icon"
-                            tools:srcCompat="@drawable/notes_icon" />
+                            app:srcCompat="@drawable/notes_daashboard"
+                            tools:srcCompat="@drawable/notes_daashboard" />
 
                         <TextView
                             android:id="@+id/tv_note"
@@ -215,16 +253,18 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/take_note"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
                             android:textSize="18sp" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_attendence"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
+                    app:cardBackgroundColor="@color/background"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="6dp"
                     app:layout_columnWeight="1"
@@ -242,7 +282,8 @@
                             android:id="@+id/imageView6"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/attendence"
+                            tools:srcCompat="@drawable/attendence" />
 
                         <TextView
                             android:id="@+id/textView8"
@@ -250,8 +291,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            android:text="TextView"
-                            android:textColor="@color/black"
+                            android:text="@string/mark_attendence"
+                            android:textColor="@color/white"
                             android:textSize="18sp" />
                     </LinearLayout>
 

@@ -72,7 +72,7 @@ class PartyList : Fragment() {
             if (partyList != null) {
                 val action= PartyListDirections.actionPartyListToAddOrders(partyList)
                 findNavController().navigate(action)
-                viewModel.eventNavigateToPartyListCompleted()
+                //viewModel.eventNavigateToOderPartyListCompleted()
             }
         })
         viewModel.status.observe(this.requireActivity(), Observer { status ->

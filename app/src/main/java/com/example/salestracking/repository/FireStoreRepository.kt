@@ -3,6 +3,7 @@ package com.example.salestracking.repository
 import android.util.Log
 import android.widget.Toast
 import com.example.salestracking.COMPANYUID
+import com.example.salestracking.databse.model.Attendance
 import com.example.salestracking.databse.model.Collections
 import com.example.salestracking.databse.model.Employee
 import com.example.salestracking.databse.model.Leave
@@ -76,5 +77,18 @@ class FireStoreRepository {
                 }
 
 
+    }
+
+    fun markAttendance(attendance: Attendance): Task<Void>{
+        val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
+                .collection("employee")
+                .document("${user?.email}").collection("Attendance")
+                .document(attendance.date)
+        return df.set(attendance).addOnSuccessListener {
+            //Toast.makeText(c,"",Toast.LENGTH_LONG)
+            Log.i(TAG, "Success")
+        }.addOnFailureListener {
+            Log.i(TAG, "Failure")
+        }
     }
 }

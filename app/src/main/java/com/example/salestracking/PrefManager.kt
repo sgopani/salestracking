@@ -20,6 +20,7 @@ class PrefManager(var context: Context) {
         private const val PHONENO="PHONENO"
         private const val COMPANYID="COMPANYID"
         private const val DOJ="DOJ"
+        private const val ISCHECKEDIN="ISCHECKEDIN"
     }
     fun setFullName(fullName: String) {
         val editor : SharedPreferences.Editor = mPreference.edit();
@@ -47,6 +48,7 @@ class PrefManager(var context: Context) {
     fun getAddress() : String? {
         return mPreference.getString(ADDRESS, "")
     }
+
     fun setPhone(phoneNo: String) {
         val editor : SharedPreferences.Editor = mPreference.edit();
         editor.putString(PHONENO, phoneNo);
@@ -74,6 +76,14 @@ class PrefManager(var context: Context) {
 
     fun getDOJ() : Long? {
         return mPreference.getLong(DOJ, 0L)
+    }
+    fun setIsCheckedIn(ischeckIn:Boolean){
+        val editor : SharedPreferences.Editor = mPreference.edit();
+        editor.putBoolean(ISCHECKEDIN, ischeckIn);
+        editor.apply()
+    }
+    fun getIsCheckedIn(): Boolean {
+        return mPreference.getBoolean(ISCHECKEDIN,false)
     }
 
 

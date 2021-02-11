@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.salestracking.COMPANYUID
 import com.example.salestracking.SalesApiStatus
-import com.example.salestracking.databse.model.Collections
-import com.example.salestracking.databse.model.Employee
-import com.example.salestracking.databse.model.Leave
-import com.example.salestracking.databse.model.Party
+import com.example.salestracking.databse.model.*
 import com.example.salestracking.models.Notification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,6 +24,7 @@ class FireStoreViewModel:ViewModel() {
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
     var fstore = FirebaseFirestore.getInstance()
     var user=FirebaseAuth.getInstance().currentUser
+
     private val _status = MutableLiveData<SalesApiStatus>()
     val status: LiveData<SalesApiStatus>
         get() = _status
@@ -55,10 +53,21 @@ class FireStoreViewModel:ViewModel() {
     val selectedOrderParty :LiveData<Party>
         get() = _selectedOrderParty
 
+    private val _productList = MutableLiveData<MutableList<Products>>()
+    val productList: LiveData<MutableList<Products>>
+        get() = _productList
 
     private val _selectedCollection = MutableLiveData<Collections>()
     val selectedCollection :LiveData<Collections>
         get() = _selectedCollection
+
+    private val _selectedProduct = MutableLiveData<Products>()
+    val selectedProduct :LiveData<Products>
+        get() = _selectedProduct
+
+    private val _selectedOrderProduct = MutableLiveData<Products>()
+    val selectedOrderProduct :LiveData<Products>
+        get() = _selectedOrderProduct
 
     fun eventNavigateToPartyList(party: Party){
         _selectedParty.value=party
@@ -78,6 +87,19 @@ class FireStoreViewModel:ViewModel() {
     fun eventNavigateToCollectionDetailCompleted(){
         _selectedCollection.value = null
     }
+    fun eventNavigateToProductDetail(products:Products){
+        _selectedProduct.value=products
+    }
+    fun eventNavigateProductDetailCompleted(){
+        _selectedProduct.value=null
+    }
+    fun eventNavigateToOderProductList(products: Products){
+        _selectedOrderProduct.value=products
+    }
+    fun eventNavigateToOderProductListCompleted(){
+        _selectedOrderProduct.value = null
+    }
+
     fun registerAdminFirebase(employee: Employee){
             firebaseRepository.registerEmployee(employee)
      }
@@ -207,7 +229,36 @@ class FireStoreViewModel:ViewModel() {
             firebaseRepository.deleteLeave(date)
         }
     }
+    fun getAllProducts() {
+        coroutineScope.launch {
+            val productList = fstore.collection("Sales")
+                    .document(COMPANYUID).collection("Products")
+            productList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _status.value = SalesApiStatus.EMPTY
+                        Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                        val innerEvents = querySnapshot?.toObjects(Products::class.java)
+                        _productList.postValue(innerEvents)
+                        _status.value = SalesApiStatus.DONE
+                    }
 
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
+
+
+            }
+        }
+    }
+    fun addAttendanceFirebase(attendance: Attendance){
+        coroutineScope.launch {
+            firebaseRepository.markAttendance(attendance)
+        }
+    }
 
 
 
