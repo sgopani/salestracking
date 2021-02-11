@@ -20,7 +20,7 @@ class PrefManager(var context: Context) {
         private const val PHONENO="PHONENO"
         private const val COMPANYID="COMPANYID"
         private const val DOJ="DOJ"
-        private const val ISCHECKEDIN="ISCHECKEDIN"
+        private const val ISCHECKEDIN="ISCHECKEDiN"
     }
     fun setFullName(fullName: String) {
         val editor : SharedPreferences.Editor = mPreference.edit();
