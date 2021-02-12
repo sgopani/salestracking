@@ -2,13 +2,12 @@ package com.example.salestracking.employee.dashboard
 
 import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.salestracking.COMPANYUID
 import com.example.salestracking.PrefManager
@@ -20,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
+
 
 class EmployeeDashboard : Fragment(), View.OnClickListener {
     private lateinit var notes: CardView
@@ -49,8 +49,10 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
          prefManager=PrefManager(this.requireContext())
          viewModel= FireStoreViewModel()
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         //val user = FirebaseAuth.getInstance().currentUser
         rootView= inflater.inflate(R.layout.fragment_employee, container, false)
         init()
@@ -70,45 +72,43 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
             //checkInBtn.visibility=View.VISIBLE
             //checkOutBtn.visibility=View.GONE
         }
-
-
         return rootView
     }
 
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.notes -> {
-            val action= EmployeeDashboardDirections.actionEmployeeDashboardToNotes2()
-            findNavController().navigate(action)
-        }
-            R.id.cv_apply_leave->{
-                val action= EmployeeDashboardDirections.actionEmployeeDashboardToLeaveList()
+                val action = EmployeeDashboardDirections.actionEmployeeDashboardToNotes2()
                 findNavController().navigate(action)
             }
-            R.id.cv_collections->{
-                val action= EmployeeDashboardDirections.actionEmployeeDashboardToCollectionList()
+            R.id.cv_apply_leave -> {
+                val action = EmployeeDashboardDirections.actionEmployeeDashboardToLeaveList()
                 findNavController().navigate(action)
             }
-            R.id.cv_take_orders->{
-                val action= EmployeeDashboardDirections.actionEmployeeDashboardToAddOrders()
+            R.id.cv_collections -> {
+                val action = EmployeeDashboardDirections.actionEmployeeDashboardToCollectionList()
                 findNavController().navigate(action)
             }
-            R.id.btn_check_in->{
+            R.id.cv_take_orders -> {
+                val action = EmployeeDashboardDirections.actionEmployeeDashboardToAddOrders()
+                findNavController().navigate(action)
+            }
+            R.id.btn_check_in -> {
                 //markAttendance()
             }
-            R.id.btn_check_out->{
+            R.id.btn_check_out -> {
                 //prefManager.setIsCheckedIn(false)
                 //checkInBtn.visibility=View.VISIBLE
                 //checkOutBtn.visibility=View.GONE
             }
-            R.id.cv_attendence->{
+            R.id.cv_attendence -> {
                 markAttendance()
             }
 
         }
     }
     private fun markAttendance() {
-        var valid=prefManager.getIsCheckedIn()
+        val valid=prefManager.getIsCheckedIn()
         val fstore = FirebaseFirestore.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
@@ -133,7 +133,12 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
                         setPositiveButton("Yes") { _, _ ->
                             val date = toSimpleDateFormat(System.currentTimeMillis())
                             val checkIn = Calendar.getInstance().time.toString()
-                            val attendance = Attendance(user!!.uid, System.currentTimeMillis(), date, checkIn)
+                            val attendance = Attendance(
+                                user!!.uid,
+                                System.currentTimeMillis(),
+                                date,
+                                checkIn
+                            )
                             viewModel.addAttendanceFirebase(attendance)
                             checkInDate = date
                             //prefManager.setIsCheckedIn(true)
