@@ -124,28 +124,32 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
                     setPositiveButton("OK") { _, _ ->
                     }
                 }.create().show()
+            }else{
+                prefManager.setIsCheckedIn(true)
+                if (valid) {
+                    AlertDialog.Builder(context).apply {
+                        setTitle("Are you sure you want to mark your attendance?")
+                        setMessage("You can mark only once in a day")
+                        setPositiveButton("Yes") { _, _ ->
+                            val date = toSimpleDateFormat(System.currentTimeMillis())
+                            val checkIn = Calendar.getInstance().time.toString()
+                            val attendance = Attendance(user!!.uid, System.currentTimeMillis(), date, checkIn)
+                            viewModel.addAttendanceFirebase(attendance)
+                            checkInDate = date
+                            //prefManager.setIsCheckedIn(true)
+                            //checkOutBtn.visibility = View.VISIBLE
+                            //checkInBtn.visibility = View.INVISIBLE
+                        }
+                        setNegativeButton("No") { _, _ ->
+
+                        }
+                    }.create().show()
+                }
+
             }
 
         }
-        if (valid) {
-            AlertDialog.Builder(context).apply {
-                setTitle("Are you sure you want to mark your attendance?")
-                setMessage("You can mark only once in a day")
-                setPositiveButton("Yes") { _, _ ->
-                    val date = toSimpleDateFormat(System.currentTimeMillis())
-                    val checkIn = Calendar.getInstance().time.toString()
-                    val attendance = Attendance(user!!.uid, System.currentTimeMillis(), date, checkIn)
-                    viewModel.addAttendanceFirebase(attendance)
-                    checkInDate = date
-                    //prefManager.setIsCheckedIn(true)
-                    //checkOutBtn.visibility = View.VISIBLE
-                    //checkInBtn.visibility = View.INVISIBLE
-                }
-                setNegativeButton("No") { _, _ ->
 
-                }
-            }.create().show()
-        }
     }
 }
 
