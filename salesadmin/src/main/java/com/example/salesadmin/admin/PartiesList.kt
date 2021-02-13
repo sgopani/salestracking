@@ -5,14 +5,14 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -23,7 +23,7 @@ import com.example.salesadmin.SalesApiStatus
 import com.example.salesadmin.isInternetOn
 import com.example.salesadmin.model.Party
 import com.example.salesadmin.repository.FireStoreViewModel
-import java.util.ArrayList
+import java.util.*
 
 class PartiesList : Fragment() {
     private lateinit var rootView: View
@@ -34,15 +34,17 @@ class PartiesList : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var noProduct: TextView
     private var partyList: MutableList<Party> = ArrayList()
-
+    private var searchList: MutableList<Party> = ArrayList()
+    private lateinit var searchEditText:EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
     private fun init() {
         addPartyBtn = rootView.findViewById(R.id.add_parties_btn)
         recyclerView = rootView.findViewById(R.id.rv_partiesList)
-        noProduct=rootView.findViewById(R.id.no_product)
+        noProduct=rootView.findViewById(R.id.no_party)
         progressBar = rootView.findViewById(R.id.progress_bar)
+        searchEditText=rootView.findViewById(R.id.searchEditext)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -69,10 +71,63 @@ class PartiesList : Fragment() {
             val action = PartiesListDirections.actionPartiesListToAddParties()
             findNavController().navigate(action)
         }
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                    //adapter.partyList=partyList
+                    //adapter.notifyDataSetChanged()
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filterList(p0.toString())
+
+            }
+
+
+
+        })
+
+
         //loadData()
         return rootView
 
     }
+
+     private fun filterList(filterItem:String){
+            searchList.clear()
+             for (item in partyList) {
+                 if (item.name.toLowerCase(Locale.ROOT).contains(filterItem.toLowerCase(Locale.ROOT))
+                     &&
+                     item.name.toLowerCase(Locale.ROOT).startsWith(filterItem.toLowerCase(Locale.ROOT)))
+                 {
+                     searchList.add(item)
+                     Log.d("searchList","$searchList")
+                     adapter.updateList(searchList)
+                     noProduct.visibility=View.INVISIBLE
+                     //adapter.partyList=item
+                     //Toast.makeText(context,"$searchList",Toast.LENGTH_LONG).show()
+                 }
+                 else {
+                     //noProduct.visibility=View.VISIBLE
+                     if(searchEditText.text.isEmpty()){
+                         if(searchList.isEmpty()){
+                             noProduct.visibility=View.GONE
+                             adapter.updateList(partyList)
+                             //loadData()
+                         }
+                     }
+
+                    // searchList.clear()
+//                     adapter.partyList=partyList
+                 }
+             }
+
+
+         adapter.notifyDataSetChanged()
+         }
+
     private fun configurePartyList(){
         adapter = PartiesListAdapter(partyList)
         recyclerView.adapter = adapter

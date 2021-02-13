@@ -67,4 +67,8 @@ class PartiesListAdapter( var partyList: MutableList<Party>): RecyclerView.Adapt
 
         }
     }
+    fun updateList(list: MutableList<Party>){
+        partyList=list
+        notifyDataSetChanged()
+    }
 }

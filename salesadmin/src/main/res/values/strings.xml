@@ -18,11 +18,13 @@
     <string name="Signup_header">SignUp</string>
     <string name="add_employee">Employee</string>
     <string name="no_collection">No collections taken</string>
+    <string name="no_party">No party available </string>
     <string name="send_email">Send reset password link</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="enter_employee_name">Enter employee name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="cancel">Cancel</string>
+    <string name="search_view">Search Here</string>
     <string name="Product_name">Product Name</string>
     <string name="Product_price">Rs: </string>
     <string name="Product_quantity">Quantity</string>
