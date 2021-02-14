@@ -29,8 +29,8 @@ class FireStoreViewModel:ViewModel() {
     val productList: LiveData<MutableList<Products>>
         get() = _productList
 
-    private val _employeeList = MutableLiveData<List<Employee>>()
-    val employeeList: LiveData<List<Employee>>
+    private val _employeeList = MutableLiveData<MutableList<Employee>>()
+    val employeeList: LiveData<MutableList<Employee>>
         get() = _employeeList
 
     private val _status = MutableLiveData<SalesApiStatus>()

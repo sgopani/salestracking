@@ -1,10 +1,13 @@
 package com.example.salesadmin.leave
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -17,13 +20,16 @@ import com.example.salesadmin.R
 import com.example.salesadmin.SalesApiStatus
 import com.example.salesadmin.isInternetOn
 import com.example.salesadmin.model.Leave
+import com.example.salesadmin.model.Products
 import com.example.salesadmin.repository.FireStoreViewModel
-import java.util.ArrayList
+import java.util.*
 
 
 class LeavesList : Fragment() {
     private lateinit var rootView: View
     private var leaveList: List<Leave> = ArrayList()
+    private var searchList: MutableList<Leave> = ArrayList()
+    private lateinit var searchEditText: EditText
     private lateinit var adapter: LeaveListAdapter
     private lateinit var viewModel: FireStoreViewModel
     private lateinit var recyclerView: RecyclerView
@@ -36,6 +42,7 @@ class LeavesList : Fragment() {
         recyclerView = rootView.findViewById(R.id.rv_leaves)
         progressBar = rootView.findViewById(R.id.progress_bar)
         noLeaves=rootView.findViewById(R.id.no_leaves)
+        searchEditText=rootView.findViewById(R.id.searchEditText)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +77,43 @@ class LeavesList : Fragment() {
                 viewModel.eventNavigateToLeaveDetailCompleted()
             }
         })
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filterList(p0.toString())
+
+            }
+        })
         return rootView
+    }
+
+    private fun filterList(filterItem:String){
+        searchList.clear()
+        for (item in leaveList) {
+            if (item.name.toLowerCase(Locale.ROOT).contains(filterItem.toLowerCase(Locale.ROOT)))
+            {
+                searchList.add(item)
+                adapter.updateList(searchList)
+                //noProduct.visibility=View.INVISIBLE
+            }
+            else {
+                if(searchEditText.text.isEmpty()){
+                    if(searchList.isEmpty()){
+                        //noProduct.visibility=View.GONE
+                        adapter.updateList(leaveList)
+                        //loadData()
+                    }
+                }
+            }
+        }
+
+
+        adapter.notifyDataSetChanged()
     }
     private fun checkInternet(status: SalesApiStatus) {
         when (status) {

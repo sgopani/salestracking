@@ -74,6 +74,7 @@
     <string name="check_in">Check In</string>
     <string name="check_out">Check Out</string>
     <string name="mark_attendence">Mark Attendence</string>
+    <string name="search_view">Search Here</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>

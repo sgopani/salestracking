@@ -6,10 +6,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -33,6 +36,8 @@ class LeaveList : Fragment() {
     private lateinit var adapter: LeaveListAdapter
     private lateinit var viewModel: FireStoreViewModel
     private lateinit var recyclerView: RecyclerView
+    private var searchList: MutableList<Leave> = ArrayList()
+    private lateinit var searchEditText: EditText
     //private lateinit var progressBar: ProgressBar
     private lateinit var noLeaves:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +48,7 @@ class LeaveList : Fragment() {
         recyclerView = rootView.findViewById(R.id.rv_leave_list)
         //progressBar = rootView.findViewById(R.id.progress_bar)
         noLeaves=rootView.findViewById(R.id.no_leaves)
+        searchEditText=rootView.findViewById(R.id.searchEditText)
     }
 
     override fun onCreateView(
@@ -68,7 +74,43 @@ class LeaveList : Fragment() {
             val action=LeaveListDirections.actionLeaveListToApplyLeave()
             findNavController().navigate(action)
         }
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filterList(p0.toString())
+
+            }
+        })
         return rootView
+    }
+    private fun filterList(filterItem:String){
+        searchList.clear()
+        for (item in leaveList) {
+            if (item.reason.toLowerCase(Locale.ROOT).contains(filterItem.toLowerCase(Locale.ROOT)))
+            {
+                searchList.add(item)
+                //Log.d("searchList","$searchList")
+                adapter.updateList(searchList)
+                //noProduct.visibility=View.INVISIBLE
+            }
+            else {
+                if(searchEditText.text.isEmpty()){
+                    if(searchList.isEmpty()){
+                        //noProduct.visibility=View.GONE
+                        adapter.updateList(leaveList)
+                        //loadData()
+                    }
+                }
+            }
+        }
+
+
+        adapter.notifyDataSetChanged()
     }
     private fun configureLeaveList(){
         adapter= LeaveListAdapter(leaveList)

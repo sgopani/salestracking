@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.LeaveItemClickListener
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Leave
+import com.example.salesadmin.model.Products
 
 class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:LeaveItemClickListener):
     RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
@@ -60,5 +61,9 @@ class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:Le
                 tvStatus.setTextColor(ContextCompat.getColor(this.itemView.context,R.color.colorRed))
             }
         }
+    }
+    fun updateList(list: List<Leave>){
+        LeaveList=list
+        notifyDataSetChanged()
     }
 }

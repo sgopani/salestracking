@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.R
+import com.example.salesadmin.model.Employee
 import com.example.salesadmin.model.Products
 
 class ProductListAdapter( var productList: MutableList<Products>): RecyclerView.Adapter<ProductListAdapter.ProductItem>() {
@@ -58,5 +59,9 @@ class ProductListAdapter( var productList: MutableList<Products>): RecyclerView.
             tvQuantity.text=quantity
             tvPrice.text=price
         }
+    }
+    fun updateList(list: MutableList<Products>){
+        productList=list
+        notifyDataSetChanged()
     }
 }

@@ -12,10 +12,11 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Employee
+import com.example.salesadmin.model.Party
 import java.util.*
 
 
-class EmployeeListAdapter(var employeeList: List<Employee>): RecyclerView.Adapter<EmployeeListAdapter.EmployeeItem>() {
+class EmployeeListAdapter(var employeeList: MutableList<Employee>): RecyclerView.Adapter<EmployeeListAdapter.EmployeeItem>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -61,6 +62,10 @@ class EmployeeListAdapter(var employeeList: List<Employee>): RecyclerView.Adapte
             Linkify.addLinks(tvPhoneNumber, Linkify.ALL)
             tvEmail.text=email
         }
+    }
+    fun updateList(list: MutableList<Employee>){
+        employeeList=list
+        notifyDataSetChanged()
     }
 
 }

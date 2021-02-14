@@ -35,7 +35,7 @@ class PartiesList : Fragment() {
     private lateinit var noProduct: TextView
     private var partyList: MutableList<Party> = ArrayList()
     private var searchList: MutableList<Party> = ArrayList()
-    private lateinit var searchEditText:EditText
+    private lateinit var searchEditText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,7 +44,7 @@ class PartiesList : Fragment() {
         recyclerView = rootView.findViewById(R.id.rv_partiesList)
         noProduct=rootView.findViewById(R.id.no_party)
         progressBar = rootView.findViewById(R.id.progress_bar)
-        searchEditText=rootView.findViewById(R.id.searchEditext)
+        searchEditText=rootView.findViewById(R.id.searchEditText)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -60,7 +60,7 @@ class PartiesList : Fragment() {
             //Log.d("loadData1","${viewModel.productList.value}")
             noProduct.visibility=View.GONE
             partyList = parties
-            //progressBar.visibility=View.GONE
+            progressBar.visibility=View.GONE
             adapter.partyList = partyList
             adapter.notifyDataSetChanged()
         })
@@ -73,8 +73,6 @@ class PartiesList : Fragment() {
         }
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                    //adapter.partyList=partyList
-                    //adapter.notifyDataSetChanged()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -84,8 +82,6 @@ class PartiesList : Fragment() {
                 filterList(p0.toString())
 
             }
-
-
 
         })
 
@@ -98,19 +94,14 @@ class PartiesList : Fragment() {
      private fun filterList(filterItem:String){
             searchList.clear()
              for (item in partyList) {
-                 if (item.name.toLowerCase(Locale.ROOT).contains(filterItem.toLowerCase(Locale.ROOT))
-                     &&
-                     item.name.toLowerCase(Locale.ROOT).startsWith(filterItem.toLowerCase(Locale.ROOT)))
+                 if (item.name.toLowerCase(Locale.ROOT).contains(filterItem.toLowerCase(Locale.ROOT)))
                  {
                      searchList.add(item)
-                     Log.d("searchList","$searchList")
+                     //Log.d("searchList","$searchList")
                      adapter.updateList(searchList)
                      noProduct.visibility=View.INVISIBLE
-                     //adapter.partyList=item
-                     //Toast.makeText(context,"$searchList",Toast.LENGTH_LONG).show()
                  }
                  else {
-                     //noProduct.visibility=View.VISIBLE
                      if(searchEditText.text.isEmpty()){
                          if(searchList.isEmpty()){
                              noProduct.visibility=View.GONE
@@ -118,9 +109,6 @@ class PartiesList : Fragment() {
                              //loadData()
                          }
                      }
-
-                    // searchList.clear()
-//                     adapter.partyList=partyList
                  }
              }
 

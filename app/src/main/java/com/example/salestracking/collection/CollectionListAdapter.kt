@@ -63,4 +63,8 @@ class CollectionListAdapter(var collectionList: MutableList<Collections>,
             tvamont.text=amount.toString()
         }
     }
+    fun updateList(list: MutableList<Collections>){
+        collectionList=list
+        notifyDataSetChanged()
+    }
 }

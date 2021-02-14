@@ -67,4 +67,8 @@ class LeaveListAdapter(var LeaveList: MutableList<Leave>): RecyclerView.Adapter<
 
         }
     }
+    fun updateList(list: MutableList<Leave>){
+        LeaveList=list
+        notifyDataSetChanged()
+    }
 }

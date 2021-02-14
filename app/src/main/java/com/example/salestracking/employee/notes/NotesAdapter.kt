@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.salestracking.databse.model.Leave
 
-class NotesAdapter(private val notes: List<Notes>) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>(){
+class NotesAdapter( var notes: List<Notes>) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
@@ -38,5 +39,9 @@ class NotesAdapter(private val notes: List<Notes>) : RecyclerView.Adapter<NotesA
         var title =view.findViewById<TextView>(R.id.text_view_title)
         var Note=view.findViewById<TextView>(R.id.text_view_note)
 
+    }
+    fun updateList(list: List<Notes>){
+        notes=list
+        notifyDataSetChanged()
     }
 }
