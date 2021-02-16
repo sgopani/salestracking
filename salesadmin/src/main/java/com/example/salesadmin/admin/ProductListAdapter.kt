@@ -42,7 +42,7 @@ class ProductListAdapter( var productList: MutableList<Products>): RecyclerView.
     }
     class ProductItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvProductName=itemView.findViewById<TextView>(R.id.text_view_title)
-        val tvQuantity=itemView.findViewById<TextView>(R.id.text_view_quantity)
+        val tvDescription=itemView.findViewById<TextView>(R.id.text_view_quantity)
         val tvPrice=itemView.findViewById<TextView>(R.id.text_view_price)
         companion object{
             fun createViewHolder(parent: ViewGroup): ProductItem {
@@ -53,10 +53,10 @@ class ProductListAdapter( var productList: MutableList<Products>): RecyclerView.
         }
         fun bind(products: Products) {
             val productName=products.productName
-            val quantity=products.productQuantity
+            val description=products.productDescription
             val price=products.productPrice
             tvProductName.text=productName
-            tvQuantity.text=quantity
+            tvDescription.text=description
             tvPrice.text=price
         }
     }

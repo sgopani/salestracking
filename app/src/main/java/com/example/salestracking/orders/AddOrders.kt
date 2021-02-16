@@ -19,7 +19,9 @@ import com.example.salestracking.collection.AddCollectionArgs
 import com.example.salestracking.collection.AddCollectionDirections
 import com.example.salestracking.databse.model.Party
 import com.example.salestracking.databse.model.Products
+import com.example.salestracking.parties.PartyList
 import com.example.salestracking.parties.PartyListDirections
+import com.example.salestracking.products.ProductsList
 import com.example.salestracking.products.ProductsListDirections
 import com.example.salestracking.repository.FireStoreViewModel
 import com.example.salestracking.requestCode
@@ -36,6 +38,7 @@ class AddOrders : Fragment(), View.OnClickListener {
     private lateinit var viewModel: FireStoreViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
     private fun init(){
         addParty=rootView.findViewById(R.id.add_order_party)
@@ -45,29 +48,38 @@ class AddOrders : Fragment(), View.OnClickListener {
         viewModel= FireStoreViewModel()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Toast.makeText(context,"onDestroy()",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Toast.makeText(context,"onPause()",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(context,"onResume()",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Toast.makeText(context,"onDestroyView()",Toast.LENGTH_SHORT).show()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
         rootView=inflater.inflate(R.layout.add_orders, container, false)
         init()
-
-        partyDetails = AddOrdersArgs.fromBundle(requireArguments()).party
-        //Toast.makeText(context,"${partyDetails.name}",Toast.LENGTH_LONG).show()
-        if(partyDetails!=null){
-            Toast.makeText(context, partyDetails?.address,Toast.LENGTH_LONG).show()
-            addParty.setText(partyDetails?.name)
-
-        }
-
-
-
+        Toast.makeText(context,"onCreateView",Toast.LENGTH_SHORT).show()
         viewModel.selectedOrderParty.observe(this.viewLifecycleOwner, Observer { partyList->
             //partyDetails=partyList
 
             addParty.setText(partyList.name)
-                //viewModel.selectedOrderParty.value=partyList
-                //partyDetails=partyList
+            //viewModel.selectedOrderParty.value=partyList
+            //partyDetails=partyList
 
         })
         productDetails=AddOrdersArgs.fromBundle(requireArguments()).products
@@ -83,11 +95,18 @@ class AddOrders : Fragment(), View.OnClickListener {
             //partyDetails=partyList
 
         })
+        partyDetails = AddOrdersArgs.fromBundle(requireArguments()).party
+        //Toast.makeText(context,"${partyDetails.name}",Toast.LENGTH_LONG).show()
+        if(partyDetails!=null){
+            Toast.makeText(context, partyDetails?.address,Toast.LENGTH_LONG).show()
+            addParty.setText(partyDetails?.name)
 
+        }
         addParty.setOnClickListener(this)
         addProducts.setOnClickListener(this)
 
         return rootView
+
     }
 
 
@@ -95,10 +114,19 @@ class AddOrders : Fragment(), View.OnClickListener {
         when(view?.id){
             R.id.add_order_party->{
                 requestCode =0
+//                val fragment=PartyList()
+//                activity?.fragmentManager?.beginTransaction()?.add(fragment,"String")
+
                 val action=AddOrdersDirections.actionAddOrdersToPartyList()
                 findNavController().navigate(action)
             }
             R.id.btn_add_product_orders->{
+//                val fragment=ProductsList()
+//                val fragmentTransaction= activity?.supportFragmentManager?.beginTransaction()
+//                fragmentTransaction?.add(R.id.nav_host_fragment_container,fragment)
+//                fragmentTransaction?.addToBackStack(null);
+//                fragmentTransaction?.commit()
+                //childFragmentManager.beginTransaction()?.add(R.id.container, fragment)?.commit()
                 val action=AddOrdersDirections.actionAddOrdersToProductsList()
                 findNavController().navigate(action)
             }

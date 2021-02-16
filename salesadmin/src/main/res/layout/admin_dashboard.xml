@@ -91,7 +91,8 @@
                             android:id="@+id/imageView2"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/tracking"
+                            tools:srcCompat="@drawable/tracking" />
 
                         <TextView
                             android:id="@+id/textView5"
@@ -99,8 +100,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            android:text="TextView"
-                            android:textColor="#6f6f6f"
+                            android:text="@string/tracking"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -128,7 +129,7 @@
                             android:id="@+id/imageView3"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/parties_icon" />
+                            app:srcCompat="@drawable/party_icon" />
 
                         <TextView
                             android:id="@+id/textView11"
@@ -137,7 +138,7 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/parties"
-                            android:textColor="#6f6f6f"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -165,7 +166,7 @@
                             android:id="@+id/imageView4"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/products_icon" />
+                            app:srcCompat="@drawable/product" />
 
                         <TextView
                             android:id="@+id/textView6"
@@ -174,7 +175,7 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/products"
-                            android:textColor="#6f6f6f"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -202,7 +203,7 @@
                             android:id="@+id/iv_add_employee"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/profile_image" />
+                            app:srcCompat="@drawable/employee" />
 
                         <TextView
                             android:id="@+id/tv_add_employee"
@@ -212,7 +213,7 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/add_employee"
-                            android:textColor="#6f6f6f"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -240,7 +241,7 @@
                             android:id="@+id/imageView6"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/notification_icon" />
+                            app:srcCompat="@drawable/notification" />
 
                         <TextView
                             android:id="@+id/textView8"
@@ -249,7 +250,7 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/send_notificatio"
-                            android:textColor="#6f6f6f"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -277,8 +278,8 @@
                             android:id="@+id/imageView7"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/calendar"
-                            tools:srcCompat="@drawable/calendar" />
+                            app:srcCompat="@drawable/leaves_icon"
+                            tools:srcCompat="@drawable/leaves_icon" />
 
                         <TextView
                             android:id="@+id/textView9"
@@ -287,7 +288,7 @@
                             android:layout_marginTop="12dp"
                             android:gravity="center"
                             android:text="@string/emp_leaves"
-                            android:textColor="#6f6f6f"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -315,7 +316,8 @@
                             android:id="@+id/imageView8"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/collection_icon"
+                            tools:srcCompat="@drawable/collection_icon" />
 
                         <TextView
                             android:id="@+id/textView10"
