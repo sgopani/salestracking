@@ -61,13 +61,15 @@ class FireStoreViewModel:ViewModel() {
     val selectedCollection :LiveData<Collections>
         get() = _selectedCollection
 
-    private val _selectedProduct = MutableLiveData<Products>()
+    private var _selectedProduct = MutableLiveData<Products>()
     val selectedProduct :LiveData<Products>
         get() = _selectedProduct
 
     private val _selectedOrderProduct = MutableLiveData<Products>()
     val selectedOrderProduct :LiveData<Products>
         get() = _selectedOrderProduct
+
+
 
     fun eventNavigateToPartyList(party: Party){
         _selectedParty.value=party
@@ -87,18 +89,18 @@ class FireStoreViewModel:ViewModel() {
     fun eventNavigateToCollectionDetailCompleted(){
         _selectedCollection.value = null
     }
-    fun eventNavigateToProductDetail(products:Products){
-        _selectedProduct.value=products
-    }
-    fun eventNavigateProductDetailCompleted(){
-        _selectedProduct.value=null
-    }
+
     fun eventNavigateToOderProductList(products: Products){
         _selectedOrderProduct.value=products
     }
     fun eventNavigateToOderProductListCompleted(){
         _selectedOrderProduct.value = null
     }
+
+    fun getCart(): LiveData<MutableList<CartItem>> {
+        return firebaseRepository.getCart()
+    }
+
 
     fun registerAdminFirebase(employee: Employee){
             firebaseRepository.registerEmployee(employee)
@@ -258,6 +260,10 @@ class FireStoreViewModel:ViewModel() {
         coroutineScope.launch {
             firebaseRepository.markAttendance(attendance)
         }
+    }
+
+    fun addProductToCart(products: Products): Boolean {
+        return firebaseRepository.addProductToCart(products)
     }
 
 

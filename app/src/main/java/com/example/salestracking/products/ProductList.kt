@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -19,9 +18,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salestracking.*
-import com.example.salestracking.databse.model.Party
 import com.example.salestracking.databse.model.Products
-import com.example.salestracking.parties.PartyListDirections
 import com.example.salestracking.repository.FireStoreViewModel
 import java.util.ArrayList
 
@@ -91,8 +88,8 @@ class ProductsList : Fragment() {
         recyclerView.setHasFixedSize(true)
         //itemTouchHelper.attachToRecyclerView(recyclerView)
     }
-    private fun getNewsItemClickListener():ProductItemClickListener {
-        return object : ProductItemClickListener {
+    private fun getNewsItemClickListener():AddToCartItemClickListener {
+        return object : AddToCartItemClickListener {
             override fun onProductItemClick(products: Products) {
                 //viewModel.eventNavigateToProductDetail(products)
                 viewModel.eventNavigateToOderProductList(products)

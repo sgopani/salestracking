@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_employeeDashboard_to_addOrders"
             app:destination="@id/addOrders" />
+        <action
+            android:id="@+id/action_employeeDashboard_to_partyList"
+            app:destination="@id/partyList" />
     </fragment>
     <fragment
         android:id="@+id/Notes"
@@ -154,6 +157,9 @@
             app:destination="@id/addOrders"
             app:popUpTo="@id/addOrders"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_partyList_to_employeeDashboard"
+            app:destination="@id/employeeDashboard" />
     </fragment>
     <fragment
         android:id="@+id/collectionList"

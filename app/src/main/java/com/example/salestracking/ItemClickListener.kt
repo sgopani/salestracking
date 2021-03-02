@@ -8,11 +8,12 @@ import com.example.salestracking.databse.model.Products
 interface ItemClickListener {
     fun onPartyItemClick(party:Party)
     fun onOrderPartyClick(party:Party)
+    //
 
 }
 interface CollectionItemClickListener{
     fun onCollectionItemClick(collection: Collections)
 }
-interface ProductItemClickListener{
+interface AddToCartItemClickListener{
     fun onProductItemClick(products: Products)
 }

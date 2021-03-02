@@ -9,12 +9,9 @@ import android.widget.Button
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.salestracking.COMPANYUID
-import com.example.salestracking.PrefManager
-import com.example.salestracking.R
+import com.example.salestracking.*
 import com.example.salestracking.databse.model.Attendance
 import com.example.salestracking.repository.FireStoreViewModel
-import com.example.salestracking.toSimpleDateFormat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -90,7 +87,11 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
                 findNavController().navigate(action)
             }
             R.id.cv_take_orders -> {
-                val action = EmployeeDashboardDirections.actionEmployeeDashboardToAddOrders()
+//                val action = EmployeeDashboardDirections.actionEmployeeDashboardToAddOrders()
+//                findNavController().navigate(action)
+                requestCode =0
+                val tag="String"
+                val action=EmployeeDashboardDirections.actionEmployeeDashboardToPartyList()
                 findNavController().navigate(action)
             }
             R.id.btn_check_in -> {
@@ -104,7 +105,6 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
             R.id.cv_attendence -> {
                 markAttendance()
             }
-
         }
     }
     private fun markAttendance() {

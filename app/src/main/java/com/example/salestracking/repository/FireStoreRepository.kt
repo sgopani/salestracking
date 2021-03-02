@@ -2,11 +2,10 @@ package com.example.salestracking.repository
 
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.salestracking.COMPANYUID
-import com.example.salestracking.databse.model.Attendance
-import com.example.salestracking.databse.model.Collections
-import com.example.salestracking.databse.model.Employee
-import com.example.salestracking.databse.model.Leave
+import com.example.salestracking.databse.model.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -18,6 +17,10 @@ class FireStoreRepository {
     val TAG = "FIREBASE_REPOSITORY"
     var fstore = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
+
+    private val _mutableCart = MutableLiveData<MutableList<CartItem>>()
+    val mutableCart : LiveData<MutableList<CartItem>>
+        get() = _mutableCart
 
     fun registerEmployee(employee: Employee): Task<Void> {
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
@@ -79,6 +82,7 @@ class FireStoreRepository {
 
     }
 
+
     fun markAttendance(attendance: Attendance): Task<Void>{
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
                 .collection("employee")
@@ -91,4 +95,24 @@ class FireStoreRepository {
             Log.i(TAG, "Failure")
         }
     }
+
+    fun getCart(): LiveData<MutableList<CartItem>> {
+        return mutableCart
+    }
+    fun addProductToCart(products: Products):Boolean{
+        if(mutableCart.value==null) {
+            initCart()
+        }
+            val cartItemList: MutableList<CartItem>? = mutableCart.value
+            val cartItem = CartItem(products, 1)
+            cartItemList?.add(cartItem)
+            _mutableCart.value = cartItemList
+            return true
+        }
+
+    private fun initCart() {
+        _mutableCart.value=ArrayList()
+    }
+
+
 }

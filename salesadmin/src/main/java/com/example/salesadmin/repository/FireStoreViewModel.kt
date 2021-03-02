@@ -52,6 +52,7 @@ class FireStoreViewModel:ViewModel() {
     private val _selectedCollection = MutableLiveData<Collections>()
     val selectedCollection :LiveData<Collections>
         get() = _selectedCollection
+
     fun eventNavigateToLeaveDetail(leave: Leave){
         _selectedLeave.value=leave
     }

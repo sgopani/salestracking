@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salestracking.ItemClickListener
 import com.example.salestracking.R
@@ -58,5 +59,9 @@ class PartyListAdapter ( var partyList: List<Party>,var PartyItemClickListeners:
             tvPhoneNo.text=phone_no
 
         }
+    }
+    fun updateList(list: MutableList<Party>){
+        partyList=list
+        notifyDataSetChanged()
     }
 }

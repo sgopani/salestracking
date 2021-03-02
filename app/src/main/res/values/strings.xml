@@ -77,6 +77,9 @@
     <string name="product_add_description">Description :</string>
     <string name="Product__add_price">Price :</string>
     <string name="search_view">Search Here</string>
+    <string name="no_party">No party added</string>
+    <string name="zero">0</string>
+    <string name="add_to_cart">Add to cart</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>

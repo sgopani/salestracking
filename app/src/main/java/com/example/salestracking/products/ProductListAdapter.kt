@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salestracking.ProductItemClickListener
+import com.example.salestracking.AddToCartItemClickListener
 import com.example.salestracking.R
 import com.example.salestracking.databse.model.Products
 
-class ProductListAdapter( var productList: MutableList<Products>,var productItemClickListener: ProductItemClickListener): RecyclerView.Adapter<ProductListAdapter.ProductItem>() {
-//    private var productList= mutableListOf<Products>()
+
+class ProductListAdapter( var productList: MutableList<Products>,var addToCartItemClickListener: AddToCartItemClickListener)
+    : RecyclerView.Adapter<ProductListAdapter.ProductItem>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductItem {
         return ProductItem.createViewHolder(parent)
     }
@@ -22,8 +23,8 @@ class ProductListAdapter( var productList: MutableList<Products>,var productItem
     override fun onBindViewHolder(holder: ProductItem, position: Int) {
         val products=getItem(position)
         holder.bind(products)
-        holder.itemView.setOnClickListener {
-            productItemClickListener.onProductItemClick(products)
+        holder.tvAddToCart.setOnClickListener {
+            addToCartItemClickListener.onProductItemClick(products)
         }
     }
 //    fun submitList(list:MutableList<Products>){
@@ -45,22 +46,23 @@ class ProductListAdapter( var productList: MutableList<Products>,var productItem
     }
     class ProductItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvProductName=itemView.findViewById<TextView>(R.id.text_view_title)
-        val tvDescription=itemView.findViewById<TextView>(R.id.text_view_description)
         val tvPrice=itemView.findViewById<TextView>(R.id.text_view_price)
+        val tvAddToCart=itemView.findViewById<TextView>(R.id.tv_add_to_cart)
         companion object{
             fun createViewHolder(parent: ViewGroup): ProductItem {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.product_list_item, parent, false)
+                    .inflate(R.layout.order_product_list_item, parent, false)
                 return ProductItem(view)
             }
         }
         fun bind(products: Products) {
             val productName=products.productName
-            val description=products.productDescription
+            //val description=products.productDescription
             val price=products.productPrice
             tvProductName.text=productName
-            tvDescription.text=description
+            //tvDescription.text=description
             tvPrice.text=price
+
         }
     }
 }
