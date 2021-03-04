@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+
 class FireStoreViewModel:ViewModel() {
     val TAG = "FIRESTORE_VIEW_MODEL"
     var firebaseRepository = FireStoreRepository()
@@ -69,7 +70,112 @@ class FireStoreViewModel:ViewModel() {
     val selectedOrderProduct :LiveData<Products>
         get() = _selectedOrderProduct
 
+    private val _mutableCart = MutableLiveData<MutableList<CartItem>>()
+    val mutableCart : LiveData<MutableList<CartItem>>
+        get() = _mutableCart
 
+    private val _mutableTotalPrice = MutableLiveData<Double>()
+    val mutableTotalPrice : LiveData<Double>
+        get() = _mutableTotalPrice
+
+//    fun getCart(): LiveData<MutableList<CartItem>> {
+//        if(mutableCart.value==null) {
+//            initCart()
+//            Log.d("addProductToCart", "${mutableCart.value}")
+//            Log.d("addProductToCart", "${_mutableCart.value}")
+//        }
+//        return mutableCart
+//    }
+
+    fun addProductToCart(products: Products):Boolean{
+        if(_mutableCart.value==null) {
+            initCart()
+            //Log.d("addProductToCart", "${mutableCart.value}")
+            //Log.d("addProductToCart", "${_mutableCart.value}")
+        }
+
+        val cartItemList: MutableList<CartItem>? = _mutableCart.value
+        for (cartItem in cartItemList!!) {
+            if (cartItem.products.productId == products.productId) {
+                if (cartItem.quantity == 5) {
+                    return false
+                }
+                val index = cartItemList.indexOf(cartItem)
+                cartItem.quantity = cartItem.quantity + 1
+                cartItemList[index] = cartItem
+                //_mutableCart.postValue(cartItemList)
+                _mutableCart.value = cartItemList
+                Log.d("addProductToCart", "${_mutableCart.value}")
+                Log.d("addProductToCart", "${mutableCart.value}")
+                //_mutableCart.value= mutableCart.value
+                calculateCartTotal()
+                return true
+            }
+        }
+        val cartItem = CartItem(products, 1)
+        cartItemList.add(cartItem)
+
+        _mutableCart.value = cartItemList
+        calculateCartTotal()
+        return true
+    }
+    fun removeItemFromCart(cartItem: CartItem) {
+        if (mutableCart.value == null) {
+            return
+        }
+        val cartItemList: MutableList<CartItem>? =_mutableCart.value
+        cartItemList?.remove(cartItem)
+        _mutableCart.value = cartItemList
+        calculateCartTotal()
+    }
+
+    fun changeQuantity(cartItem: CartItem, quantity: Int) {
+        if (mutableCart.value == null) {
+            return
+        }
+        val cartItemList: MutableList<CartItem>? = _mutableCart.value
+        val index = cartItemList?.indexOf(cartItem)
+        Log.d("changeQuantity", "${_mutableCart.value}")
+        val updatedItem = CartItem(cartItem.products, quantity)
+        Log.d("changeQuantity", "${cartItemList?.indexOf(cartItem)}")
+
+        if (index != null) {
+            cartItemList[index] = updatedItem
+        }
+
+
+        _mutableCart.value = cartItemList
+        calculateCartTotal()
+    }
+    private fun calculateCartTotal() {
+        if (mutableCart.value == null) {
+            return
+        }
+
+        var total = 0.0
+        val cartItemList: List<CartItem>? = mutableCart.value
+        for (cartItem in cartItemList!!) {
+            total += cartItem.products.productPrice.toInt() * cartItem.quantity
+        }
+        _mutableTotalPrice.value = total
+    }
+
+    fun getTotalPrice(): LiveData<Double> {
+        if (mutableTotalPrice.value == null) {
+            _mutableTotalPrice.setValue(0.0)
+        }
+        return mutableTotalPrice
+    }
+
+    private fun initCart() {
+        _mutableCart.value=ArrayList()
+        calculateCartTotal()
+    }
+    fun getEmployeeUid():String{
+        val employeeUid= user?.uid.toString()
+
+            return employeeUid
+    }
 
     fun eventNavigateToPartyList(party: Party){
         _selectedParty.value=party
@@ -97,9 +203,7 @@ class FireStoreViewModel:ViewModel() {
         _selectedOrderProduct.value = null
     }
 
-    fun getCart(): LiveData<MutableList<CartItem>> {
-        return firebaseRepository.getCart()
-    }
+
 
 
     fun registerAdminFirebase(employee: Employee){
@@ -109,7 +213,7 @@ class FireStoreViewModel:ViewModel() {
         coroutineScope.launch {
             val notificationList = fstore.collection("Sales")
                 .document(COMPANYUID).collection("Notification")
-                    .orderBy("time",Query.Direction.DESCENDING)
+                    .orderBy("time", Query.Direction.DESCENDING)
             notificationList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
                     _status.value = SalesApiStatus.LOADING
@@ -141,8 +245,11 @@ class FireStoreViewModel:ViewModel() {
     fun getAllLeaveList(){
         coroutineScope.launch {
             val leaveList = fstore.collection("Sales")
-                .document(COMPANYUID).collection("Leaves").whereEqualTo("userUid", user?.uid.toString())
-                .orderBy("time",Query.Direction.DESCENDING)
+                .document(COMPANYUID).collection("Leaves").whereEqualTo(
+                    "userUid",
+                    user?.uid.toString()
+                )
+                .orderBy("time", Query.Direction.DESCENDING)
 
             leaveList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
@@ -190,16 +297,25 @@ class FireStoreViewModel:ViewModel() {
         }
     }
 
+
     fun addCollectionsFirebase(collections: Collections){
         coroutineScope.launch {
             firebaseRepository.addCollection(collections)
         }
     }
+    fun placeOrder(order: Order){
+        coroutineScope.launch {
+            firebaseRepository.placeOder(order)
+        }
+    }
     fun getAllCollectionsList(){
         coroutineScope.launch {
             val collectionsList = fstore.collection("Sales")
-                    .document(COMPANYUID).collection("Collections").whereEqualTo("userUid", user?.uid.toString())
-                    .orderBy("time",Query.Direction.DESCENDING)
+                    .document(COMPANYUID).collection("Collections").whereEqualTo(
+                    "userUid",
+                    user?.uid.toString()
+                )
+                    .orderBy("time", Query.Direction.DESCENDING)
 
             collectionsList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
@@ -262,9 +378,20 @@ class FireStoreViewModel:ViewModel() {
         }
     }
 
-    fun addProductToCart(products: Products): Boolean {
-        return firebaseRepository.addProductToCart(products)
-    }
+
+//    fun getCart(): LiveData<MutableList<CartItem>> {
+//        return firebaseRepository.getCart()
+//    }
+
+//    fun removeItemFromCart(cartItem: CartItem?) {
+//        return firebaseRepository.removeItemFromCart(cartItem!!)
+//    }
+
+//    fun addProductToCart(products: Products): Boolean {
+//        return firebaseRepository.addProductToCart(products)
+//    }
+
+
 
 
 

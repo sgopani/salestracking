@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salestracking.*
+import com.example.salestracking.databse.model.CartItem
 import com.example.salestracking.databse.model.Products
 import com.example.salestracking.repository.FireStoreViewModel
 import java.util.ArrayList
@@ -93,6 +94,14 @@ class ProductsList : Fragment() {
             override fun onProductItemClick(products: Products) {
                 //viewModel.eventNavigateToProductDetail(products)
                 viewModel.eventNavigateToOderProductList(products)
+            }
+
+            override fun deleteCartItem(cartItem: CartItem) {
+                TODO("Not yet implemented")
+            }
+
+            override fun changeQuantity(cartItem: CartItem, quantity: Int) {
+                TODO("Not yet implemented")
             }
         }
     }

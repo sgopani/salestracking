@@ -33,10 +33,18 @@
             app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_employeeDashboard_to_addOrders"
-            app:destination="@id/addOrders" />
+            app:destination="@id/addOrders"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_employeeDashboard_to_partyList"
-            app:destination="@id/partyList" />
+            app:destination="@id/partyList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/Notes"
@@ -159,7 +167,11 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_partyList_to_employeeDashboard"
-            app:destination="@id/employeeDashboard" />
+            app:destination="@id/employeeDashboard"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/collectionList"
@@ -182,7 +194,11 @@
             app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_collectionList_to_collectionInfo"
-            app:destination="@id/collectionInfo" />
+            app:destination="@id/collectionInfo"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/collectionInfo"
@@ -210,15 +226,30 @@
             android:defaultValue="@null" />
         <action
             android:id="@+id/action_addOrders_to_partyList"
-            app:destination="@id/partyList" />
+            app:destination="@id/partyList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_addOrders_to_productsList"
-            app:destination="@id/productsList" />
+            app:destination="@id/productsList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <argument
             android:name="products"
             app:argType="com.example.salestracking.databse.model.Products"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_addOrders_to_cartItem"
+            app:destination="@id/cartItem"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/productsList"
@@ -228,6 +259,21 @@
             android:id="@+id/action_productsList_to_addOrders"
             app:destination="@id/addOrders"
             app:popUpTo="@id/addOrders"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/cartItem"
+        android:name="com.example.salestracking.orders.CartList"
+        android:label="Cart Item"
+        tools:layout="@layout/cart_item" >
+        <argument
+            android:name="party"
+            app:argType="com.example.salestracking.databse.model.Party"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

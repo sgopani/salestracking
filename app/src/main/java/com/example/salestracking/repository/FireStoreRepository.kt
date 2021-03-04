@@ -1,7 +1,6 @@
 package com.example.salestracking.repository
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.salestracking.COMPANYUID
@@ -11,16 +10,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
+
 
 class FireStoreRepository {
     val TAG = "FIREBASE_REPOSITORY"
     var fstore = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
 
-    private val _mutableCart = MutableLiveData<MutableList<CartItem>>()
-    val mutableCart : LiveData<MutableList<CartItem>>
-        get() = _mutableCart
+//    private val _mutableCart = MutableLiveData<MutableList<CartItem>>()
+//    val mutableCart : LiveData<MutableList<CartItem>>
+//        get() = _mutableCart
 
     fun registerEmployee(employee: Employee): Task<Void> {
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
@@ -61,6 +60,17 @@ class FireStoreRepository {
             Log.i(TAG, "Failure")
         }
     }
+    fun placeOder(order: Order): Task<Void> {
+        val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
+            .collection("Order").document(order.time)
+        return df.set(order).addOnSuccessListener {
+            //Toast.makeText(c,"",Toast.LENGTH_LONG)
+            Log.i(TAG, "Success")
+        }.addOnFailureListener {
+            Log.i(TAG, "Failure")
+        }
+    }
+
 
     fun deleteCollection(date: Long) {
         val df: Task<Void> = fstore.collection("Sales").document(COMPANYUID)
@@ -70,7 +80,6 @@ class FireStoreRepository {
                     Log.i(TAG, "Failure")
                 }
     }
-
     fun deleteLeave(date: Long) {
         val df: Task<Void> = fstore.collection("Sales").document(COMPANYUID)
                 .collection("Leaves").document(date.toString()).delete().addOnSuccessListener {
@@ -94,24 +103,6 @@ class FireStoreRepository {
         }.addOnFailureListener {
             Log.i(TAG, "Failure")
         }
-    }
-
-    fun getCart(): LiveData<MutableList<CartItem>> {
-        return mutableCart
-    }
-    fun addProductToCart(products: Products):Boolean{
-        if(mutableCart.value==null) {
-            initCart()
-        }
-            val cartItemList: MutableList<CartItem>? = mutableCart.value
-            val cartItem = CartItem(products, 1)
-            cartItemList?.add(cartItem)
-            _mutableCart.value = cartItemList
-            return true
-        }
-
-    private fun initCart() {
-        _mutableCart.value=ArrayList()
     }
 
 
