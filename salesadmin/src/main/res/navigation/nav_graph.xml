@@ -51,6 +51,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_adminDashboard_to_orderList"
+            app:destination="@id/orderList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/addProduct"
@@ -171,10 +178,18 @@
         android:label="List of collections taken">
         <action
             android:id="@+id/action_collectionList_to_adminDashboard"
-            app:destination="@id/adminDashboard" />
+            app:destination="@id/adminDashboard"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_collectionList_to_collectionInfo"
-            app:destination="@id/collectionInfo" />
+            app:destination="@id/collectionInfo"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/collectionInfo"
@@ -182,9 +197,31 @@
         android:label="Collection Information">
         <action
             android:id="@+id/action_collectionInfo_to_collectionList"
-            app:destination="@id/collectionList" />
+            app:destination="@id/collectionList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <argument
             android:name="collections"
             app:argType="com.example.salesadmin.model.Collections" />
     </fragment>
+    <fragment
+        android:id="@+id/orderList"
+        android:name="com.example.salesadmin.orders.OrderList"
+        android:label="List of orders"
+        tools:layout="@layout/order_list" >
+        <action
+            android:id="@+id/action_orderList_to_orderDetails2"
+            app:destination="@id/orderDetails2"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetails2"
+        android:name="com.example.salesadmin.orders.OrderDetails"
+        android:label="order_details"
+        tools:layout="@layout/order_details" />
 </navigation>

@@ -78,6 +78,7 @@ class CollectionList : Fragment() {
             adapter.collectionList=collections
             adapter.notifyDataSetChanged()
         })
+
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkStatus(status)
         })

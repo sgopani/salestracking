@@ -84,6 +84,15 @@
     <string name="cart_icon">Cart Icon</string>
     <string name="total">Total:₹ %1$s</string>
     <string name="qty">Qty :</string>
+    <string name="continue_taking_order">Continue taking Order</string>
+    <string name="thanks_for_order">Thanks for your order.</string>
+    <string name="order_amount">Order amount :</string>
+    <string name="take_order">Take Order</string>
+    <string name="address">Address :</string>
+    <string name="phone_no">Phone No :</string>
+    <string name="order_product_details">Ordered product details</string>
+    <string name="no_orders_taken">No orders taken</string>
+    <string name="order_date">Order date :</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>

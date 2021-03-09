@@ -62,7 +62,7 @@ class RegisterEmployee : AppCompatActivity() {
             addEmployee()
         }
         loginLink.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(  this, LoginActivity::class.java)
             startActivity(intent)
         }
         prefManager = PrefManager(this)

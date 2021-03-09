@@ -52,8 +52,10 @@ class AddOrders : Fragment() {
 
 
         viewModel.mutableCart.observe(viewLifecycleOwner, Observer {
-            Log.d("Cart()", "${it.size}")
-            cartList = it
+            if(it!=null){
+                Log.d("Cart()", "${it.size}")
+                cartList = it
+            }
         })
 
     }
@@ -164,7 +166,8 @@ class AddOrders : Fragment() {
                         Snackbar.LENGTH_LONG
                     )
                         .setAction("Checkout") {
-                            //navController.navigate(R.id.action_shopFragment_to_cartFragment)
+                            val action = AddOrdersDirections.actionAddOrdersToCartItem(partyDetails)
+                            findNavController().navigate(action)
                         }
                         .show()
                 } else {

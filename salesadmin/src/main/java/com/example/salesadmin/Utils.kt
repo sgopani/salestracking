@@ -3,6 +3,8 @@ package com.example.salesadmin
 import android.content.Context
 import android.net.ConnectivityManager
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 enum class SalesApiStatus { LOADING, ERROR, DONE,EMPTY}
@@ -28,4 +30,11 @@ object CheckNetClass {
             true
         } else true
     }
+}
+
+const val SIMPLE_DATE_FORMAT = "dd MMM yyyy"
+fun toSimpleDateFormat(timeInMillis: Long): String {
+    val df = SimpleDateFormat(SIMPLE_DATE_FORMAT)
+    val date = Date(timeInMillis)
+    return df.format(date)
 }

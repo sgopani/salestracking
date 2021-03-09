@@ -28,9 +28,10 @@ class AdminDashboard : Fragment(), View.OnClickListener {
     private lateinit var leaveList:CardView
     private lateinit var collectionList:CardView
     private lateinit var adminImage:ImageView
+    private lateinit var order:CardView
+    private lateinit var drawable: TextDrawable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
      private fun init(){
         addEmployee=rootView.findViewById(R.id.cv_add_employee)
@@ -39,11 +40,11 @@ class AdminDashboard : Fragment(), View.OnClickListener {
         notification=rootView.findViewById(R.id.cv_send_notification)
         leaveList=rootView.findViewById(R.id.cv_leaves)
          adminImage=rootView.findViewById(R.id.admin_dashboard_iv)
+         order=rootView.findViewById(R.id.cv_order)
          val generator: ColorGenerator = ColorGenerator.MATERIAL
          val color: Int = generator.randomColor
-         val drawable =
-             TextDrawable.builder().beginConfig().withBorder(4).endConfig()
-                 .buildRound(user.email!![0].toString().toUpperCase(Locale.ROOT), color)
+         drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
+             .buildRound(user.email!![0].toString().toUpperCase(Locale.ROOT), color)
          adminImage.setImageDrawable(drawable)
         tvemail.text=getString(R.string.Hello,user.email)
          parties=rootView.findViewById(R.id.cv_parties)
@@ -63,6 +64,7 @@ class AdminDashboard : Fragment(), View.OnClickListener {
         notification.setOnClickListener(this)
         leaveList.setOnClickListener(this)
         collectionList.setOnClickListener(this)
+        order.setOnClickListener(this)
         return rootView
     }
 
@@ -90,6 +92,10 @@ class AdminDashboard : Fragment(), View.OnClickListener {
             }
             R.id.cv_collections ->{
                 val action=AdminDashboardDirections.actionAdminDashboardToCollectionList()
+                findNavController().navigate(action)
+            }
+            R.id.cv_order ->{
+                val action=AdminDashboardDirections.actionAdminDashboardToOrderList()
                 findNavController().navigate(action)
             }
 

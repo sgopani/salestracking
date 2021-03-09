@@ -1,4 +1,4 @@
-package com.example.salestracking.databse.model
+package com.example.salesadmin.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

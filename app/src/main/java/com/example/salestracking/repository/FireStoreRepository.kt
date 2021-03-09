@@ -72,6 +72,7 @@ class FireStoreRepository {
     }
 
 
+
     fun deleteCollection(date: Long) {
         val df: Task<Void> = fstore.collection("Sales").document(COMPANYUID)
                 .collection("Collections").document(date.toString()).delete().addOnSuccessListener {

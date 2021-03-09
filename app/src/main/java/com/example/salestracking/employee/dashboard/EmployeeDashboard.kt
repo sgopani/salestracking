@@ -91,7 +91,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
 //                findNavController().navigate(action)
                 requestCode =0
                 val tag="String"
-                val action=EmployeeDashboardDirections.actionEmployeeDashboardToPartyList()
+                val action=EmployeeDashboardDirections.actionEmployeeDashboardToOrderList()
                 findNavController().navigate(action)
             }
             R.id.btn_check_in -> {

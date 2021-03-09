@@ -1,6 +1,7 @@
 package com.example.salestracking.repository
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.HashMap
 
 
 class FireStoreViewModel:ViewModel() {
@@ -62,6 +64,10 @@ class FireStoreViewModel:ViewModel() {
     val selectedCollection :LiveData<Collections>
         get() = _selectedCollection
 
+    private val _selectedOrderDetails = MutableLiveData<Order>()
+    val selectedOrderDetails:LiveData<Order>
+        get() = _selectedOrderDetails
+
     private var _selectedProduct = MutableLiveData<Products>()
     val selectedProduct :LiveData<Products>
         get() = _selectedProduct
@@ -77,6 +83,16 @@ class FireStoreViewModel:ViewModel() {
     private val _mutableTotalPrice = MutableLiveData<Double>()
     val mutableTotalPrice : LiveData<Double>
         get() = _mutableTotalPrice
+
+    private val _orderList = MutableLiveData<MutableList<Order>>()
+    val orderList : LiveData<MutableList<Order>>
+        get() = _orderList
+
+//    private val _mapList = MutableLiveData<MutableMap<String,Any>>()
+//    val mapList : LiveData<MutableMap<String,Any>>
+//        get() = _mapList
+
+
 
 //    fun getCart(): LiveData<MutableList<CartItem>> {
 //        if(mutableCart.value==null) {
@@ -96,7 +112,7 @@ class FireStoreViewModel:ViewModel() {
 
         val cartItemList: MutableList<CartItem>? = _mutableCart.value
         for (cartItem in cartItemList!!) {
-            if (cartItem.products.productId == products.productId) {
+            if (cartItem.products!!.productId == products.productId) {
                 if (cartItem.quantity == 5) {
                     return false
                 }
@@ -155,7 +171,7 @@ class FireStoreViewModel:ViewModel() {
         var total = 0.0
         val cartItemList: List<CartItem>? = mutableCart.value
         for (cartItem in cartItemList!!) {
-            total += cartItem.products.productPrice.toInt() * cartItem.quantity
+            total += cartItem.products?.productPrice!!.toInt() * cartItem.quantity
         }
         _mutableTotalPrice.value = total
     }
@@ -169,12 +185,16 @@ class FireStoreViewModel:ViewModel() {
 
     private fun initCart() {
         _mutableCart.value=ArrayList()
+        _mutableTotalPrice.value=null
         calculateCartTotal()
     }
     fun getEmployeeUid():String{
-        val employeeUid= user?.uid.toString()
+        return user?.uid.toString()
+    }
 
-            return employeeUid
+    fun clear(){
+        _mutableCart.value=null
+        _mutableTotalPrice.value=null
     }
 
     fun eventNavigateToPartyList(party: Party){
@@ -202,7 +222,12 @@ class FireStoreViewModel:ViewModel() {
     fun eventNavigateToOderProductListCompleted(){
         _selectedOrderProduct.value = null
     }
-
+    fun eventNavigateToOrderDetail(order: Order){
+        _selectedOrderDetails.value=order
+    }
+    fun eventNavigateToOrderDetailCompleted(){
+        _selectedOrderDetails.value = null
+    }
 
 
 
@@ -271,6 +296,31 @@ class FireStoreViewModel:ViewModel() {
             }
         }
     }
+    fun getAllOrderList(){
+        coroutineScope.launch {
+            val orderList = fstore.collection("Sales")
+                .document(COMPANYUID).collection("Order")
+            orderList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _status.value = SalesApiStatus.EMPTY
+                        //Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                        val innerEvents = querySnapshot.toObjects(Order::class.java)
+                        _orderList.value=innerEvents
+                        _status.value = SalesApiStatus.DONE
+                    }
+
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
+
+            }
+        }
+    }
+
     fun getAllParty() {
         coroutineScope.launch {
             val productList = fstore.collection("Sales")

@@ -25,6 +25,7 @@ class FireStoreViewModel:ViewModel() {
 
     var fstore = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
+
     private val _productList = MutableLiveData<MutableList<Products>>()
     val productList: LiveData<MutableList<Products>>
         get() = _productList
@@ -53,6 +54,14 @@ class FireStoreViewModel:ViewModel() {
     val selectedCollection :LiveData<Collections>
         get() = _selectedCollection
 
+    private val _selectedOrderDetails = MutableLiveData<Order>()
+    val selectedOrderDetails:LiveData<Order>
+        get() = _selectedOrderDetails
+
+    private val _orderList = MutableLiveData<MutableList<Order>>()
+    val orderList : LiveData<MutableList<Order>>
+        get() = _orderList
+
     fun eventNavigateToLeaveDetail(leave: Leave){
         _selectedLeave.value=leave
     }
@@ -66,6 +75,13 @@ class FireStoreViewModel:ViewModel() {
     fun eventNavigateToCollectionDetailCompleted(){
         _selectedCollection.value = null
     }
+    fun eventNavigateToOrderDetail(order: Order){
+        _selectedOrderDetails.value=order
+    }
+    fun eventNavigateToOrderDetailCompleted(){
+        _selectedOrderDetails.value = null
+    }
+
     private val _collectionList = MutableLiveData<List<Collections>>()
     val collectionList: LiveData<List<Collections>>
         get() = _collectionList
@@ -249,6 +265,31 @@ class FireStoreViewModel:ViewModel() {
     fun deleteParty(name: String) {
         viewModelScope.launch {
             firebaseRepository.deleteParty(name)
+        }
+    }
+
+    fun getAllOrderList(){
+        coroutineScope.launch {
+            val orderList = fstore.collection("Sales")
+                .document(user?.uid!!).collection("Order")
+            orderList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _status.value = SalesApiStatus.EMPTY
+                        //Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                        val innerEvents = querySnapshot.toObjects(Order::class.java)
+                        _orderList.value=innerEvents
+                        _status.value = SalesApiStatus.DONE
+                    }
+
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
+
+            }
         }
     }
 

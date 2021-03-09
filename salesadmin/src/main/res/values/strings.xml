@@ -64,7 +64,7 @@
     <string name="reject">Reject</string>
     <string name="accepted">Accepted</string>
     <string name="rejected">Rejected</string>
-
+    <string name="no_orders_taken">No orders taken</string>
     <string name="emp_leaves">Employee leaves</string>
     <string name="no_leaves">No leaves requests from the employee</string>
     <string name="from_date">From Date :</string>
@@ -79,5 +79,7 @@
     <string name="product_description">Description</string>
     <string name="product_add_description">Description :</string>
     <string name="tracking">Tracking</string>
+    <string name="party_name_order">Party name :</string>
+    <string name="order">Orders</string>
 
 </resources>
