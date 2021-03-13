@@ -40,6 +40,7 @@ class AddOrders : Fragment() {
     private lateinit var noProduct: TextView
     private var productList: MutableList<Products> = ArrayList()
     private var cartList: MutableList<CartItem> = ArrayList()
+    private var cartQuantity:Int=0
 //    private lateinit var fireStoreRepository:FireStoreRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +56,12 @@ class AddOrders : Fragment() {
             if(it!=null){
                 Log.d("Cart()", "${it.size}")
                 cartList = it
+                var quantity=0
+                for (cartItem in it){
+                    quantity +=cartItem.quantity
+                }
+                cartQuantity=quantity
+                activity?.invalidateOptionsMenu()
             }
         })
 
@@ -135,16 +142,29 @@ class AddOrders : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.cart_menu, menu)
+        val menuItem=menu.findItem(R.id.cartFragment)
+        val actionView:View=menuItem.actionView
+        val cartBadgeQuantity=actionView.findViewById<TextView>(R.id.cart_badge_text_view)
+        cartBadgeQuantity.text= cartQuantity.toString()
+        val zero=0
+        if(cartBadgeQuantity.text.toString()==zero.toString()){
+            cartBadgeQuantity.visibility=View.GONE
+        }
+        actionView.setOnClickListener {
+            onOptionsItemSelected(menuItem)
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId==R.id.cartFragment){
-            val action = AddOrdersDirections.actionAddOrdersToCartItem(partyDetails)
-            findNavController().navigate(action)
-            Toast.makeText(context, "${cartList.size}", Toast.LENGTH_SHORT).show()
-            return true
-        }
+            if(item.itemId==R.id.cartFragment){
+                val action = AddOrdersDirections.actionAddOrdersToCartItem(partyDetails)
+                findNavController().navigate(action)
+                Toast.makeText(context, "${cartList.size}", Toast.LENGTH_SHORT).show()
+                return true
+            }
         return false
+
     }
 
     private fun configureProductList(){

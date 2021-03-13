@@ -1,6 +1,8 @@
 package com.example.salestracking.employee.dashboard
 
+import android.Manifest
 import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +17,12 @@ import com.example.salestracking.repository.FireStoreViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
 
-class EmployeeDashboard : Fragment(), View.OnClickListener {
+class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.PermissionCallbacks {
     private lateinit var notes: CardView
     private lateinit var applyLeave:CardView
     private lateinit var collections:CardView
@@ -30,6 +34,9 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
     private  var isCheckIn=false
     private  var checkInDate:String=""
     private lateinit var prefManager:PrefManager
+    private lateinit var checkInOut:CardView
+
+
     private lateinit var viewModel: FireStoreViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +50,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
          checkInBtn=rootView.findViewById(R.id.btn_check_in)
          checkOutBtn=rootView.findViewById(R.id.btn_check_out)
          attendence=rootView.findViewById(R.id.cv_attendence)
+         checkInOut=rootView.findViewById(R.id.cv_employee_location)
          prefManager=PrefManager(this.requireContext())
          viewModel= FireStoreViewModel()
     }
@@ -59,6 +67,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
         orders.setOnClickListener(this)
         checkInBtn.setOnClickListener(this)
         checkOutBtn.setOnClickListener(this)
+        checkInOut.setOnClickListener(this)
         isCheckIn=prefManager.getIsCheckedIn()
         attendence.setOnClickListener(this)
         if(isCheckIn){
@@ -104,6 +113,10 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
             }
             R.id.cv_attendence -> {
                 markAttendance()
+            }
+            R.id.cv_employee_location ->{
+                val action=EmployeeDashboardDirections.actionEmployeeDashboardToCheckInOut()
+                findNavController().navigate(action)
             }
         }
     }
@@ -156,117 +169,57 @@ class EmployeeDashboard : Fragment(), View.OnClickListener {
         }
 
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requestPermissions()
+    }
+    private fun requestPermissions() {
+        if(TrackingUtility.hasLocationPermissions(requireContext())) {
+            return
+        }
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            EasyPermissions.requestPermissions(
+                this,
+                "You need to accept location permissions to use this app.",
+                REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        } else {
+            EasyPermissions.requestPermissions(
+                this,
+                "You need to accept location permissions to use this app.",
+                REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requestPermissions()
+    }
+
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if(EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        } else {
+            requestPermissions()
+        }
+    }
+
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
 }
-
-
-
-//package com.example.salestracking.login
-//
-//import android.content.Intent
-//import androidx.appcompat.app.AppCompatActivity
-//import android.os.Bundle
-//import android.text.TextUtils
-//import android.util.Log
-//import android.util.Patterns
-//import android.widget.Button
-//import android.widget.EditText
-//import android.widget.Toast
-//import androidx.navigation.findNavController
-//import androidx.navigation.fragment.findNavController
-//import androidx.navigation.ui.NavigationUI
-//import com.example.salestracking.MainActivity
-//import com.example.salestracking.R
-//import com.example.salestracking.employee.dashboard.EmployeeDashboardDirections
-//import com.example.salestracking.register.RegisterAdmin
-//import com.google.android.gms.tasks.OnSuccessListener
-//import com.google.firebase.auth.FirebaseAuth
-//import com.google.firebase.firestore.DocumentReference
-//import com.google.firebase.firestore.FirebaseFirestore
-//
-////import com.google.firebase.auth.ktx.auth
-//
-//class LoginActivity : AppCompatActivity() {
-//    private lateinit var emailId:EditText
-//    private lateinit var passwordEditText:EditText
-//    private lateinit var loginButton:Button
-//    private lateinit var auth: FirebaseAuth
-//    private lateinit var fstore: FirebaseFirestore
-//    private val TAG = "LoginActivity"
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_login)
-//        initialize()
-//    }
-//    private fun initialize(){
-//        auth= FirebaseAuth.getInstance()
-//        fstore= FirebaseFirestore.getInstance()
-//        emailId=findViewById(R.id.email_add_login)
-//        passwordEditText=findViewById(R.id.login_password)
-//        loginButton=findViewById(R.id.login_button)
-//        loginButton.setOnClickListener {
-//            //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
-//            loginUser()
-//        }
-//        val register=findViewById<Button>(R.id.admin_sign_up)
-//        register.setOnClickListener{
-//            val intent = Intent(this@LoginActivity, RegisterAdmin::class.java)
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            startActivity(intent)
-//            finish()
-//        }
-//    }
-//    public override fun onStart() {
-//        super.onStart()
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        //val currentUser = auth.currentUser
-//        //updateUI(currentUser)
-//    }
-//    private fun loginUser(){
-//        val email=emailId.text.toString()
-//        val password=passwordEditText.text.toString()
-//        if(!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()||password.length<7){
-//            emailId.error="Enter valid details"
-//            passwordEditText.error="Enter valid details"
-//        }
-//        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
-//            Log.d(TAG, "Logging in user.")
-//            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this) { task ->
-//                //mProgressBar!!.hide()
-//                if (task.isSuccessful) {
-//                    // Sign in success, update UI with signed-in user's information
-//                    Log.d(TAG, "signInWithEmail:success")
-//                    Toast.makeText(this@LoginActivity, "Authentication success.", Toast.LENGTH_SHORT).show()
-//                    checkUserAccessLevel(auth.currentUser?.uid.toString())
-//                } else {
-//                    // If sign in fails, display a message to the user.
-//                    Log.e(TAG, "signInWithEmail:failure", task.exception)
-//                    Toast.makeText(this@LoginActivity, "Not registered please register", Toast.LENGTH_LONG).show()
-//                    val intent = Intent(this@LoginActivity, RegisterAdmin::class.java)
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                    startActivity(intent)
-//                    finish()
-//                }
-//            }
-//        }
-//        else {
-//            emailId.error="Field cannot be empty"
-//            passwordEditText.error="Field cannot be empty"
-//            Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//    private fun checkUserAccessLevel(Uid:String) {
-//        val df:DocumentReference=fstore.collection("Admin").document(Uid)
-//        df.get().addOnSuccessListener { result->
-//            Log.d("USER DATA","$result")
-//            if(result.getString("isAdmin")!=null){
-//                Toast.makeText(this.baseContext,"ADMIN LOGGED IN",Toast.LENGTH_SHORT).show()
-//                val action= EmployeeDashboardDirections.actionEmployeeDashboardToAdminDashboard()
-//                findNavController().navigate(action)
-//            }
-//        }
-//            .addOnFailureListener(){
-//                Toast.makeText(this.baseContext,"ADMIN LOGGED IN",Toast.LENGTH_SHORT).show()
-//            }
-//
-//    }
-//}

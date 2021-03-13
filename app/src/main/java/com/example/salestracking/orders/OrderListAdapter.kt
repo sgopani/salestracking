@@ -25,7 +25,7 @@ class OrderListAdapter (var OrderList: MutableList<Order>,var orderDetailsItemCl
     override fun onBindViewHolder(holder:OrderItem , position: Int) {
         val order=getItem(position)
         holder.bind(order)
-        holder.itemView.setOnClickListener {
+        holder.tvViewDetails.setOnClickListener {
             orderDetailsItemClickListener.onOrderItemClick(order)
         }
     }
@@ -46,6 +46,7 @@ class OrderListAdapter (var OrderList: MutableList<Order>,var orderDetailsItemCl
         val tvDate = itemView.findViewById<TextView>(R.id.tv_order_date)
         val tvPartyName = itemView.findViewById<TextView>(R.id.tv_order_party_name)
         val tvAmount = itemView.findViewById<TextView>(R.id.tv_order_amount)
+        val tvViewDetails=itemView.findViewById<TextView>(R.id.tv_view_details)
 
         companion object {
             fun createViewHolder(parent: ViewGroup): OrderItem {

@@ -6,5 +6,6 @@
         android:id="@+id/cartFragment"
         android:icon="@drawable/carticon"
         android:title="@string/cart_icon"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        app:actionLayout="@layout/cart_action_item"/>
 </menu>

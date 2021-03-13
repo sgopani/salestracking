@@ -1,5 +1,6 @@
 package com.example.salesadmin.admin
 
+import android.text.util.Linkify
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -64,6 +65,7 @@ class PartiesListAdapter( var partyList: MutableList<Party>): RecyclerView.Adapt
             tvName.text=partyName
             tvPhoneNo.text=phone_no
             tvAddress.text=address
+            Linkify.addLinks(tvPhoneNo, Linkify.ALL)
 
         }
     }

@@ -45,6 +45,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_employeeDashboard_to_checkInOut"
+            app:destination="@id/checkInOut"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/Notes"
@@ -319,4 +326,9 @@
             android:name="Order"
             app:argType="com.example.salestracking.databse.model.Order" />
     </fragment>
+    <fragment
+        android:id="@+id/checkInOut"
+        android:name="com.example.salestracking.attendance.CheckInOut"
+        android:label="check_in_out"
+        tools:layout="@layout/check_in_out" />
 </navigation>

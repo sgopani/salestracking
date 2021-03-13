@@ -51,6 +51,7 @@ class OrderListAdapter (var OrderList: MutableList<Order>,
         val tvEmployeeName=itemView.findViewById<TextView>(R.id.tv_order_employee_name)
 
 
+
         companion object {
             fun createViewHolder(parent: ViewGroup): OrderItem {
                 val view = LayoutInflater.from(parent.context)

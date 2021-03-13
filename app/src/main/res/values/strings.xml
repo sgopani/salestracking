@@ -29,6 +29,8 @@
     <string name="no_notification">No notifications available</string>
     <string name="no_leaves">No leaves applied</string>
     <string name="name">Name</string>
+    <string name="mob_no">Mobile No:</string>
+    <string name="party_address">Address :</string>
     <string name="update">Update </string>
     <string name="sign_Out">Sign Out</string>
     <string name="forgot_password">Forgot password?</string>
@@ -93,6 +95,7 @@
     <string name="order_product_details">Ordered product details</string>
     <string name="no_orders_taken">No orders taken</string>
     <string name="order_date">Order date :</string>
+    <string name="view_details">View details</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>
