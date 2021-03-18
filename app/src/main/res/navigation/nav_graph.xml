@@ -5,6 +5,9 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/employeeDashboard">
 
+    <action android:id="@+id/action_global_trackingFragment"
+        app:destination="@id/tracking"
+        app:launchSingleTop="true" />
     <fragment
         android:id="@+id/employeeDashboard"
         android:name="com.example.salestracking.employee.dashboard.EmployeeDashboard"
@@ -52,6 +55,9 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_employeeDashboard_to_tracking"
+            app:destination="@id/tracking" />
     </fragment>
     <fragment
         android:id="@+id/Notes"
@@ -331,4 +337,9 @@
         android:name="com.example.salestracking.attendance.CheckInOut"
         android:label="check_in_out"
         tools:layout="@layout/check_in_out" />
+    <fragment
+        android:id="@+id/tracking"
+        android:name="com.example.salestracking.attendance.Tracking"
+        android:label="tracking"
+        tools:layout="@layout/tracking" />
 </navigation>

@@ -2,8 +2,12 @@ package com.example.salestracking.employee.dashboard
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.provider.Settings.SettingNotFoundException
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,8 +59,8 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
          viewModel= FireStoreViewModel()
     }
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         //val user = FirebaseAuth.getInstance().currentUser
         rootView= inflater.inflate(R.layout.fragment_employee, container, false)
@@ -98,9 +102,9 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
             R.id.cv_take_orders -> {
 //                val action = EmployeeDashboardDirections.actionEmployeeDashboardToAddOrders()
 //                findNavController().navigate(action)
-                requestCode =0
-                val tag="String"
-                val action=EmployeeDashboardDirections.actionEmployeeDashboardToOrderList()
+                requestCode = 0
+                val tag = "String"
+                val action = EmployeeDashboardDirections.actionEmployeeDashboardToOrderList()
                 findNavController().navigate(action)
             }
             R.id.btn_check_in -> {
@@ -114,12 +118,16 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
             R.id.cv_attendence -> {
                 markAttendance()
             }
-            R.id.cv_employee_location ->{
-                val action=EmployeeDashboardDirections.actionEmployeeDashboardToCheckInOut()
+
+            R.id.cv_employee_location -> {
+                val action = EmployeeDashboardDirections.actionEmployeeDashboardToTracking()
                 findNavController().navigate(action)
             }
         }
     }
+
+
+
     private fun markAttendance() {
         val valid=prefManager.getIsCheckedIn()
         val fstore = FirebaseFirestore.getInstance()
@@ -147,10 +155,10 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
                             val date = toSimpleDateFormat(System.currentTimeMillis())
                             val checkIn = Calendar.getInstance().time.toString()
                             val attendance = Attendance(
-                                user!!.uid,
-                                System.currentTimeMillis(),
-                                date,
-                                checkIn
+                                    user!!.uid,
+                                    System.currentTimeMillis(),
+                                    date,
+                                    checkIn
                             )
                             viewModel.addAttendanceFirebase(attendance)
                             checkInDate = date
@@ -179,20 +187,20 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
         }
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(
-                this,
-                "You need to accept location permissions to use this app.",
-                REQUEST_CODE_LOCATION_PERMISSION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                    this,
+                    "You need to accept location permissions to use this app.",
+                    REQUEST_CODE_LOCATION_PERMISSION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
             )
         } else {
             EasyPermissions.requestPermissions(
-                this,
-                "You need to accept location permissions to use this app.",
-                REQUEST_CODE_LOCATION_PERMISSION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    this,
+                    "You need to accept location permissions to use this app.",
+                    REQUEST_CODE_LOCATION_PERMISSION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
             )
         }
     }
@@ -215,9 +223,9 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)

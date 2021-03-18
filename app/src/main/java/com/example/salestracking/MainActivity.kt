@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.salestracking.databse.model.Employee
 import com.example.salestracking.employee.dashboard.EmployeeDashboard
@@ -18,6 +19,7 @@ import com.example.salestracking.repository.FireStoreRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -74,7 +76,9 @@ class MainActivity : AppCompatActivity() {
         //NavigationUI.setupActionBarWithNavController(this,navController)
         NavigationUI.setupWithNavController(bottomNavigationView,
             navController)
+        navigateToTrackingFragmentIfNeeded(intent)
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         val navController=Navigation.findNavController(this,R.id.myNavHostFragment)
@@ -83,6 +87,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
+        if(intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
+            myNavHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
+        }
     }
 
 

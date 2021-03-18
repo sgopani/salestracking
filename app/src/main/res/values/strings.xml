@@ -96,6 +96,13 @@
     <string name="no_orders_taken">No orders taken</string>
     <string name="order_date">Order date :</string>
     <string name="view_details">View details</string>
+    <string name="location_service">Location Services</string>
+    <string name="verify">"Please verify you've switched
+Location to "On".Also,set your
+Location mode to high Accuracy</string>
+    <string name="turn_on_location_service">Turn On Location Service</string>
+    <string name="no_thanks">No thanks</string>
+    <string name="start">Start</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>

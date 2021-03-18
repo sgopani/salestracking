@@ -30,6 +30,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDklqaN4Gxa4Ej2xhj936gfEmvbG7eOtjk" />
 
+        <service android:name=".TrackingService"
+            android:foregroundServiceType="location" />
+
         <service android:name=".notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
