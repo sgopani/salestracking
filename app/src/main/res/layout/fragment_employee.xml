@@ -167,9 +167,10 @@
                             android:id="@+id/imageView3"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/collection_icon"
-                            tools:srcCompat="@drawable/collection_icon" />
 
+                            app:srcCompat="@drawable/collectionicon" />
+<!--                        app:srcCompat="@drawable/collection_icon"-->
+<!--                        tools:srcCompat="@drawable/collection_icon"-->
                         <TextView
                             android:id="@+id/textView11"
                             android:layout_width="match_parent"
@@ -319,7 +320,8 @@
                             android:id="@+id/imageView7"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/tracking_employee"
+                            tools:srcCompat="@drawable/tracking_employee" />
 
                         <TextView
                             android:id="@+id/textView9"
@@ -327,7 +329,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            android:text="TextView"
+                            android:text="@string/checkin_out"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>

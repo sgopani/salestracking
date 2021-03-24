@@ -57,8 +57,20 @@
             app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_employeeDashboard_to_tracking"
-            app:destination="@id/tracking" />
+            app:destination="@id/tracking"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_employeeDashboard_to_markAttendance"
+            app:destination="@id/markAttendance"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
+
     <fragment
         android:id="@+id/Notes"
         android:name="com.example.salestracking.employee.notes.NotesHome"
@@ -341,5 +353,20 @@
         android:id="@+id/tracking"
         android:name="com.example.salestracking.attendance.Tracking"
         android:label="tracking"
-        tools:layout="@layout/tracking" />
+        tools:layout="@layout/tracking" >
+        <action
+            android:id="@+id/action_tracking_to_employeeDashboard"
+            app:destination="@id/employeeDashboard"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/employeeDashboard"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/markAttendance"
+        android:name="com.example.salestracking.attendance.MarkAttendance"
+        android:label="markattendance"
+        tools:layout="@layout/markattendance" />
 </navigation>

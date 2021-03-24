@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.salestracking.*
@@ -36,7 +37,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
     private lateinit var checkInBtn:Button
     private lateinit var checkOutBtn:Button
     private  var isCheckIn=false
-    private  var checkInDate:String=""
+
     private lateinit var prefManager:PrefManager
     private lateinit var checkInOut:CardView
 
@@ -116,7 +117,9 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
                 //checkOutBtn.visibility=View.GONE
             }
             R.id.cv_attendence -> {
-                markAttendance()
+                val action = EmployeeDashboardDirections.actionEmployeeDashboardToMarkAttendance()
+                findNavController().navigate(action)
+                //markAttendance()
             }
 
             R.id.cv_employee_location -> {
@@ -128,55 +131,8 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
 
 
 
-    private fun markAttendance() {
-        val valid=prefManager.getIsCheckedIn()
-        val fstore = FirebaseFirestore.getInstance()
-        val user = FirebaseAuth.getInstance().currentUser
-        val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
-                .collection("employee")
-                .document("${user?.email}").collection("Attendance")
-                .document(toSimpleDateFormat(System.currentTimeMillis()))
-        df.get().addOnSuccessListener { document ->
-            if (document.exists()) {
-                prefManager.setIsCheckedIn(false)
-                AlertDialog.Builder(context).apply {
-                    setTitle("Attendance Marked")
-                    setMessage("You have already marked attendance for the day")
-                    setPositiveButton("OK") { _, _ ->
-                    }
-                }.create().show()
-            }else{
-                prefManager.setIsCheckedIn(true)
-                if (valid) {
-                    AlertDialog.Builder(context).apply {
-                        setTitle("Are you sure you want to mark your attendance?")
-                        setMessage("You can mark only once in a day")
-                        setPositiveButton("Yes") { _, _ ->
-                            val date = toSimpleDateFormat(System.currentTimeMillis())
-                            val checkIn = Calendar.getInstance().time.toString()
-                            val attendance = Attendance(
-                                    user!!.uid,
-                                    System.currentTimeMillis(),
-                                    date,
-                                    checkIn
-                            )
-                            viewModel.addAttendanceFirebase(attendance)
-                            checkInDate = date
-                            //prefManager.setIsCheckedIn(true)
-                            //checkOutBtn.visibility = View.VISIBLE
-                            //checkInBtn.visibility = View.INVISIBLE
-                        }
-                        setNegativeButton("No") { _, _ ->
 
-                        }
-                    }.create().show()
-                }
 
-            }
-
-        }
-
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestPermissions()
@@ -185,6 +141,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
         if(TrackingUtility.hasLocationPermissions(requireContext())) {
             return
         }
+
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(
                     this,
@@ -193,7 +150,8 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
             )
-        } else {
+        }
+        else {
             EasyPermissions.requestPermissions(
                     this,
                     "You need to accept location permissions to use this app.",

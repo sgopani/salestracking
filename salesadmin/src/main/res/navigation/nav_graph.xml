@@ -58,6 +58,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_adminDashboard_to_employeeTracking"
+            app:destination="@id/employeeTracking"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/addProduct"
@@ -224,4 +231,9 @@
         android:name="com.example.salesadmin.orders.OrderDetails"
         android:label="order_details"
         tools:layout="@layout/order_details" />
+    <fragment
+        android:id="@+id/employeeTracking"
+        android:name="com.example.salesadmin.tracking.EmployeeTracking"
+        android:label="employee_tracking"
+        tools:layout="@layout/employee_tracking" />
 </navigation>

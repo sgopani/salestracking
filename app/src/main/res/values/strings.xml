@@ -97,12 +97,14 @@
     <string name="order_date">Order date :</string>
     <string name="view_details">View details</string>
     <string name="location_service">Location Services</string>
-    <string name="verify">"Please verify you've switched
-Location to "On".Also,set your
-Location mode to high Accuracy</string>
+    <string name="verify">"To continue, let your device
+turn on location using Google's
+Location Service</string>
     <string name="turn_on_location_service">Turn On Location Service</string>
     <string name="no_thanks">No thanks</string>
+    <string name="ok">Ok</string>
     <string name="start">Start</string>
+    <string name="checkin_out">Check IN/OUT</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>

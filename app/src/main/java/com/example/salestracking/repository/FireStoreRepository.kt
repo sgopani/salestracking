@@ -1,8 +1,6 @@
 package com.example.salestracking.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.salestracking.COMPANYUID
 import com.example.salestracking.databse.model.*
 import com.google.android.gms.tasks.Task
@@ -64,6 +62,16 @@ class FireStoreRepository {
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
             .collection("Order").document(order.time)
         return df.set(order).addOnSuccessListener {
+            //Toast.makeText(c,"",Toast.LENGTH_LONG)
+            Log.i(TAG, "Success")
+        }.addOnFailureListener {
+            Log.i(TAG, "Failure")
+        }
+    }
+    fun addTrackingLocation(trackingLocation: TrackingLocation): Task<Void> {
+        val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
+            .collection("Tracking").document(user?.email.toString())
+        return df.set(trackingLocation).addOnSuccessListener {
             //Toast.makeText(c,"",Toast.LENGTH_LONG)
             Log.i(TAG, "Success")
         }.addOnFailureListener {

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,7 @@ class CartList : Fragment() {
                 cartList = it
                 adapter.cartList=cartList
                 placeOrderBtn.isClickable = cartList.size != 0
+                Log.d("cartList activity","$cartList")
             }
 
         })
@@ -76,6 +78,7 @@ class CartList : Fragment() {
         rootView=inflater.inflate(R.layout.cart_item, container, false)
         init()
         configureProductList()
+        Log.d("cartList","$cartList")
         partyList=CartListArgs.fromBundle(requireArguments()).party
         //Toast.makeText(this.context,"$partyList",Toast.LENGTH_SHORT).show()
         //Log.d("getCart()","${cartList.toTypedArray().size}")

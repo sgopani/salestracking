@@ -161,6 +161,7 @@ class CheckInOut : Fragment(),OnMapReadyCallback {
         googleMap?.addMarker(MarkerOptions().position(LatLng(latitude, longitude)).title("Your Current location"))
         googleMap?.moveCamera(CameraUpdateFactory
                 .newLatLngZoom(LatLng(latitude, longitude), DEFAULT_ZOOM.toFloat()))
+
         Log.d(TAG, "onMapReady $latitude $longitude")
     }
 

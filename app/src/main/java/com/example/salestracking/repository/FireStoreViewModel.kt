@@ -358,6 +358,11 @@ class FireStoreViewModel:ViewModel() {
             firebaseRepository.placeOder(order)
         }
     }
+    fun addTrackingLocation(trackingLocation: TrackingLocation){
+        coroutineScope.launch {
+            firebaseRepository.addTrackingLocation(trackingLocation)
+        }
+    }
     fun getAllCollectionsList(){
         coroutineScope.launch {
             val collectionsList = fstore.collection("Sales")

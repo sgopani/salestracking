@@ -62,6 +62,10 @@ class FireStoreViewModel:ViewModel() {
     val orderList : LiveData<MutableList<Order>>
         get() = _orderList
 
+    private val _employeeTrackingList=MutableLiveData<MutableList<TrackingLocation>>()
+    val employeeTrackingList:LiveData<MutableList<TrackingLocation>>
+        get() = _employeeTrackingList
+
     fun eventNavigateToLeaveDetail(leave: Leave){
         _selectedLeave.value=leave
     }
@@ -292,5 +296,30 @@ class FireStoreViewModel:ViewModel() {
             }
         }
     }
+    fun getEmployeeLocation(){
+        coroutineScope.launch {
+            val locationList = fstore.collection("Sales")
+                .document(user?.uid!!).collection("Tracking").whereEqualTo(
+                    "checkedIn",true)
+            locationList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _status.value = SalesApiStatus.EMPTY
+                        Log.d(TAG,"${_employeeTrackingList.value}")
+                    } else {
+                        val innerEvents = querySnapshot.toObjects(TrackingLocation::class.java)
+                        _employeeTrackingList.value=innerEvents
+                        Log.d(TAG,"${_employeeTrackingList.value}")
+                        _status.value = SalesApiStatus.DONE
+                    }
 
-}
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
+
+            }
+            }
+        }
+    }
