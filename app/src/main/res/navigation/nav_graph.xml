@@ -62,13 +62,6 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_employeeDashboard_to_markAttendance"
-            app:destination="@id/markAttendance"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
     </fragment>
 
     <fragment
@@ -364,9 +357,4 @@
             app:popUpTo="@id/employeeDashboard"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/markAttendance"
-        android:name="com.example.salestracking.attendance.MarkAttendance"
-        android:label="markattendance"
-        tools:layout="@layout/markattendance" />
 </navigation>

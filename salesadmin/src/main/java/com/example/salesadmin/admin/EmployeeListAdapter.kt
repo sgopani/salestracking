@@ -1,6 +1,6 @@
 package com.example.salesadmin.admin
 
-import android.graphics.Color
+
 import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,6 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Employee
-import com.example.salesadmin.model.Party
 import java.util.*
 
 
@@ -41,7 +40,7 @@ class EmployeeListAdapter(var employeeList: MutableList<Employee>): RecyclerView
         holder.employeeImage.setImageDrawable(drawable)
     }
     class EmployeeItem(itemView: View): RecyclerView.ViewHolder(itemView){
-        val tvEmployeeName=itemView.findViewById<TextView>(R.id.tv_notification_message)
+        val tvEmployeeName=itemView.findViewById<TextView>(R.id.tv_employee_list_name)
         val tvPhoneNumber=itemView.findViewById<TextView>(R.id.tv_party_phoneno)
         val tvEmail=itemView.findViewById<TextView>(R.id.tv_employee_email)
         val employeeImage=itemView.findViewById<ImageView>(R.id.employeeImage)

@@ -81,5 +81,7 @@
     <string name="tracking">Tracking</string>
     <string name="party_name_order">Party name :</string>
     <string name="order">Orders</string>
+    <string name="no_employee_availble">No employee is checked In</string>
+    <string name="last_location_time">Last location updated on :</string>
 
 </resources>

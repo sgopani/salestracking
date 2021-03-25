@@ -62,7 +62,7 @@
             android:layout_marginLeft="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_view_title"
-            app:srcCompat="@drawable/product" />
+            app:srcCompat="@drawable/product_icon" />
 
         <TextView
             android:id="@+id/tv_add_to_cart"

@@ -60,7 +60,7 @@ class OrderList : Fragment() {
             adapter.notifyDataSetChanged()
         })
         viewModel.status.observe(this.requireActivity(), Observer { status ->
-            checkInternet(status)
+            checkStatus(status)
         })
         return rootView
     }
@@ -84,7 +84,7 @@ class OrderList : Fragment() {
         //itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun checkInternet(status: SalesApiStatus) {
+    private fun checkStatus(status: SalesApiStatus) {
         when (status) {
             SalesApiStatus.LOADING -> {
                 progressBar.visibility=View.VISIBLE

@@ -65,15 +65,15 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="My First Note" />
 
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="71dp"
-        android:layout_height="83dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_product_name"
-        app:srcCompat="@drawable/product" />
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="71dp"
+                android:layout_height="83dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_product_name"
+                app:srcCompat="@drawable/product_icon" />
 
     <Spinner
         android:id="@+id/quantitySpinner"
