@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.ProfileInfo">
+    tools:context=".profile.profile">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,7 +98,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:hint="@string/name"
+                android:hint="@string/profile_name"
                 android:paddingLeft="8dp"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -224,40 +224,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_date_of_joining" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:paddingLeft="8dp"
-                android:text="@string/date_of_joining"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_profile_address" />
-
-            <EditText
-                android:id="@+id/et_date_of_joining"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:ems="10"
-                android:enabled="false"
-                android:hint="@string/date_of_joining"
-                android:inputType="textPersonName"
-                android:paddingLeft="10dp"
-                android:textSize="@dimen/text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -293,6 +260,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:text="TextView"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"

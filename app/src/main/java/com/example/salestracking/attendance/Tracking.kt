@@ -68,6 +68,16 @@ class Tracking : Fragment(),OnMapReadyCallback, EasyPermissions.PermissionCallba
 
         startButton.setOnClickListener {
             //sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+            startTracking()
+        }
+        stopButton.setOnClickListener {
+            showCancelTrackingDialog()
+        }
+
+        Log.d(TAG, "$pathPoints")
+    }
+    private fun startTracking(){
+        if(isInternetOn(this.requireActivity())){
             if (requestPermissions()) {
                 if (isLocationEnabled()) {
                     toggleRun()
@@ -76,33 +86,12 @@ class Tracking : Fragment(),OnMapReadyCallback, EasyPermissions.PermissionCallba
                         .show()
                 }
             }
-
-//            else
-//            {
-//                requestPermissions()
-//            }
         }
-        stopButton.setOnClickListener {
-            //9isTracking=false
-            showCancelTrackingDialog()
-            //stopRun()
-
+        else{
+            Toast.makeText(this.requireContext(), "Please check your Internet connection", Toast.LENGTH_SHORT).show()
         }
-        Log.d(TAG, "$pathPoints")
     }
     private fun showCancelTrackingDialog() {
-//        val dialog = MaterialAlertDialogBuilder(requireContext())
-//            .setTitle("Cancel the Run?")
-//            .setMessage("Are you sure to cancel the current run and delete all its data?")
-//            .setIcon(R.drawable.delete_icon)
-//            .setPositiveButton("Yes") { _, _ ->
-//                stopRun()
-//            }
-//            .setNegativeButton("No") { dialogInterface, _ ->
-//                dialogInterface.cancel()
-//            }
-//            .create()
-//        dialog.show()
         AlertDialog.Builder(context).apply {
             setTitle("Are you sure you want to want to check out")
             setMessage("You cannot undo this operation")

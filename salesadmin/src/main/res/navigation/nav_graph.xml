@@ -234,6 +234,11 @@
     <fragment
         android:id="@+id/employeeTracking"
         android:name="com.example.salesadmin.tracking.EmployeeTracking"
-        android:label="employee_tracking"
+        android:label="Employee tracking"
         tools:layout="@layout/employee_tracking" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.salesadmin.profile.Profile"
+        android:label="Profile"
+        tools:layout="@layout/profile" />
 </navigation>

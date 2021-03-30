@@ -1,6 +1,5 @@
 package com.example.salesadmin.tracking
 
-import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.salesadmin.R
-import com.example.salesadmin.admin.EmployeeListAdapter
-import com.example.salesadmin.model.Employee
 import com.example.salesadmin.model.TrackingLocation
 import com.example.salesadmin.toTimeFormat
 import java.util.*

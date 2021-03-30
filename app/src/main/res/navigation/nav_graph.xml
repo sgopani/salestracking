@@ -194,29 +194,29 @@
     <fragment
         android:id="@+id/collectionList"
         android:name="com.example.salestracking.collection.CollectionList"
-        android:label="collection_list"
-        tools:layout="@layout/collection_list" >
+        android:label="List of collection"
+        tools:layout="@layout/collection_list">
         <action
             android:id="@+id/action_collectionList_to_employeeDashboard"
             app:destination="@id/employeeDashboard"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_collectionList_to_addCollection"
             app:destination="@id/addCollection"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_collectionList_to_collectionInfo"
             app:destination="@id/collectionInfo"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/collectionInfo"

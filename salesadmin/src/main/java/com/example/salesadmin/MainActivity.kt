@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.salesadmin.login.LoginActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val user = FirebaseAuth.getInstance().currentUser
+        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
         if (user != null)
         {
             //Toast.makeText(this, "{ ${user?.uid} }", Toast.LENGTH_SHORT).show()
@@ -29,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         }
         val navController=this.findNavController(R.id.myNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
+        //val navController=Navigation.findNavController(this,R.id.myNavHostFragment)
+        //NavigationUI.setupActionBarWithNavController(this,navController)
+        NavigationUI.setupWithNavController(bottomNavigationView,
+            navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

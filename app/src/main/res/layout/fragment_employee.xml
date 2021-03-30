@@ -34,16 +34,16 @@
                     android:id="@+id/btn_check_out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView4"
+                    android:layout_below="@+id/tv_employee_email"
                     android:layout_alignParentBottom="false"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_toStartOf="@+id/imageView"
-                    android:layout_toLeftOf="@+id/imageView"
-                    android:layout_toEndOf="@+id/textView4"
-                    android:layout_toRightOf="@+id/textView4"
+                    android:layout_toStartOf="@+id/iv_dashboard_image"
+                    android:layout_toLeftOf="@+id/iv_dashboard_image"
+                    android:layout_toEndOf="@+id/tv_employee_email"
+                    android:layout_toRightOf="@+id/tv_employee_email"
                     android:background="@color/colorRed"
                     android:text="@string/check_out"
                     android:visibility="gone" />
@@ -52,22 +52,22 @@
                     android:id="@+id/btn_check_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView4"
+                    android:layout_below="@+id/tv_employee_email"
                     android:layout_alignParentBottom="false"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_toStartOf="@+id/imageView"
-                    android:layout_toLeftOf="@+id/imageView"
-                    android:layout_toEndOf="@+id/textView4"
-                    android:layout_toRightOf="@+id/textView4"
+                    android:layout_toStartOf="@+id/iv_dashboard_image"
+                    android:layout_toLeftOf="@+id/iv_dashboard_image"
+                    android:layout_toEndOf="@+id/tv_employee_email"
+                    android:layout_toRightOf="@+id/tv_employee_email"
                     android:background="@drawable/btn_custom"
                     android:text="@string/check_in"
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv_employee_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textView3"
@@ -89,13 +89,13 @@
                     android:textSize="24sp" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/iv_dashboard_image"
                     android:layout_width="62dp"
                     android:layout_height="62dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    tools:srcCompat="@drawable/profile_image" />
             </RelativeLayout>
 
             <androidx.gridlayout.widget.GridLayout

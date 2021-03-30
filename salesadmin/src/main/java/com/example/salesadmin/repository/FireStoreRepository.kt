@@ -11,6 +11,7 @@ import com.example.salesadmin.register.RegisterActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FireStoreRepository {
@@ -21,6 +22,13 @@ class FireStoreRepository {
     private  val _productList = MutableLiveData<List<Products>>()
     val productList : LiveData<List<Products>>
         get() = _productList
+
+    fun getUserInfo(): Task<DocumentSnapshot> {
+        val userList = fstore.collection("Sales")
+            .document(user?.uid!!).collection("admin")
+            .document("Admin Info")
+        return userList.get()
+    }
 
     fun registerAdmin(registerAdmin:RegisterAdmin): Task<Void> {
         val df: DocumentReference = fstore.collection("Sales").document("${user?.uid}")

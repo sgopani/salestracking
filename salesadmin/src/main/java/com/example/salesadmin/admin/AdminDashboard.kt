@@ -35,7 +35,6 @@ class AdminDashboard : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
     }
      private fun init(){
-
          addEmployee=rootView.findViewById(R.id.cv_add_employee)
          user= FirebaseAuth.getInstance().currentUser!!
          tvemail=rootView.findViewById(R.id.tv_email_address)

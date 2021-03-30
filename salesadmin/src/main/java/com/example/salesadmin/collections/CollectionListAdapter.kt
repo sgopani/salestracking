@@ -25,7 +25,7 @@ class CollectionListAdapter(var collectionList: List<Collections>,var collection
     override fun onBindViewHolder(holder: CollectionItem, position: Int) {
         val collections=getItem(position)
         holder.bind(collections)
-        holder.itemView.setOnClickListener {
+        holder.tvViewDetail.setOnClickListener {
             collectionItemClickListeners.onCollectionItemClick(collections)
         }
     }
@@ -40,6 +40,7 @@ class CollectionListAdapter(var collectionList: List<Collections>,var collection
         val tvcollectionType=itemView.findViewById<TextView>(R.id.tv_collection_type)
         val tvpartyName=itemView.findViewById<TextView>(R.id.tv_party_name_collection)
         val tvamont=itemView.findViewById<TextView>(R.id.tv_amount_collection)
+        val tvViewDetail=itemView.findViewById<TextView>(R.id.tv_view_details_collections)
         companion object{
             fun createViewHolder(parent: ViewGroup): CollectionItem {
                 val view = LayoutInflater.from(parent.context)

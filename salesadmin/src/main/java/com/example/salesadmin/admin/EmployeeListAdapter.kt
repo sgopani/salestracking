@@ -42,7 +42,7 @@ class EmployeeListAdapter(var employeeList: MutableList<Employee>): RecyclerView
     class EmployeeItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvEmployeeName=itemView.findViewById<TextView>(R.id.tv_employee_list_name)
         val tvPhoneNumber=itemView.findViewById<TextView>(R.id.tv_party_phoneno)
-        val tvEmail=itemView.findViewById<TextView>(R.id.tv_employee_email)
+        val tvEmail=itemView.findViewById<TextView>(R.id.tv_dashboard_email)
         val employeeImage=itemView.findViewById<ImageView>(R.id.employeeImage)
         companion object{
             fun createViewHolder(parent: ViewGroup): EmployeeItem {

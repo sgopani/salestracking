@@ -50,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
         prefManager = PrefManager(this)
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
+
             loginUser()
         }
         registerLink.setOnClickListener {
@@ -69,15 +70,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser() {
+        progressBar.visibility=View.VISIBLE
         val email = emailId.text.toString()
         val password = passwordEditText.text.toString()
         val id=companyID.text.toString()
-        if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches() || password.length < 7) {
-            emailId.error = "Enter valid details"
-            passwordEditText.error = "Enter valid details"
-            return
-        }
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(id)) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches() || password.length < 7) {
+                emailId.error = "Enter valid details"
+                passwordEditText.error = "Enter valid details"
+                progressBar.visibility=View.INVISIBLE
+                return
+            }
             Log.d(TAG, "Logging in user.")
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 //mProgressBar!!.hide()
@@ -112,12 +115,15 @@ class LoginActivity : AppCompatActivity() {
 
             })
         }
+
         else {
+            progressBar.visibility=View.INVISIBLE
             emailId.error="Field cannot be empty"
             passwordEditText.error="Field cannot be empty"
             companyID.error="Field cannot be empty"
             Toast.makeText(this, "Enter all details", Toast.LENGTH_SHORT).show()
         }
+
     }
     private fun updateUI() {
         val documentReference=fstore.collection("Sales").document(companyID.text.toString())

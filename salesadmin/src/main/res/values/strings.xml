@@ -83,5 +83,14 @@
     <string name="order">Orders</string>
     <string name="no_employee_availble">No employee is checked In</string>
     <string name="last_location_time">Last location updated on :</string>
-
+    <string name="employee_list">List of employee</string>
+    <string name="view_details">View details</string>
+    <string name="rupees">₹</string>
+    <string name="home_navigation">Home</string>
+    <string name="profile_navigation">Profile</string>
+    <string name="sign_Out">Sign Out</string>
+    <string name="update">Update </string>
+    <string name="date_of_joining">Date of Joining</string>
+    <string name="edit">edit</string>
+    <string name="profile_name">Name</string>
 </resources>

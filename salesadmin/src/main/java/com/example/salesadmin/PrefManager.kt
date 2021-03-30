@@ -1,10 +1,9 @@
-package com.example.salestracking
+package com.example.salesadmin
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.net.Inet6Address
 
-class PrefManager(var context: Context) {
+class PrefManager (var context: Context) {
     private  var mPreference: SharedPreferences
 
     init {
@@ -20,7 +19,6 @@ class PrefManager(var context: Context) {
         private const val PHONENO="PHONENO"
         private const val COMPANYID="COMPANYID"
         private const val DOJ="DOJ"
-        private const val ISCHECKEDIN="ISCHECKEDiN"
     }
     fun setFullName(fullName: String) {
         val editor : SharedPreferences.Editor = mPreference.edit();
@@ -59,6 +57,7 @@ class PrefManager(var context: Context) {
         return mPreference.getString(PHONENO, "")
 
     }
+
     fun setCompanyID(companyId: String) {
         val editor : SharedPreferences.Editor = mPreference.edit();
         editor.putString(COMPANYID, companyId);
@@ -77,13 +76,4 @@ class PrefManager(var context: Context) {
     fun getDOJ() : Long? {
         return mPreference.getLong(DOJ, 0L)
     }
-    fun setIsCheckedIn(ischeckIn:Boolean){
-        val editor : SharedPreferences.Editor = mPreference.edit();
-        editor.putBoolean(ISCHECKEDIN, ischeckIn);
-        editor.apply()
-    }
-    fun getIsCheckedIn(): Boolean {
-        return mPreference.getBoolean(ISCHECKEDIN,false)
-    }
-
 }

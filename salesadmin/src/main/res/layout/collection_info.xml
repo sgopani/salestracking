@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tv_view_details_collection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -105,7 +105,7 @@
         android:textColor="@color/black"
         android:textSize="@dimen/textSizeAll"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/tv_view_details_collection"
         app:layout_constraintTop_toBottomOf="@+id/tv_party_name_info" />
 
     <TextView

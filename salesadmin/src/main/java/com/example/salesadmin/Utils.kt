@@ -11,7 +11,7 @@ enum class SalesApiStatus { LOADING, ERROR, DONE,EMPTY}
 const val TIME_FORMAT = "hh:mm:ss aa"
 const val FirebaseServerID="AAAA2QW0jAg:APA91bEL9VqKft9atwHnw-" +
         "JVZKM8GISb6-KQ4dEQIdnV3JOozsDOgvo4igofgdzEP0bAwQFKNtdS7Wl3d65DfmlKHehzNh8gvLZRQV1M4Do4CdmqvNyRaF2YyoB2MFKIxD5L8MJ2a_lC"
-
+//const val googleMapApiKey="AIzaSyDklqaN4Gxa4Ej2xhj936gfEmvbG7eOtjk"
 fun isInternetOn(context: Context): Boolean {
     val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
     val activeNetwork = cm?.activeNetworkInfo

@@ -10,14 +10,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.salestracking.*
 import com.example.salestracking.databse.model.Attendance
 import com.example.salestracking.repository.FireStoreViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -38,9 +44,11 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
     private  var checkInDate:String=""
     private lateinit var prefManager:PrefManager
     private lateinit var checkInOut:CardView
-
-
+    private lateinit var drawable: TextDrawable
+    private lateinit var user: FirebaseUser
     private lateinit var viewModel: FireStoreViewModel
+    private lateinit var employeeImage:ImageView
+    private lateinit var tvemail: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -55,7 +63,16 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
          attendence=rootView.findViewById(R.id.cv_attendence)
          checkInOut=rootView.findViewById(R.id.cv_employee_location)
          prefManager=PrefManager(this.requireContext())
+         tvemail=rootView.findViewById(R.id.tv_employee_email)
          viewModel= FireStoreViewModel()
+         user= FirebaseAuth.getInstance().currentUser!!
+         employeeImage=rootView.findViewById(R.id.iv_dashboard_image)
+         val generator: ColorGenerator = ColorGenerator.MATERIAL
+         val color: Int = generator.randomColor
+         drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
+                .buildRound(user.email!![0].toString().toUpperCase(Locale.ROOT), color)
+         employeeImage.setImageDrawable(drawable)
+        tvemail.text=getString(R.string.Hello,user.email)
     }
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -81,6 +98,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
             //checkInBtn.visibility=View.VISIBLE
             //checkOutBtn.visibility=View.GONE
         }
+
         return rootView
     }
 
@@ -129,10 +147,14 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
 
 
     private fun markAttendance() {
+        if(!isInternetOn(this.requireActivity())) {
+            Toast.makeText(this.requireContext(),"Please check your Internet connection",Toast.LENGTH_SHORT).show()
+            return
+        }
         val valid=prefManager.getIsCheckedIn()
         val fstore = FirebaseFirestore.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
-
+        if(isInternetOn(this.requireActivity())) {
         val df: DocumentReference = fstore.collection("Sales").document(COMPANYUID)
             .collection("employee")
             .document("${user?.email}").collection("Attendance")
@@ -146,35 +168,43 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
                     setPositiveButton("OK") { _, _ ->
                     }
                 }.create().show()
-            }else{
-                prefManager.setIsCheckedIn(true)
-                if (valid) {
-                    AlertDialog.Builder(context).apply {
-                        setTitle("Are you sure you want to mark your attendance?")
-                        setMessage("You can mark only once in a day")
-                        setPositiveButton("Yes") { _, _ ->
-                            val date = toSimpleDateFormat(System.currentTimeMillis())
-                            val checkIn = Calendar.getInstance().time.toString()
-                            val attendance = Attendance(
-                                user!!.uid,
-                                System.currentTimeMillis(),
-                                date,
-                                checkIn
-                            )
-                            viewModel.addAttendanceFirebase(attendance)
-                            checkInDate = date
-                            //prefManager.setIsCheckedIn(true)
-                            //checkOutBtn.visibility = View.VISIBLE
-                            //checkInBtn.visibility = View.INVISIBLE
-                        }
-                        setNegativeButton("No") { _, _ ->
-
-                        }
-                    }.create().show()
-                }
 
             }
+            else{
+                    prefManager.setIsCheckedIn(true)
+                    if (valid) {
+                        AlertDialog.Builder(context).apply {
+                            setTitle("Are you sure you want to mark your attendance?")
+                            setMessage("You can mark only once in a day")
+                            setPositiveButton("Yes") { _, _ ->
+                                val date = toSimpleDateFormat(System.currentTimeMillis())
+                                val checkIn = Calendar.getInstance().time.toString()
+                                val attendance = Attendance(
+                                    user!!.uid,
+                                    System.currentTimeMillis(),
+                                    date,
+                                    checkIn
+                                )
+                                try {
+                                    viewModel.addAttendanceFirebase(attendance)
+                                    checkInDate = date
+                                }
+                                catch (e:Exception){
+                                    Toast.makeText(this.context, "Please check your Internet connection", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            setNegativeButton("No") { _, _ ->
 
+                            }
+                        }.create().show()
+                    }
+                }
+
+
+            }
+        }
+        else{
+            Toast.makeText(this.requireContext(), "Please check your Internet connection", Toast.LENGTH_SHORT).show()
         }
 
     }
