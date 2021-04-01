@@ -7,110 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".login.LoginActivity">
 
-    <!--    <EditText-->
-    <!--        android:id="@+id/email_add_login"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="@dimen/edittext_height"-->
-    <!--        android:layout_marginStart="32dp"-->
-    <!--        android:layout_marginLeft="32dp"-->
-    <!--        android:layout_marginTop="136dp"-->
-    <!--        android:layout_marginEnd="32dp"-->
-    <!--        android:layout_marginRight="32dp"-->
-    <!--        android:autofillHints=""-->
-    <!--        android:background="@drawable/et_custom"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/login_admin_email"-->
-    <!--        android:inputType="textEmailAddress"-->
-    <!--        android:paddingLeft="10dp"-->
-    <!--        android:textSize="@dimen/text_size"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.0"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/textView" />-->
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/login_password"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="@dimen/edittext_height"-->
-    <!--        android:layout_marginStart="32dp"-->
-    <!--        android:layout_marginLeft="32dp"-->
-    <!--        android:layout_marginTop="32dp"-->
-    <!--        android:layout_marginEnd="32dp"-->
-    <!--        android:layout_marginRight="32dp"-->
-    <!--        android:autofillHints=""-->
-    <!--        android:background="@drawable/et_custom"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/login_password"-->
-    <!--        android:inputType="textPassword"-->
-    <!--        android:paddingLeft="10dp"-->
-    <!--        android:textSize="@dimen/text_size"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.497"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/email_add_login" />-->
-
-    <!--    <Button-->
-    <!--        android:id="@+id/login_button"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        android:layout_marginLeft="16dp"-->
-    <!--        android:layout_marginTop="96dp"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        android:layout_marginRight="16dp"-->
-    <!--        android:background="@drawable/btn_custom"-->
-    <!--        android:text="@string/login"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.507"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/login_password" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/forgot_password_tv"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:layout_marginEnd="32dp"-->
-    <!--        android:layout_marginRight="32dp"-->
-    <!--        android:text="@string/forgot_password"-->
-    <!--        android:textColor="@color/teal_700"-->
-    <!--        android:textSize="18sp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/login_password" />-->
-
-    <!--    <Button-->
-    <!--        android:id="@+id/admin_sign_up"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        android:layout_marginLeft="16dp"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        android:layout_marginRight="16dp"-->
-    <!--        android:background="@drawable/btn_custom"-->
-    <!--        android:text="@string/create_an_admin_account"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.515"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/login_button"-->
-    <!--        app:layout_constraintVertical_bias="0.917" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/textView"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="32dp"-->
-    <!--        android:layout_marginLeft="32dp"-->
-    <!--        android:layout_marginTop="16dp"-->
-    <!--        android:layout_marginEnd="32dp"-->
-    <!--        android:layout_marginRight="32dp"-->
-    <!--        android:fontFamily="@font/roboto_bold"-->
-    <!--        android:text="@string/Login_header"-->
-    <!--        android:textSize="50sp"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
 
     <ImageView
         android:id="@+id/imageView"
@@ -171,10 +67,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:passwordToggleEnabled="true"
+            android:background="@color/editText_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_login_textInputLayout">
+            app:layout_constraintTop_toBottomOf="@+id/et_login_textInputLayout"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_password"
@@ -201,6 +98,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
+            android:background="@color/editText_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4">
@@ -232,8 +130,9 @@
             android:layout_marginRight="16dp"
             android:gravity="center"
             android:text="@string/login"
-            android:textColor="@color/background"
+            android:textColor="@color/black"
             android:textSize="36sp"
+            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

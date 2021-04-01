@@ -2,50 +2,55 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.salesadmin">
+
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Required to show current location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/tracking_employee"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppCompat.Light"
+        android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".register.RegisterActivity" />
-        <activity android:name=".login.ForgotPassword" />
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-<!--        <service-->
-<!--            android:name=".notification.MyFirebaseMessagingService">-->
+        <activity android:name=".register.RegisterActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity android:name=".login.ForgotPassword"
+            android:theme="@style/NoActionBar"/>
+        <activity android:name=".login.LoginActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity android:name=".MainActivity">
 <!--            <intent-filter>-->
-<!--                <action android:name="com.google.firebase.MESSAGING_EVENT"/>-->
-<!--            </intent-filter>-->
-<!--        </service>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity> <!-- <service -->
+        <!-- android:name=".notification.MyFirebaseMessagingService"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT"/> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
-
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts"
-            />
-
-        <meta-data android:name="com.google.android.gms.version"
+            android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
     </application>
-
 
 </manifest>

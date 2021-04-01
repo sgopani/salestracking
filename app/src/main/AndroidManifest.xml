@@ -3,37 +3,49 @@
     package="com.example.salestracking">
     <!-- To request foreground location access, declare one of these permissions. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Required only when requesting background location access on Android 10 (API level 29). -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Required only when requesting background location access on Android 10 (API level 29). -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/tracking_employee"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name=".login.ForgotPassword"></activity>
-        <activity android:name=".register.RegisterEmployee" />
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan">
+        <activity android:name=".SplashActivity"
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".login.ForgotPassword"
+            android:theme="@style/NoActionBar"/>
+        <activity android:name=".register.RegisterEmployee"
+            android:theme="@style/NoActionBar"/>
+        <activity android:name=".login.LoginActivity"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/googleMapApiKey" />
 
-        <service android:name=".TrackingService"
+        <service
+            android:name=".TrackingService"
             android:foregroundServiceType="location" />
-
         <service android:name=".notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

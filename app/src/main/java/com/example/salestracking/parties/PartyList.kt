@@ -57,6 +57,7 @@ class PartyList : Fragment() {
         recyclerView.setHasFixedSize(true)
         viewModel = FireStoreViewModel()
 
+
         viewModel.getAllParty()
         viewModel.partiesList.observe(this.requireActivity(), Observer { parties ->
             //Log.d("loadData1","${viewModel.productList.value}")
@@ -66,7 +67,9 @@ class PartyList : Fragment() {
             adapter.partyList = partyList
             adapter.notifyDataSetChanged()
         })
+
         //
+
         viewModel.selectedParty.observe(this.viewLifecycleOwner, Observer { partyList->
             if (partyList != null) {
                 val action= PartyListDirections.actionPartyListToAddCollection(partyList)

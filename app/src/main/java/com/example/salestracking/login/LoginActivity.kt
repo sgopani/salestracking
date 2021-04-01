@@ -8,9 +8,7 @@ import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
-import com.example.salestracking.COMPANYUID
-import com.example.salestracking.MainActivity
-import com.example.salestracking.PrefManager
+import com.example.salestracking.*
 import com.example.salestracking.R
 import com.example.salestracking.register.RegisterEmployee
 import com.google.android.gms.tasks.OnFailureListener
@@ -28,8 +26,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var forgotPassword: TextView
     private lateinit var companyID:EditText
     private lateinit var prefManager: PrefManager
-
-
     private val TAG = "LoginActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +36,25 @@ class LoginActivity : AppCompatActivity() {
     private fun initialize() {
         auth = FirebaseAuth.getInstance()
         emailId = findViewById(R.id.email_add_login)
-        passwordEditText = findViewById(R.id.et_amount)
+        passwordEditText = findViewById(R.id.login_password)
         loginButton = findViewById(R.id.login_button)
         registerLink=findViewById(R.id.registerLink)
         progressBar=findViewById(R.id.progress_bar)
         fstore=FirebaseFirestore.getInstance()
         forgotPassword=findViewById(R.id.forgot_password_tv)
-        companyID=findViewById(R.id.company_id_login)
+        companyID=findViewById(R.id.login_uid)
         prefManager = PrefManager(this)
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
+            if(isInternetOn(this)){
+                loginButton.isClickable=false
+                loginUser()
+            }
+            else{
+                Toast.makeText(this,"Please check your internet connection ",Toast.LENGTH_SHORT).show()
+                loginButton.isClickable=true
+            }
 
-            loginUser()
         }
         registerLink.setOnClickListener {
             val intent = Intent(this, RegisterEmployee::class.java)
@@ -79,6 +82,7 @@ class LoginActivity : AppCompatActivity() {
                 emailId.error = "Enter valid details"
                 passwordEditText.error = "Enter valid details"
                 progressBar.visibility=View.INVISIBLE
+                loginButton.isClickable=true
                 return
             }
             Log.d(TAG, "Logging in user.")
@@ -91,6 +95,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }.addOnFailureListener(OnFailureListener {exeption->
                 //Log.d("exeption", exeption.localizedMessage)
+                loginButton.isClickable=true
                 when {
                     exeption.localizedMessage=="The password is invalid or the user does not have a password." -> {
                         Toast.makeText(this, "Enter Valid Password",Toast.LENGTH_SHORT).show()
@@ -108,7 +113,7 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "User doesn't exist contact admin ",Toast.LENGTH_LONG).show()
                     }
                     else -> {
-                        Toast.makeText(this, exeption.localizedMessage,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Please try again later",Toast.LENGTH_SHORT).show()
                     }
                 }
                 progressBar.visibility=View.GONE
@@ -117,6 +122,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         else {
+            loginButton.isClickable=true
             progressBar.visibility=View.INVISIBLE
             emailId.error="Field cannot be empty"
             passwordEditText.error="Field cannot be empty"
@@ -139,12 +145,14 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, " Welcome ${auth.currentUser?.email}", Toast.LENGTH_SHORT).show()
             }
             else{
+                loginButton.isClickable=true
                 progressBar.visibility=View.GONE
                 Toast.makeText(this, "This Login credentials are not associated with any employee account", Toast.LENGTH_SHORT).show()
                 auth.signOut()
             }
 
         }.addOnFailureListener {
+            loginButton.isClickable=true
             progressBar.visibility=View.GONE
             Log.w(TAG, "Error getting documents: ")
         }

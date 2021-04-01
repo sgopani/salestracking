@@ -107,6 +107,9 @@ Location Service</string>
     <string name="checkin_out">Check IN/OUT</string>
     <string name="googleMapApiKey">AIzaSyDklqaN4Gxa4Ej2xhj936gfEmvbG7eOtjk</string>
     <string name="Hello">Hello, %1$s!</string>
+    <string name="title">Sales Employee Tracking System</string>
+    <string name="employee_splash">Employee</string>
+    <string name="new_account">Create a New Account</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>
