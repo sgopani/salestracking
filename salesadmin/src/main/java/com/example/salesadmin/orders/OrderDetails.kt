@@ -15,6 +15,7 @@ import com.example.salesadmin.R
 import com.example.salesadmin.model.CartItem
 import com.example.salesadmin.repository.FireStoreViewModel
 import com.example.salesadmin.toSimpleDateFormat
+import com.example.salesadmin.toTimeFormat
 import java.util.ArrayList
 
 class OrderDetails : Fragment() {
@@ -28,6 +29,7 @@ class OrderDetails : Fragment() {
     private lateinit var tvPartyContact:TextView
     private lateinit var tvOrderDate:TextView
     private lateinit var tvOrderTotal:TextView
+    private lateinit var tvOrderPartyEmail:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,7 @@ class OrderDetails : Fragment() {
         tvPartyContact=rootView.findViewById(R.id.tv_order_party_contact_no)
         tvOrderDate=rootView.findViewById(R.id.tv_order_details_date)
         tvOrderTotal=rootView.findViewById(R.id.tv_order_detail_total)
+        tvOrderPartyEmail=rootView.findViewById(R.id.tv_order_party_contact)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,9 +66,10 @@ class OrderDetails : Fragment() {
                 tvPartyName.text= order.party!!.name
                 tvPartyAddress.text= order.party!!.address
                 tvPartyContact.text= order.party!!.phoneNo
-                val date= toSimpleDateFormat(order.time.toLong())
+                val date= toSimpleDateFormat(order.time.toLong())+" at "+toTimeFormat(order.time.toLong())
                 tvOrderDate.text=date
                 tvOrderTotal.text=order.total
+                tvOrderPartyEmail.text= order.party!!.contactName
                 Linkify.addLinks(tvPartyContact, Linkify.PHONE_NUMBERS)
                 viewModel.eventNavigateToOrderDetailCompleted()
             }

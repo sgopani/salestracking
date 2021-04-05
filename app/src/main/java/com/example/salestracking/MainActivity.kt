@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                     prefManager.setCompanyID(userInfo?.companyId.toString())
                     //prefManager.setCompanyID(userInfo?.time.toString())
                     FirebaseMessaging.getInstance().subscribeToTopic("/topics/$COMPANYUID")
-                    Toast.makeText(this, "{ ${COMPANYUID} }", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this, "{ ${COMPANYUID} }", Toast.LENGTH_SHORT).show()
 //            name.setText(prefManager.getFullName())
 //            address.setText(prefManager.getAddress())
 //            phoneNo.setText(prefManager.getPhoneNo())

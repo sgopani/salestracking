@@ -46,3 +46,9 @@ fun toSimpleDateFormat(timeInMillis: Long): String {
     val date = Date(timeInMillis)
     return df.format(date)
 }
+const val TIME_FORMAT = "hh:mm:ss aa"
+fun toTimeFormat(timeInMillis: Long): String{
+    val df = SimpleDateFormat(TIME_FORMAT)
+    val date = Date(timeInMillis)
+    return df.format(date)
+}

@@ -100,6 +100,7 @@
                 android:layout_marginRight="16dp"
                 android:hint="@string/name"
                 android:paddingLeft="8dp"
+                android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.078"
@@ -206,8 +207,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/update_profile_btn"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/update_profile_btn" />
 
             <Button
                 android:id="@+id/update_profile_btn"
@@ -220,7 +220,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/btn_custom"
                 android:text="@string/update"
-                android:visibility="invisible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"

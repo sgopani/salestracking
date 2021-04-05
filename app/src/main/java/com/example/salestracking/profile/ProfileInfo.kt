@@ -14,9 +14,12 @@ import androidx.navigation.fragment.findNavController
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.salestracking.*
+import com.example.salestracking.databse.SalesDatabase
 import com.example.salestracking.databse.model.Employee
+import com.example.salestracking.employee.notes.NotesViewModel
 import com.example.salestracking.login.LoginActivity
 import com.example.salestracking.repository.FireStoreRepository
+import com.example.salestracking.repository.FireStoreViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,6 +43,8 @@ class ProfileInfo : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var profileImageView: ImageView
     private lateinit var drawable: TextDrawable
+    private lateinit var viewModel: NotesViewModel
+    private lateinit var salesDatabase: SalesDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +64,8 @@ class ProfileInfo : Fragment() {
         edit=rootView.findViewById(R.id.tv_edit_profile)
         dateOfJoining=rootView.findViewById(R.id.et_date_of_joining)
         profileImageView=rootView.findViewById(R.id.iv_profile_image)
+        salesDatabase= SalesDatabase.getInstance(this.requireContext())
+        viewModel= NotesViewModel(salesDatabase)
     }
 
     override fun onCreateView(
@@ -154,18 +161,24 @@ class ProfileInfo : Fragment() {
         }
 
         return rootView
+
     }
     private  fun signOut(){
+
         if(isInternetOn(this.requireActivity())){
             try{
                 firebaseAuth.signOut()
                 val intent= Intent(this.requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
                 this.activity?.finish()
+                prefManager.clear()
+                viewModel.deleteAll()
             }
+
             catch (e:Exception){
                 Toast.makeText(this.requireContext(), "Please check your Internet connection", Toast.LENGTH_SHORT).show()
             }
+
         }
     }
 

@@ -10,10 +10,10 @@
         android:id="@+id/btn_add_collection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/btn_custom"
         android:text="@string/add_collection"
@@ -22,7 +22,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <include
-        android:id="@+id/include"
         layout="@layout/search_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -41,7 +40,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_add_collection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        app:layout_constraintTop_toBottomOf="@+id/searchEditText"/>
 
     <TextView
         android:id="@+id/no_collections"
@@ -53,7 +52,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_add_collection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         layout="@layout/include_progress_bar"

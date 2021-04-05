@@ -76,4 +76,9 @@ class PrefManager (var context: Context) {
     fun getDOJ() : Long? {
         return mPreference.getLong(DOJ, 0L)
     }
+    fun clear(){
+        val editor : SharedPreferences.Editor = mPreference.edit()
+        editor.clear()
+        editor.apply()
+    }
 }

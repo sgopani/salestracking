@@ -299,7 +299,8 @@ class FireStoreViewModel:ViewModel() {
     fun getAllOrderList(){
         coroutineScope.launch {
             val orderList = fstore.collection("Sales")
-                .document(COMPANYUID).collection("Order")
+                .document(COMPANYUID).collection("Order").whereEqualTo("employeeUid",
+            user?.uid.toString()).orderBy("time", Query.Direction.DESCENDING)
             orderList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
                     _status.value = SalesApiStatus.LOADING

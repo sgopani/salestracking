@@ -164,6 +164,7 @@ class Profile : Fragment() {
                 val intent= Intent(this.requireActivity(), LoginActivity::class.java)
                 startActivity(intent)
                 this.activity?.finish()
+                prefManager.clear()
             }
             catch (e:Exception){
                 Toast.makeText(this.requireContext(), "Please check your Internet connection", Toast.LENGTH_SHORT).show()

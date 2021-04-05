@@ -66,4 +66,13 @@ class NotesViewModel(database:SalesDatabase):ViewModel() {
 
         }
     }
+     fun deleteAll(){
+         viewModelScope.launch {
+             //_notesLiveData.value = notes
+             withContext(Dispatchers.IO) {
+                 notesDao.deleteAll()
+             }
+
+         }
+     }
 }

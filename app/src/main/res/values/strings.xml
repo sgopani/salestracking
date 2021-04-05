@@ -110,6 +110,8 @@ Location Service</string>
     <string name="title">Sales Employee Tracking System</string>
     <string name="employee_splash">Employee</string>
     <string name="new_account">Create a New Account</string>
+    <string name="party_details">Party details</string>
+    <string name="order_taken">Order taken on</string>
     <string-array name="leave_type">
         <item>Sick Leave</item>
         <item>Family Responsibility Leave</item>

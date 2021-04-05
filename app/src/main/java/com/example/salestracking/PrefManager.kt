@@ -85,5 +85,12 @@ class PrefManager(var context: Context) {
     fun getIsCheckedIn(): Boolean {
         return mPreference.getBoolean(ISCHECKEDIN,false)
     }
+    fun clear(){
+        val editor : SharedPreferences.Editor = mPreference.edit()
+        editor.clear()
+        editor.apply()
+    }
+
+
 
 }

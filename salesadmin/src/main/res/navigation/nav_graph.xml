@@ -229,7 +229,7 @@
     <fragment
         android:id="@+id/orderDetails2"
         android:name="com.example.salesadmin.orders.OrderDetails"
-        android:label="order_details"
+        android:label="Order Details"
         tools:layout="@layout/order_details" />
     <fragment
         android:id="@+id/employeeTracking"

@@ -139,7 +139,8 @@ class FireStoreViewModel:ViewModel() {
 
     fun getAllProducts() {
         coroutineScope.launch {
-            val productList = fstore.collection("Sales").document(user!!.uid).collection("Products")
+            val productList = fstore.collection("Sales").document(user!!.uid)
+                    .collection("Products")
             productList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
                     _status.value = SalesApiStatus.LOADING
@@ -189,7 +190,8 @@ class FireStoreViewModel:ViewModel() {
 
     fun getAllEmployee() {
         coroutineScope.launch {
-            val employeeList = fstore.collection("Sales").document(user!!.uid).collection("employee")
+            val employeeList = fstore.collection("Sales")
+                    .document(user!!.uid).collection("employee")
             employeeList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
                     _status.value = SalesApiStatus.LOADING
@@ -275,15 +277,14 @@ class FireStoreViewModel:ViewModel() {
     fun getAllOrderList(){
         coroutineScope.launch {
             val orderList = fstore.collection("Sales")
-                .document(user?.uid!!).collection("Order")
+                .document(user?.uid!!).collection("Order").orderBy("time", Query.Direction.DESCENDING)
             orderList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
                     _status.value = SalesApiStatus.LOADING
                     if (querySnapshot?.isEmpty!!) {
                         _status.value = SalesApiStatus.EMPTY
-                        //Log.d(TAG, firebaseFirestoreException?.message.toString())
                     } else {
-                        val innerEvents = querySnapshot.toObjects(Order::class.java)
+                         val innerEvents = querySnapshot.toObjects(Order::class.java)
                         _orderList.value=innerEvents
                         _status.value = SalesApiStatus.DONE
                     }
@@ -296,6 +297,7 @@ class FireStoreViewModel:ViewModel() {
             }
         }
     }
+
     fun getEmployeeLocation(){
         coroutineScope.launch {
             val locationList = fstore.collection("Sales")

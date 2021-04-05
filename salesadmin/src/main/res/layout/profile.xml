@@ -220,7 +220,7 @@
                 android:layout_marginRight="16dp"
                 android:background="@drawable/btn_custom"
                 android:text="@string/update"
-                android:visibility="invisible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
