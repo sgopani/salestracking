@@ -143,7 +143,7 @@ class PartiesList : Fragment() {
                 progressBar.visibility = View.GONE
             }
             SalesApiStatus.EMPTY->{
-                noProduct.text=getString(R.string.no_product)
+                //noProduct.text=getString(R.string.no_product)
                 noProduct.visibility=View.VISIBLE
                 progressBar.visibility = View.GONE
             }

@@ -69,6 +69,7 @@ class AdminDashboard : Fragment(), View.OnClickListener {
         collectionList.setOnClickListener(this)
         order.setOnClickListener(this)
         employeeTracking.setOnClickListener(this)
+        adminImage.setOnClickListener(this)
         return rootView
     }
 
@@ -104,6 +105,10 @@ class AdminDashboard : Fragment(), View.OnClickListener {
             }
             R.id.cv_employee_tracking->{
                 val action=AdminDashboardDirections.actionAdminDashboardToEmployeeTracking()
+                findNavController().navigate(action)
+            }
+            R.id.admin_dashboard_iv ->{
+                val action=AdminDashboardDirections.actionAdminDashboardToProfile()
                 findNavController().navigate(action)
             }
 

@@ -89,6 +89,7 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
         checkInOut.setOnClickListener(this)
         isCheckIn=prefManager.getIsCheckedIn()
         attendence.setOnClickListener(this)
+        employeeImage.setOnClickListener(this)
         if(isCheckIn){
             //checkOutBtn.visibility=View.VISIBLE
             //checkInBtn.visibility=View.GONE
@@ -139,6 +140,10 @@ class EmployeeDashboard : Fragment(), View.OnClickListener,EasyPermissions.Permi
 
             R.id.cv_employee_location -> {
                 val action = EmployeeDashboardDirections.actionEmployeeDashboardToTracking()
+                findNavController().navigate(action)
+            }
+            R.id.iv_dashboard_image ->{
+                val action = EmployeeDashboardDirections.actionEmployeeDashboardToProfileInfo()
                 findNavController().navigate(action)
             }
         }

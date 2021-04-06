@@ -133,7 +133,7 @@ class PartyList : Fragment() {
     private fun checkInternet(status: SalesApiStatus) {
         when (status) {
             SalesApiStatus.LOADING -> {
-                //progressBar.visibility=View.VISIBLE
+                progressBar.visibility=View.VISIBLE
             }
             SalesApiStatus.ERROR -> {
                 if (isInternetOn(this.requireContext())) {
@@ -142,16 +142,16 @@ class PartyList : Fragment() {
                 } else {
                     Toast.makeText(this.context, "Please Check Your Internet Connection", Toast.LENGTH_SHORT).show()
                 }
-                //progressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
             }
             SalesApiStatus.DONE -> {
                 noParty.visibility=View.INVISIBLE
-                //progressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
             }
             SalesApiStatus.EMPTY->{
                 //noProduct.text=getString(R.string.no_product)
                 noParty.visibility=View.VISIBLE
-                //progressBar.visibility = View.GONE
+                progressBar.visibility = View.GONE
             }
         }
 
