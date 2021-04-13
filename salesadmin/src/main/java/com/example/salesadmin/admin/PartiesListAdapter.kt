@@ -10,11 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.example.salesadmin.PartyItemClickListener
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Party
 import java.util.*
 
-class PartiesListAdapter( var partyList: MutableList<Party>): RecyclerView.Adapter<PartiesListAdapter.PartyItem>() {
+class PartiesListAdapter( var partyList: MutableList<Party>,var partyItemClickListener: PartyItemClickListener): RecyclerView.Adapter<PartiesListAdapter.PartyItem>() {
     //    private var productList= mutableListOf<Products>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartyItem {
         return PartyItem.createViewHolder(parent)
@@ -32,6 +33,10 @@ class PartiesListAdapter( var partyList: MutableList<Party>): RecyclerView.Adapt
             TextDrawable.builder().beginConfig().withBorder(4).endConfig()
                 .buildRound(parties.name[0].toString().toUpperCase(Locale.ROOT), color)
         holder.partyImage.setImageDrawable(drawable)
+        holder.itemView.setOnClickListener {
+            partyItemClickListener.onPartyClick(parties.name)
+        }
+
     }
 
     override fun getItemCount(): Int {

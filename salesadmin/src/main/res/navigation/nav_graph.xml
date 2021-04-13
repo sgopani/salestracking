@@ -120,6 +120,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_employeeList_to_employeeAttendanceList"
+            app:destination="@id/employeeAttendanceList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/addParties"
@@ -151,6 +158,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_partiesList_to_partyCollection"
+            app:destination="@id/partyCollection"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/sendNotification"
@@ -248,4 +262,14 @@
         android:name="com.example.salesadmin.profile.Profile"
         android:label="Profile"
         tools:layout="@layout/profile" />
+    <fragment
+        android:id="@+id/employeeAttendanceList"
+        android:name="com.example.salesadmin.admin.EmployeeAttendanceList"
+        android:label="Days present on"
+        tools:layout="@layout/employee_attendance_list" />
+    <fragment
+        android:id="@+id/partyCollection"
+        android:name="com.example.salesadmin.admin.PartyCollection"
+        android:label="Collections"
+        tools:layout="@layout/party_collection" />
 </navigation>

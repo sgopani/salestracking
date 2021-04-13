@@ -2,6 +2,7 @@
 package com.example.salestracking
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             val generator: ColorGenerator = ColorGenerator.MATERIAL
             val color: Int = generator.randomColor
             drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
-                    .buildRound(user.email!![0].toString().toUpperCase(Locale.ROOT), color)
+                    .buildRound(user.email!![0].toString().toUpperCase(Locale.ROOT),color)
             COMPANYUID=prefManager.getCompanyId().toString()
                     //prefManager.getCompanyId().toString()
             firebaseRepository.getUserInfo().addOnSuccessListener {document->
@@ -69,7 +70,6 @@ class MainActivity : AppCompatActivity() {
                     prefManager.setEmail(userInfo?.emailId.toString())
                     prefManager.setPhone(userInfo?.phoneNo.toString())
                     prefManager.setCompanyID(userInfo?.companyId.toString())
-                    //prefManager.setCompanyID(userInfo?.time.toString())
                     FirebaseMessaging.getInstance().subscribeToTopic("/topics/$COMPANYUID")
                     headerName.text=prefManager.getFullName()
                     headerImage.setImageDrawable(drawable)

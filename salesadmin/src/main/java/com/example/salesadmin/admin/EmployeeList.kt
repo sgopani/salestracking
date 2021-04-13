@@ -9,14 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salesadmin.R
-import com.example.salesadmin.SalesApiStatus
-import com.example.salesadmin.isInternetOn
+import com.example.salesadmin.*
 import com.example.salesadmin.model.Employee
-import com.example.salesadmin.model.Party
-import com.example.salesadmin.model.Products
 import com.example.salesadmin.repository.FireStoreViewModel
 import java.util.*
 
@@ -33,13 +31,13 @@ class EmployeeList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this.requireActivity()).get(FireStoreViewModel::class.java)
     }
     fun init() {
         recyclerView = rootView.findViewById(R.id.rv_employeeList)
         noEmployee=rootView.findViewById(R.id.no_employee)
         progressBar = rootView.findViewById(R.id.progress_bar)
         searchEditText=rootView.findViewById(R.id.searchEditText)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,18 +46,21 @@ class EmployeeList : Fragment() {
         rootView = inflater.inflate(R.layout.employee_list, container, false)
         init()
         progressBar.visibility = View.VISIBLE
-        adapter = EmployeeListAdapter(employeeList)
+        adapter = EmployeeListAdapter(employeeList,getEmployeeItemClickListener())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.setHasFixedSize(true)
-        viewModel = FireStoreViewModel()
+        //viewModel = FireStoreViewModel()
         viewModel.getAllEmployee()
+
         viewModel.employeeList.observe(this.requireActivity(), Observer { employee ->
             noEmployee.visibility = View.INVISIBLE
             employeeList = employee
             adapter.employeeList = employeeList
             adapter.notifyDataSetChanged()
         })
+
+
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkInternet(status)
         })
@@ -78,6 +79,19 @@ class EmployeeList : Fragment() {
         return  rootView
 
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.attendanceList.observe(viewLifecycleOwner, Observer {attendance->
+            if(attendance!=null){
+                //Toast.makeText(this.requireContext(),"$attendance", Toast.LENGTH_SHORT).show()
+                val action=EmployeeListDirections.actionEmployeeListToEmployeeAttendanceList()
+                findNavController().navigate(action)
+            }
+        })
+    }
+
     private fun filterList(filterItem:String){
         searchList.clear()
         for (item in employeeList) {
@@ -124,6 +138,14 @@ class EmployeeList : Fragment() {
                 noEmployee.text=getString(R.string.no_employee)
                 noEmployee.visibility=View.VISIBLE
                 progressBar.visibility = View.GONE
+            }
+        }
+    }
+    private fun getEmployeeItemClickListener(): EmployeeAttendanceItemClickListener{
+        return object :  EmployeeAttendanceItemClickListener {
+
+            override fun onEmployeeAttendanceClick(email: String) {
+                viewModel.getEmployeeAttendance(email)
             }
         }
     }

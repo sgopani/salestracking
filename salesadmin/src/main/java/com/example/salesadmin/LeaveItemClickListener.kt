@@ -15,3 +15,9 @@ interface CollectionItemClickListener{
 interface OrderDetailsItemClickListener{
     fun onOrderItemClick(order: Order)
 }
+interface EmployeeAttendanceItemClickListener{
+    fun onEmployeeAttendanceClick(email:String)
+}
+interface PartyItemClickListener{
+    fun onPartyClick(name:String)
+}

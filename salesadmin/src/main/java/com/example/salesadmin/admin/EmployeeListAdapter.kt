@@ -10,12 +10,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.example.salesadmin.EmployeeAttendanceItemClickListener
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Employee
 import java.util.*
 
 
-class EmployeeListAdapter(var employeeList: MutableList<Employee>): RecyclerView.Adapter<EmployeeListAdapter.EmployeeItem>() {
+class EmployeeListAdapter(var employeeList: MutableList<Employee>,
+                          var attendanceItemClickListenerClick: EmployeeAttendanceItemClickListener):
+    RecyclerView.Adapter<EmployeeListAdapter.EmployeeItem>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -38,6 +41,9 @@ class EmployeeListAdapter(var employeeList: MutableList<Employee>): RecyclerView
             TextDrawable.builder().beginConfig().withBorder(4).endConfig()
                 .buildRound(employee.name[0].toString().toUpperCase(Locale.ROOT), color)
         holder.employeeImage.setImageDrawable(drawable)
+        holder.itemView.setOnClickListener {
+            attendanceItemClickListenerClick.onEmployeeAttendanceClick(employee.emailId)
+        }
     }
     class EmployeeItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvEmployeeName=itemView.findViewById<TextView>(R.id.tv_employee_list_name)
@@ -55,7 +61,6 @@ class EmployeeListAdapter(var employeeList: MutableList<Employee>): RecyclerView
             val employeeName=employee.name
             val phoneNumber=employee.phoneNo
             val email=employee.emailId
-
             tvEmployeeName.text=employeeName
             tvPhoneNumber.text=phoneNumber
             Linkify.addLinks(tvPhoneNumber, Linkify.ALL)

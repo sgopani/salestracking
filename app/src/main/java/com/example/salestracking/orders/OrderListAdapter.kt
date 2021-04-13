@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salestracking.OrderDetailsItemClickListener
 import com.example.salestracking.R
 import com.example.salestracking.databse.model.Order
+import com.example.salestracking.databse.model.Party
 import com.example.salestracking.toSimpleDateFormat
 
 class OrderListAdapter (var OrderList: MutableList<Order>,var orderDetailsItemClickListener: OrderDetailsItemClickListener): RecyclerView.Adapter<OrderListAdapter.OrderItem>() {
@@ -66,26 +67,9 @@ class OrderListAdapter (var OrderList: MutableList<Order>,var orderDetailsItemCl
             tvAmount.text=totalAmount
         }
     }
+    fun updateList(list: MutableList<Order>){
+        OrderList=list
+        notifyDataSetChanged()
+    }
 
 }
-//            val date=leave.fromdate+" to "+leave.toDate
-//            val leaveType=leave.leaveType
-//            val reason=leave.reason
-//            val status=leave.status
-//            tvDate.text=date
-//            tvLeaveType.text=leaveType
-//            tvreason.text=reason
-//            tvStatus.text=status
-//            if(tvStatus.text=="Accepted"){
-//                tvStatus.setTextColor(ContextCompat.getColor(this.itemView.context, R.color.green))
-//            }
-//            else{
-//                tvStatus.setTextColor(ContextCompat.getColor(this.itemView.context, R.color.colorRed))
-//            }
-//
-//        }
-
-//    fun updateList(list: MutableList<Leave>){
-//        OrderList=list
-//        notifyDataSetChanged()
-//    }

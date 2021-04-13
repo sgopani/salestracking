@@ -67,6 +67,7 @@ class OrderList : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel.selectedOrderDetails.observe(viewLifecycleOwner, Observer { order ->
             if (order != null) {
                 val action= OrderListDirections.actionOrderListToOrderDetails2()

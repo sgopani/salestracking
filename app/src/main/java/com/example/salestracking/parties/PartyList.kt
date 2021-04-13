@@ -43,6 +43,7 @@ class PartyList : Fragment() {
         searchEditText=rootView.findViewById(R.id.searchEditText)
         noParty=rootView.findViewById(R.id.no_party)
         progressBar = rootView.findViewById(R.id.progress_bar)
+        searchEditText.setHint(R.string.search_party)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

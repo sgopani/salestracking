@@ -13,6 +13,18 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_take_order"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchEditText" />
+
+
+    <include
+        layout="@layout/search_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:foregroundGravity="center"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -39,7 +51,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_take_order"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/searchEditText" />
 
     <TextView
         android:id="@+id/no_orders"
@@ -50,5 +62,5 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_take_order"
         app:layout_constraintEnd_toEndOf="@+id/rv_order_list"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/searchEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

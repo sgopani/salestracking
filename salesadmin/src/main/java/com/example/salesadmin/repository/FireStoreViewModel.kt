@@ -34,9 +34,21 @@ class FireStoreViewModel:ViewModel() {
     val employeeList: LiveData<MutableList<Employee>>
         get() = _employeeList
 
+    private val _attendanceList =MutableLiveData<MutableList<Attendance>>()
+    val attendanceList: LiveData<MutableList<Attendance>>
+        get() = _attendanceList
+
+    private val _partyCollection =MutableLiveData<MutableList<Collections>>()
+    val partyCollection: LiveData<MutableList<Collections>>
+        get() = _partyCollection
+
     private val _status = MutableLiveData<SalesApiStatus>()
     val status: LiveData<SalesApiStatus>
         get() = _status
+
+    private val _partyCollectionStatus = MutableLiveData<SalesApiStatus>()
+    val partyCollectionStatus: LiveData<SalesApiStatus>
+        get() = _partyCollectionStatus
 
     private val _partiesList = MutableLiveData<MutableList<Party>>()
     val partiesList: LiveData<MutableList<Party>>
@@ -69,6 +81,7 @@ class FireStoreViewModel:ViewModel() {
     fun eventNavigateToLeaveDetail(leave: Leave){
         _selectedLeave.value=leave
     }
+
     fun eventNavigateToLeaveDetailCompleted(){
         _selectedLeave.value = null
     }
@@ -76,6 +89,7 @@ class FireStoreViewModel:ViewModel() {
     fun eventNavigateToCollectionDetail(collections: Collections){
         _selectedCollection.value=collections
     }
+
     fun eventNavigateToCollectionDetailCompleted(){
         _selectedCollection.value = null
     }
@@ -86,11 +100,21 @@ class FireStoreViewModel:ViewModel() {
         _selectedOrderDetails.value = null
     }
 
+    fun eventNavigateToAttendanceCompleted(){
+        _attendanceList.value = null
+    }
+    fun eventNavigateToPartyCollectionCompleted(){
+        _partyCollection.value=null
+    }
+
+
     private val _collectionList = MutableLiveData<List<Collections>>()
     val collectionList: LiveData<List<Collections>>
         get() = _collectionList
 
+
     var firebaseRepository = FireStoreRepository()
+
 
     fun registerAdminFirebase(registerAdmin: RegisterAdmin) {
         firebaseRepository.registerAdmin(registerAdmin).addOnCompleteListener {
@@ -150,6 +174,7 @@ class FireStoreViewModel:ViewModel() {
                     } else {
                         val innerEvents = querySnapshot?.toObjects(Products::class.java)
                         _productList.postValue(innerEvents)
+                        Log.d(TAG, "${_productList.value}")
                         _status.value = SalesApiStatus.DONE
                     }
 
@@ -162,10 +187,63 @@ class FireStoreViewModel:ViewModel() {
             }
         }
     }
+    fun getEmployeeAttendance(email:String) {
+        coroutineScope.launch {
+            val productList = fstore.collection("Sales").document("${user?.uid}")
+                .collection("employee").document(email).collection("Attendance")
+            productList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _status.value = SalesApiStatus.LOADING
+                   if (querySnapshot?.isEmpty!!) {
+                        //_status.value = SalesApiStatus.EMPTY
+                        Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                       val innerEvents = querySnapshot?.toObjects(Attendance::class.java)
+                       _attendanceList.postValue(innerEvents)
+                        //Log.d(TAG, "${_attendanceList.value!!.size}")
+                        _status.value = SalesApiStatus.DONE
+                    }
+
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _status.value = SalesApiStatus.ERROR
+                }
+
+
+            }
+        }
+    }
+    fun getPartyCollection(name:String) {
+        coroutineScope.launch {
+            val productList = fstore.collection("Sales").document("${user?.uid}")
+                .collection("Collections").whereEqualTo("partyName",name)
+            productList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                try {
+                    _partyCollectionStatus.value = SalesApiStatus.LOADING
+                    if (querySnapshot?.isEmpty!!) {
+                        _partyCollectionStatus.value = SalesApiStatus.EMPTY
+                        Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    } else {
+                        val innerEvents = querySnapshot?.toObjects(Collections::class.java)
+                        _partyCollection.postValue(innerEvents)
+                        //Log.d(TAG, "${_attendanceList.value!!.size}")
+                        _partyCollectionStatus.value = SalesApiStatus.DONE
+                    }
+
+                } catch (t: Throwable) {
+                    Log.d(TAG, firebaseFirestoreException?.message.toString())
+                    _partyCollectionStatus.value = SalesApiStatus.ERROR
+                }
+
+
+            }
+        }
+    }
 
     fun getAllParty() {
         coroutineScope.launch {
-            val productList = fstore.collection("Sales").document(user!!.uid).collection("Party")
+            val productList = fstore.collection("Sales")
+                .document(user!!.uid).collection("Party")
             productList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 try {
                     _status.value = SalesApiStatus.LOADING

@@ -51,6 +51,7 @@ class PartyListAdapter ( var partyList: List<Party>,var PartyItemClickListeners:
         Log.d("getItemCount","${partyList.size}")
         return partyList.size
     }
+
     class PartyItem(itemView: View): RecyclerView.ViewHolder(itemView){
         val tvName=itemView.findViewById<TextView>(R.id.tv_party_name)
         val tvPhoneNo=itemView.findViewById<TextView>(R.id.tv_party_phoneno)

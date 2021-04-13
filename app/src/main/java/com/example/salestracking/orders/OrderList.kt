@@ -1,15 +1,14 @@
 package com.example.salestracking.orders
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -20,9 +19,10 @@ import com.example.salestracking.collection.CollectionListDirections
 import com.example.salestracking.databse.model.Collections
 import com.example.salestracking.databse.model.Leave
 import com.example.salestracking.databse.model.Order
+import com.example.salestracking.databse.model.Party
 import com.example.salestracking.leave.LeaveListAdapter
 import com.example.salestracking.repository.FireStoreViewModel
-import java.util.ArrayList
+import java.util.*
 
 class OrderList : Fragment() {
     private lateinit var rootView: View
@@ -33,6 +33,9 @@ class OrderList : Fragment() {
     private lateinit var takeOrderBtn:Button
     private lateinit var noOrder:TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var searchEditText: EditText
+    private var searchList: MutableList<Order> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this.requireActivity()).get(FireStoreViewModel::class.java)
@@ -43,6 +46,8 @@ class OrderList : Fragment() {
         takeOrderBtn=rootView.findViewById(R.id.btn_take_order)
         progressBar=rootView.findViewById(R.id.progress_bar)
         noOrder=rootView.findViewById(R.id.no_orders)
+        searchEditText=rootView.findViewById(R.id.searchEditText)
+        searchEditText.setHint(R.string.search_party)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +73,19 @@ class OrderList : Fragment() {
             val action=OrderListDirections.actionOrderListToPartyList()
             findNavController().navigate(action)
         }
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filterList(p0.toString())
+
+            }
+
+        })
         return rootView
     }
 
@@ -114,6 +132,25 @@ class OrderList : Fragment() {
             SalesApiStatus.EMPTY -> {
                 noOrder.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
+            }
+        }
+    }
+    private fun filterList(filterItem:String) {
+        searchList.clear()
+        for (item in orderList) {
+            if (item.party?.name?.toLowerCase(Locale.ROOT)?.contains(filterItem.toLowerCase(Locale.ROOT))!!) {
+                searchList.add(item)
+                //Log.d("searc[hList","$searchList")
+                adapter.updateList(searchList)
+                noOrder.visibility = View.INVISIBLE
+            } else {
+                if (searchEditText.text.isEmpty()) {
+                    if (searchList.isEmpty()) {
+                        noOrder.visibility = View.GONE
+                        adapter.updateList(searchList)
+                        //loadData()
+                    }
+                }
             }
         }
     }

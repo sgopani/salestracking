@@ -45,6 +45,7 @@ class CollectionList : Fragment() {
         progressBar = rootView.findViewById(R.id.progress_bar)
         noCollections=rootView.findViewById(R.id.no_collections)
         searchEditText=rootView.findViewById(R.id.searchEditText)
+        searchEditText.setHint(R.string.search_party)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

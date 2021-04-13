@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".SplashActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,20 +24,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.ForgotPassword"
-            android:theme="@style/NoActionBar"/>
-        <activity android:name=".register.RegisterEmployee"
-            android:theme="@style/NoActionBar"/>
-        <activity android:name=".login.LoginActivity"
-            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".login.ForgotPassword"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".register.RegisterEmployee"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <meta-data

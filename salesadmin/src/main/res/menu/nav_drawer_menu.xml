@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/employeeTracking"
+        android:icon="@drawable/tracking_employee"
+        android:title="@string/tracking" />
+
+    <item
+        android:id="@+id/orderList"
+        android:icon="@drawable/order_icon"
+        android:title="@string/orders" />
+
+
+    <item
+        android:id="@+id/partiesList"
+        android:icon="@drawable/parties_icon"
+        android:title="@string/parties" />
+
+    <item
+        android:id="@+id/productsList"
+        android:icon="@drawable/product_icon"
+        android:title="@string/products" />
+
+    <item
+        android:id="@+id/employeeList"
+        android:icon="@drawable/employee"
+        android:title="@string/add_employee" />
+
+    <item
+        android:id="@+id/leavesList"
+        android:icon="@drawable/leaves_icon"
+        android:title="@string/emp_leaves" />
+
+    <item
+        android:id="@+id/collectionList"
+        android:icon="@drawable/collectionicon"
+        android:title="@string/collections" />
+
+    <item
+        android:id="@+id/sendNotification"
+        android:icon="@drawable/notification_icon"
+        android:title="@string/send_notification" />
+
+
+
+
+
+
+
+
+
+</menu>

@@ -14,13 +14,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salesadmin.R
-import com.example.salesadmin.SalesApiStatus
-import com.example.salesadmin.isInternetOn
+import com.example.salesadmin.*
+import com.example.salesadmin.model.Order
 import com.example.salesadmin.model.Party
 import com.example.salesadmin.repository.FireStoreViewModel
 import java.util.*
@@ -38,6 +38,7 @@ class PartiesList : Fragment() {
     private lateinit var searchEditText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this.requireActivity()).get(FireStoreViewModel::class.java)
     }
     private fun init() {
         addPartyBtn = rootView.findViewById(R.id.add_parties_btn)
@@ -54,7 +55,6 @@ class PartiesList : Fragment() {
         init()
         configurePartyList()
         progressBar.visibility = View.VISIBLE
-        viewModel = FireStoreViewModel()
         viewModel.getAllParty()
         viewModel.partiesList.observe(this.requireActivity(), Observer { parties ->
             //Log.d("loadData1","${viewModel.productList.value}")
@@ -66,6 +66,23 @@ class PartiesList : Fragment() {
         })
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkStatus(status)
+        })
+        viewModel.partyCollectionStatus.observe(this.requireActivity(), Observer {status ->
+            when(status){
+                SalesApiStatus.LOADING-> {
+
+                }
+                SalesApiStatus.EMPTY->{
+                    Toast.makeText(this.context,"No collections taken from this party",Toast.LENGTH_LONG).show()
+                }
+                SalesApiStatus.DONE->{
+
+                }
+                SalesApiStatus.ERROR->{
+                    Toast.makeText(this.context,"Something went wrong",Toast.LENGTH_LONG).show()
+                }
+            }
+
         })
         addPartyBtn.setOnClickListener {
             val action = PartiesListDirections.actionPartiesListToAddParties()
@@ -113,11 +130,24 @@ class PartiesList : Fragment() {
              }
 
 
+
          adapter.notifyDataSetChanged()
          }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.partyCollection.observe(viewLifecycleOwner, Observer {collection->
+            if(collection!=null){
+
+                val action=PartiesListDirections.actionPartiesListToPartyCollection()
+                findNavController().navigate(action)
+            }
+        })
+
+    }
+
     private fun configurePartyList(){
-        adapter = PartiesListAdapter(partyList)
+        adapter = PartiesListAdapter(partyList,getPartyItemClickListener())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.setHasFixedSize(true)
@@ -214,4 +244,13 @@ class PartiesList : Fragment() {
             background.draw(c)
         }
     })
+    private fun getPartyItemClickListener(): PartyItemClickListener {
+        return object : PartyItemClickListener {
+
+            override fun onPartyClick(name: String) {
+                viewModel.getPartyCollection(name)
+            }
+
+        }
+    }
 }

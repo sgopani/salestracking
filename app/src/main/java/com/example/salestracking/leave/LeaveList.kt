@@ -50,6 +50,7 @@ class LeaveList : Fragment() {
         //progressBar = rootView.findViewById(R.id.progress_bar)
         noLeaves=rootView.findViewById(R.id.no_leaves)
         searchEditText=rootView.findViewById(R.id.searchEditText)
+        searchEditText.setHint(R.string.search_leave)
     }
 
     override fun onCreateView(

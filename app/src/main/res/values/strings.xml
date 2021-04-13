@@ -20,7 +20,10 @@
     <string name="take_note">Take Note</string>
     <string name="home_navigation">Home</string>
     <string name="profile_navigation">Profile</string>
+    <string name="search_party">Search party name</string>
+    <string name="search_leave">Search leave type</string>
     <string name="notification_navigation">Notification</string>
+
     <!--    <string name="uid">Enter comapny id</string>-->
     <string name="uid1"> Unique company Id</string>
     <string name="login_link">Already registered? Login here</string>
