@@ -15,7 +15,8 @@ import com.example.salesadmin.R
 import com.example.salesadmin.model.Party
 import java.util.*
 
-class PartiesListAdapter( var partyList: MutableList<Party>,var partyItemClickListener: PartyItemClickListener): RecyclerView.Adapter<PartiesListAdapter.PartyItem>() {
+class PartiesListAdapter( var partyList: MutableList<Party>,
+                          var partyItemClickListener: PartyItemClickListener): RecyclerView.Adapter<PartiesListAdapter.PartyItem>() {
     //    private var productList= mutableListOf<Products>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PartyItem {
         return PartyItem.createViewHolder(parent)

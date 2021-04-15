@@ -81,6 +81,7 @@ class EmployeeTracking : Fragment(),OnMapReadyCallback {
             }
             SalesApiStatus.EMPTY -> {
                 noEmployeeTracking.visibility = View.VISIBLE
+                adapter.notifyDataSetChanged()
                 //progressBar.visibility = View.GONE
             }
         }

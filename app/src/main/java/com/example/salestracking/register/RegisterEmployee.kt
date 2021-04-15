@@ -178,11 +178,6 @@ class RegisterEmployee : AppCompatActivity() {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
-
-//                        }.addOnFailureListener {
-//                            Toast.makeText(this, "Unable to add", Toast.LENGTH_SHORT)
-//                                    .show()
-//                        }
                     } else {
                         signUpButton.isClickable=true
                         progressBar.visibility= View.GONE

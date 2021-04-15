@@ -88,20 +88,6 @@ class FireStoreViewModel:ViewModel() {
     val orderList : LiveData<MutableList<Order>>
         get() = _orderList
 
-//    private val _mapList = MutableLiveData<MutableMap<String,Any>>()
-//    val mapList : LiveData<MutableMap<String,Any>>
-//        get() = _mapList
-
-
-
-//    fun getCart(): LiveData<MutableList<CartItem>> {
-//        if(mutableCart.value==null) {
-//            initCart()
-//            Log.d("addProductToCart", "${mutableCart.value}")
-//            Log.d("addProductToCart", "${_mutableCart.value}")
-//        }
-//        return mutableCart
-//    }
 
     fun addProductToCart(products: Products):Boolean{
         if(_mutableCart.value==null) {
@@ -296,31 +282,31 @@ class FireStoreViewModel:ViewModel() {
             }
         }
     }
-    fun getAllOrderList(){
-        coroutineScope.launch {
-            val orderList = fstore.collection("Sales")
-                .document(COMPANYUID).collection("Order").whereEqualTo("employeeUid",
-            user?.uid.toString()).orderBy("time", Query.Direction.DESCENDING)
-            orderList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                try {
-                    _status.value = SalesApiStatus.LOADING
-                    if (querySnapshot?.isEmpty!!) {
-                        _status.value = SalesApiStatus.EMPTY
-                        //Log.d(TAG, firebaseFirestoreException?.message.toString())
-                    } else {
-                        val innerEvents = querySnapshot.toObjects(Order::class.java)
-                        _orderList.value=innerEvents
-                        _status.value = SalesApiStatus.DONE
+        fun getAllOrderList(){
+            coroutineScope.launch {
+                val orderList = fstore.collection("Sales")
+                    .document(COMPANYUID).collection("Order").whereEqualTo("employeeUid",
+                user?.uid.toString()).orderBy("time", Query.Direction.DESCENDING)
+                orderList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    try {
+                        _status.value = SalesApiStatus.LOADING
+                        if (querySnapshot?.isEmpty!!) {
+                            _status.value = SalesApiStatus.EMPTY
+                            //Log.d(TAG, firebaseFirestoreException?.message.toString())
+                        } else {
+                            val innerEvents = querySnapshot.toObjects(Order::class.java)
+                            _orderList.value=innerEvents
+                            _status.value = SalesApiStatus.DONE
+                        }
+
+                    } catch (t: Throwable) {
+                        Log.d(TAG, firebaseFirestoreException?.message.toString())
+                        _status.value = SalesApiStatus.ERROR
                     }
 
-                } catch (t: Throwable) {
-                    Log.d(TAG, firebaseFirestoreException?.message.toString())
-                    _status.value = SalesApiStatus.ERROR
                 }
-
             }
         }
-    }
 
     fun getAllParty() {
         coroutineScope.launch {
@@ -433,19 +419,6 @@ class FireStoreViewModel:ViewModel() {
             firebaseRepository.markAttendance(attendance)
         }
     }
-
-
-//    fun getCart(): LiveData<MutableList<CartItem>> {
-//        return firebaseRepository.getCart()
-//    }
-
-//    fun removeItemFromCart(cartItem: CartItem?) {
-//        return firebaseRepository.removeItemFromCart(cartItem!!)
-//    }
-
-//    fun addProductToCart(products: Products): Boolean {
-//        return firebaseRepository.addProductToCart(products)
-//    }
 
 
 

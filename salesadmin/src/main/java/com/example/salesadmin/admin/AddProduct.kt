@@ -90,19 +90,11 @@ class AddProduct : Fragment() {
         val products=Products(productName.text.toString(),productPrice.text.toString()
                 ,productQuantity.text.toString(),productName.text.toString(),time)
         viewModel.addProductFirebase(products)
-//        productName.text=null
-//        productQuantity.text=null
-//        productPrice.text=null
         progressBar.visibility=View.GONE
         addProduct.isClickable=true
-//        df.set(productInfo).addOnSuccessListener {
             Toast.makeText(this.requireContext()," Product added Successfully",Toast.LENGTH_SHORT).show()
             val action=AddProductDirections.actionAddProductToProductsList()
             findNavController().navigate(action)
-//        }.addOnFailureListener {
-//            Toast.makeText(this.requireContext()," Unable to add",Toast.LENGTH_SHORT).show()
-//        }
-
     }
     private fun checkField(textField: EditText): Boolean {
         when {

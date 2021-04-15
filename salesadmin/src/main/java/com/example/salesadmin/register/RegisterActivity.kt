@@ -84,19 +84,8 @@ import com.google.firebase.firestore.FirebaseFirestore
                     val registerAdmin=RegisterAdmin(name.text.toString(),email.text.toString(),phoneNumber.text.toString()
                             ,address.text.toString(),"1", auth.currentUser?.uid!!)
                     viewModel.registerAdminFirebase(registerAdmin)
-    //                val df: DocumentReference = fstore.collection("Sales").document("${user?.uid}")
-    //                        .collection("admin").document(" Admin Info")
-    //                val userInfo= mutableMapOf<String,String>()
-    //                userInfo["name"] = name.text.toString()
-    //                userInfo["email Id"] = email.text.toString()
-    //                userInfo["Phone no"]= phoneNumber.text.toString()
-    //                userInfo["Address"]= address.text.toString()
-    //                userInfo["isAdmin"]="1"
                     Toast.makeText(this," Registered successfully",Toast.LENGTH_SHORT).show()
-    //                df.set(userInfo).addOnSuccessListener {
-                        progressBar.visibility= View.GONE
-    //                    Log.d("Database","Inserted Successfully")
-    //                }
+                    progressBar.visibility= View.GONE
                     val intent = Intent(this, LoginActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)

@@ -89,6 +89,9 @@ class EmployeeList : Fragment() {
                 val action=EmployeeListDirections.actionEmployeeListToEmployeeAttendanceList()
                 findNavController().navigate(action)
             }
+            if(attendance==null){
+                progressBar.visibility=View.INVISIBLE
+            }
         })
     }
 

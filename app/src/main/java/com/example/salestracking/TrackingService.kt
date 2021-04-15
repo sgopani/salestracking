@@ -59,33 +59,6 @@ class TrackingService : LifecycleService() {
         user= FirebaseAuth.getInstance().currentUser!!
         prefManager=PrefManager(this.applicationContext)
     }
-//    private fun updateNotificationTrackingState(isTracking: Boolean) {
-//        val notificationActionText = if(isTracking) "Pause" else "Resume"
-//        val pendingIntent = if(isTracking) {
-//            val pauseIntent = Intent(this, TrackingService::class.java).apply {
-//                action = ACTION_PAUSE_SERVICE
-//            }
-//            PendingIntent.getService(this, 1, pauseIntent, FLAG_UPDATE_CURRENT)
-//        } else {
-//            val resumeIntent = Intent(this, TrackingService::class.java).apply {
-//                action = ACTION_START_OR_RESUME_SERVICE
-//            }
-//            PendingIntent.getService(this, 2, resumeIntent, FLAG_UPDATE_CURRENT)
-//        }
-//
-//        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//
-//        curNotificationBuilder.javaClass.getDeclaredField("mActions").apply {
-//            isAccessible = true
-//            set(curNotificationBuilder, ArrayList<NotificationCompat.Action>())
-//        }
-//
-//        if(!serviceKilled) {
-//            curNotificationBuilder = baseNotificationBuilder
-//                    .addAction(R.drawable.location, notificationActionText, pendingIntent)
-//            notificationManager.notify(NOTIFICATION_ID, curNotificationBuilder.build())
-//        }
-//    }
 
 
     @SuppressLint("MissingPermission")
@@ -98,20 +71,6 @@ class TrackingService : LifecycleService() {
                     fastestInterval = FASTEST_LOCATION_INTERVAL
                     priority = PRIORITY_HIGH_ACCURACY
                 }
-//                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-//                        PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-//                        (this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
-//                        PackageManager.PERMISSION_GRANTED) {
-//                    // TODO: Consider calling
-//                    //    ActivityCompat#requestPermissions
-//                    // here to request the missing permissions, and then overriding
-//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                    //                                          int[] grantResults)
-//                    // to handle the case where the user grants the permission. See the documentation
-//                    // for ActivityCompat#requestPermissions for more details.
-//                    status.value=SalesApiStatus.ERROR
-//                    return
-//                }
                 fusedLocationProviderClient
                         .requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
             }
@@ -219,7 +178,7 @@ class TrackingService : LifecycleService() {
         val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setAutoCancel(false)
                 .setOngoing(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.tracking_employee)
                 .setContentTitle("Sales Employee Tracking")
                 .setContentText("Location service enabled")
                 .setContentIntent(getMainActivityPendingIntent())

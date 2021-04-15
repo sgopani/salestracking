@@ -110,16 +110,6 @@ class Tracking : Fragment(),OnMapReadyCallback, EasyPermissions.PermissionCallba
                 Toast.makeText(this.context, "Loading", Toast.LENGTH_SHORT).show()
             }
             SalesApiStatus.ERROR -> {
-//                if (isInternetOn(this.requireContext())) {
-//                    Toast.makeText(this.context, "Connected to internet", Toast.LENGTH_SHORT).show()
-//                    //findNavController().navigate(R.id.newsList2)
-//                } else {
-//                    Toast.makeText(
-//                        this.context,
-//                        "Please Check Your Internet Connection",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
                 progressBar.visibility = View.GONE
             }
             SalesApiStatus.DONE -> {
@@ -128,6 +118,7 @@ class Tracking : Fragment(),OnMapReadyCallback, EasyPermissions.PermissionCallba
             }
             SalesApiStatus.EMPTY -> {
                 progressBar.visibility = View.GONE
+
                 //Toast.makeText(this.context, "Empty", Toast.LENGTH_SHORT).show()
             }
         }

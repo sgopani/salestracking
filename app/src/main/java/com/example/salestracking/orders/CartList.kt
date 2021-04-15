@@ -85,12 +85,6 @@ class CartList : Fragment() {
         adapter.cartList=cartList
         adapter.notifyDataSetChanged()
 
-//        viewModel.getCart().observe(this.requireActivity(), Observer {cartItemListviewmodel->
-//
-////            cartList=cartItemListviewmodel
-////            adapter.cartList=cartItemListviewmodel
-////            adapter.notifyDataSetChanged()
-//        })
         placeOrderBtn.setOnClickListener {
 
             if(cartList.isEmpty()){
@@ -124,9 +118,6 @@ class CartList : Fragment() {
 //                    setMessage("You cannot undo this operation")
             setPositiveButton("Yes") { _, _ ->
                 if(partyList!=null){
-                    //val productList=ProductList(cartList)
-                    //val hashMap = hashMapOf<String,ArrayList<CartItem>>()
-                    //val hashMap= ArrayList<HashMap<String,CartItem>>()
                     val order=Order(
                         partyList!!,cartList,total.text.toString(),currentTime.toString()
                         ,prefManager.getFullName().toString(),uid)

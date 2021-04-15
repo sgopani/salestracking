@@ -69,7 +69,6 @@ class AddOrders : Fragment() {
         recyclerView = rootView.findViewById(R.id.rv_order_product_list)
         noProduct = rootView.findViewById(R.id.no_product)
         progressBar = rootView.findViewById(R.id.progress_bar)
-//        fireStoreRepository=FireStoreRepository()
     }
 
     override fun onCreateView(
@@ -107,34 +106,14 @@ class AddOrders : Fragment() {
                         productList
                 )
                 findNavController().navigate(action)
-                //viewModel.eventNavigateProductDetailCompleted()
             }
         })
 
         viewModel.status.observe(this.viewLifecycleOwner, Observer { status ->
             checkStatus(status)
         })
-
-
-        //fireStoreRepository._mutableCart.value=cartList
-
-//        addProductBtn.setOnClickListener {
-//            val action = ProductsListDirections.actionProductsListToAddProduct()
-//            findNavController().navigate(action)
-//        }
-        //loadData()
         this.setHasOptionsMenu(true)
         return rootView
-    }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        Toast.makeText(context, " onViewCreated", Toast.LENGTH_LONG).show()
-//        super.onViewCreated(view, savedInstanceState)
-//    }
-
-    override fun onResume() {
-        //Toast.makeText(context, "${cartList.size}", Toast.LENGTH_SHORT).show()
-        super.onResume()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
