@@ -8,14 +8,11 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.example.salestracking.MainActivity
-import com.example.salestracking.R
+import com.example.salestracking.*
 import com.example.salestracking.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.example.salestracking.COMPANYUID
-import com.example.salestracking.PrefManager
 import com.example.salestracking.databse.model.Employee
 import com.example.salestracking.repository.FireStoreViewModel
 
@@ -59,10 +56,18 @@ class RegisterEmployee : AppCompatActivity() {
         progressBar=findViewById(R.id.progress_bar)
         fstore = FirebaseFirestore.getInstance()
         signUpButton.setOnClickListener{
-            addEmployee()
+            if(isInternetOn(this)){
+                signUpButton.isClickable=false
+                addEmployee()
+            }
+            else{
+                Toast.makeText(this,"Please check your internet connection ",Toast.LENGTH_SHORT).show()
+                signUpButton.isClickable=true
+            }
+
         }
         loginLink.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(  this, LoginActivity::class.java)
             startActivity(intent)
         }
         prefManager = PrefManager(this)
@@ -82,6 +87,7 @@ class RegisterEmployee : AppCompatActivity() {
             password.error = "Both Password should be same"
             confirmPassword.error = "Both Password should be same"
             valid = false
+            signUpButton.isClickable=true
         } else {
             if (valid) {
                 progressBar.visibility= View.VISIBLE
@@ -90,6 +96,7 @@ class RegisterEmployee : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Please enter every field correctly", Toast.LENGTH_SHORT)
                     .show()
+                signUpButton.isClickable=true
             }
         }
 //        else{
@@ -143,6 +150,7 @@ class RegisterEmployee : AppCompatActivity() {
                        registerEmployee()
                     }
                     else{
+                        signUpButton.isClickable=true
                         progressBar.visibility= View.GONE
                         Toast.makeText(this,"No company registered with this Id",Toast.LENGTH_LONG).show()
                     }
@@ -170,12 +178,8 @@ class RegisterEmployee : AppCompatActivity() {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
-
-//                        }.addOnFailureListener {
-//                            Toast.makeText(this, "Unable to add", Toast.LENGTH_SHORT)
-//                                    .show()
-//                        }
                     } else {
+                        signUpButton.isClickable=true
                         progressBar.visibility= View.GONE
                         Toast.makeText(
                                 this,

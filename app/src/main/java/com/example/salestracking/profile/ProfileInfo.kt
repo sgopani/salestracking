@@ -1,5 +1,6 @@
 package com.example.salestracking.profile
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -10,17 +11,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.fragment.findNavController
-import com.example.salestracking.COMPANYUID
-import com.example.salestracking.PrefManager
-import com.example.salestracking.R
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
+import com.example.salestracking.*
+import com.example.salestracking.databse.SalesDatabase
 import com.example.salestracking.databse.model.Employee
+import com.example.salestracking.employee.notes.NotesViewModel
 import com.example.salestracking.login.LoginActivity
 import com.example.salestracking.repository.FireStoreRepository
-import com.example.salestracking.toSimpleDateFormat
+import com.example.salestracking.repository.FireStoreViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import java.net.Inet4Address
+import java.util.*
 
 class ProfileInfo : Fragment() {
     private lateinit var rootView: View
@@ -37,9 +41,15 @@ class ProfileInfo : Fragment() {
     private lateinit var edit:TextView
     private lateinit var dateOfJoining:EditText
     private lateinit var progressBar: ProgressBar
+    private lateinit var profileImageView: ImageView
+    private lateinit var drawable: TextDrawable
+    private lateinit var viewModel: NotesViewModel
+    private lateinit var salesDatabase: SalesDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+
     private fun init() {
         name=rootView.findViewById(R.id.et_profile_name)
         address=rootView.findViewById(R.id.et_profile_address)
@@ -53,6 +63,9 @@ class ProfileInfo : Fragment() {
         progressBar = rootView.findViewById(R.id.progress_bar)
         edit=rootView.findViewById(R.id.tv_edit_profile)
         dateOfJoining=rootView.findViewById(R.id.et_date_of_joining)
+        profileImageView=rootView.findViewById(R.id.iv_profile_image)
+        salesDatabase= SalesDatabase.getInstance(this.requireContext())
+        viewModel= NotesViewModel(salesDatabase)
     }
 
     override fun onCreateView(
@@ -69,6 +82,7 @@ class ProfileInfo : Fragment() {
         phoneNo.setText(prefManager.getPhoneNo())
         email.setText(prefManager.getEmail())
         dateOfJoining.setText(toSimpleDateFormat(prefManager.getDOJ()!!))
+        //if(prefManager.getFullName()?.isEmpty()!!){
         firebaseRepository.getUserInfo().addOnSuccessListener {document->
             if (document.data!=null) {
                 val userInfo = document.toObject(Employee::class.java)
@@ -89,12 +103,25 @@ class ProfileInfo : Fragment() {
         }.addOnFailureListener {
             Toast.makeText(this.requireContext(),"Failed",Toast.LENGTH_SHORT).show()
         }
+        //}
+
+        val generator: ColorGenerator = ColorGenerator.MATERIAL
+        val color: Int = generator.randomColor
+        drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
+            .buildRound(name.text[0].toString().toUpperCase(Locale.ROOT), color)
+        profileImageView.setImageDrawable(drawable)
 
         signOut.setOnClickListener {
-            firebaseAuth.signOut()
-            val intent= Intent(this.requireActivity(), LoginActivity::class.java)
-            startActivity(intent)
-            this.activity?.finish()
+            AlertDialog.Builder(context).apply {
+                setTitle("Are you sure you want to want to sign out")
+                setMessage("You cannot undo this operation")
+                setPositiveButton("Yes") { _, _ ->
+                    signOut()
+                }
+                setNegativeButton("No") { _, _ ->
+
+                }
+            }.create().show()
         }
         edit.setOnClickListener {
             name.isEnabled=true
@@ -103,7 +130,7 @@ class ProfileInfo : Fragment() {
             updateBtn.visibility=View.VISIBLE
         }
         updateBtn.setOnClickListener {
-
+            if(isInternetOn(this.requireActivity())){
             if(name.text.isNotEmpty() && address.text.isNotEmpty()) {
                 progressBar.visibility = View.VISIBLE
                 val fstore = FirebaseFirestore.getInstance()
@@ -128,9 +155,31 @@ class ProfileInfo : Fragment() {
             else{
                 Toast.makeText(this.requireContext(), "Field cannot be empty", Toast.LENGTH_SHORT).show()
             }
+        }else{
+                Toast.makeText(this.requireContext(), "Please check your Internet connection", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return rootView
+
+    }
+    private  fun signOut(){
+
+        if(isInternetOn(this.requireActivity())){
+            try{
+                firebaseAuth.signOut()
+                val intent= Intent(this.requireActivity(), LoginActivity::class.java)
+                startActivity(intent)
+                this.activity?.finish()
+                prefManager.clear()
+                viewModel.deleteAll()
+            }
+
+            catch (e:Exception){
+                Toast.makeText(this.requireContext(), "Please check your Internet connection", Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
 

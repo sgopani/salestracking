@@ -46,7 +46,32 @@
             app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_adminDashboard_to_collectionList"
-            app:destination="@id/collectionList" />
+            app:destination="@id/collectionList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_adminDashboard_to_orderList"
+            app:destination="@id/orderList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_adminDashboard_to_employeeTracking"
+            app:destination="@id/employeeTracking"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_adminDashboard_to_profile"
+            app:destination="@id/profile"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/addProduct"
@@ -95,6 +120,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_employeeList_to_employeeAttendanceList"
+            app:destination="@id/employeeAttendanceList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/addParties"
@@ -126,6 +158,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_partiesList_to_partyCollection"
+            app:destination="@id/partyCollection"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/sendNotification"
@@ -167,10 +206,18 @@
         android:label="List of collections taken">
         <action
             android:id="@+id/action_collectionList_to_adminDashboard"
-            app:destination="@id/adminDashboard" />
+            app:destination="@id/adminDashboard"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_collectionList_to_collectionInfo"
-            app:destination="@id/collectionInfo" />
+            app:destination="@id/collectionInfo"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/collectionInfo"
@@ -178,9 +225,51 @@
         android:label="Collection Information">
         <action
             android:id="@+id/action_collectionInfo_to_collectionList"
-            app:destination="@id/collectionList" />
+            app:destination="@id/collectionList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <argument
             android:name="collections"
             app:argType="com.example.salesadmin.model.Collections" />
     </fragment>
+    <fragment
+        android:id="@+id/orderList"
+        android:name="com.example.salesadmin.orders.OrderList"
+        android:label="List of orders"
+        tools:layout="@layout/order_list">
+        <action
+            android:id="@+id/action_orderList_to_orderDetails2"
+            app:destination="@id/orderDetails2"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetails2"
+        android:name="com.example.salesadmin.orders.OrderDetails"
+        android:label="Order Details"
+        tools:layout="@layout/order_details" />
+    <fragment
+        android:id="@+id/employeeTracking"
+        android:name="com.example.salesadmin.tracking.EmployeeTracking"
+        android:label="Employee tracking"
+        tools:layout="@layout/employee_tracking" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.salesadmin.profile.Profile"
+        android:label="Profile"
+        tools:layout="@layout/profile" />
+    <fragment
+        android:id="@+id/employeeAttendanceList"
+        android:name="com.example.salesadmin.admin.EmployeeAttendanceList"
+        android:label="Days present on"
+        tools:layout="@layout/employee_attendance_list" />
+    <fragment
+        android:id="@+id/partyCollection"
+        android:name="com.example.salesadmin.admin.PartyCollection"
+        android:label="Collections"
+        tools:layout="@layout/party_collection" />
 </navigation>

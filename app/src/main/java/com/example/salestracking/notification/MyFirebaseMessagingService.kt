@@ -14,6 +14,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavDeepLinkBuilder
 import com.example.salestracking.MainActivity
 import com.example.salestracking.R
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -49,10 +50,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0, intent,
-            PendingIntent.FLAG_ONE_SHOT
-        )
+//        val pendingIntent = PendingIntent.getActivity(
+//            this, 0, intent,
+//            PendingIntent.FLAG_ONE_SHOT
+//        )
+        val pendingIntent = NavDeepLinkBuilder(this.applicationContext)
+            .setGraph(R.navigation.nav_graph)
+            .setDestination(R.id.notificationList)
+            .createPendingIntent()
 
         val largeIcon = BitmapFactory.decodeResource(
             resources,
@@ -61,7 +66,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val notificationSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.tracking_employee)
                 //.setLargeIcon(largeIcon)
                 .setContentTitle(p0.data["title"])
                 .setContentText(p0.data["message"])

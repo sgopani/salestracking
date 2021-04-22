@@ -30,8 +30,44 @@
                 android:layout_marginRight="20dp">
 
 
+                <Button
+                    android:id="@+id/btn_check_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_employee_email"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toStartOf="@+id/iv_dashboard_image"
+                    android:layout_toLeftOf="@+id/iv_dashboard_image"
+                    android:layout_toEndOf="@+id/tv_employee_email"
+                    android:layout_toRightOf="@+id/tv_employee_email"
+                    android:background="@color/colorRed"
+                    android:text="@string/check_out"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btn_check_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_employee_email"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toStartOf="@+id/iv_dashboard_image"
+                    android:layout_toLeftOf="@+id/iv_dashboard_image"
+                    android:layout_toEndOf="@+id/tv_employee_email"
+                    android:layout_toRightOf="@+id/tv_employee_email"
+                    android:background="@drawable/btn_custom"
+                    android:text="@string/check_in"
+                    android:visibility="gone" />
+
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv_employee_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textView3"
@@ -53,13 +89,13 @@
                     android:textSize="24sp" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/iv_dashboard_image"
                     android:layout_width="62dp"
                     android:layout_height="62dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    tools:srcCompat="@drawable/profile_image" />
             </RelativeLayout>
 
             <androidx.gridlayout.widget.GridLayout
@@ -93,7 +129,8 @@
                             android:id="@+id/imageView2"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/order_icon"
+                            tools:srcCompat="@drawable/order_icon" />
 
                         <TextView
                             android:id="@+id/textView5"
@@ -130,8 +167,10 @@
                             android:id="@+id/imageView3"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
 
+                            app:srcCompat="@drawable/collectionicon" />
+<!--                        app:srcCompat="@drawable/collection_icon"-->
+<!--                        tools:srcCompat="@drawable/collection_icon"-->
                         <TextView
                             android:id="@+id/textView11"
                             android:layout_width="match_parent"
@@ -167,7 +206,7 @@
                             android:id="@+id/imageView4"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            app:srcCompat="@drawable/calendar" />
+                            app:srcCompat="@drawable/leaves_icon" />
 
                         <TextView
                             android:id="@+id/textView6"
@@ -222,6 +261,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_attendence"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
@@ -242,7 +282,8 @@
                             android:id="@+id/imageView6"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/attendence"
+                            tools:srcCompat="@drawable/attendence" />
 
                         <TextView
                             android:id="@+id/textView8"
@@ -250,14 +291,15 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            android:text="TextView"
-                            android:textColor="@color/black"
+                            android:text="@string/mark_attendence"
+                            android:textColor="@android:color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_employee_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
@@ -278,7 +320,8 @@
                             android:id="@+id/imageView7"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
+                            app:srcCompat="@drawable/tracking_employee"
+                            tools:srcCompat="@drawable/tracking_employee" />
 
                         <TextView
                             android:id="@+id/textView9"
@@ -286,43 +329,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            android:text="TextView"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="12dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp"
-                    app:layout_columnWeight="1"
-                    app:layout_rowWeight="1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-
-                        <ImageView
-                            android:id="@+id/imageView8"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            tools:srcCompat="@tools:sample/avatars" />
-
-                        <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:gravity="center"
-                            android:text="TextView"
+                            android:text="@string/checkin_out"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
                     </LinearLayout>

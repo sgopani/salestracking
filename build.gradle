@@ -2,6 +2,9 @@
 buildscript {
     ext.kotlin_version = "1.4.10"
     repositories {
+        maven {
+            url 'http://dl.bintray.com/amulyakhare/maven'
+            }
         google()
         jcenter()
     }
@@ -21,6 +24,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+
     }
 }
 

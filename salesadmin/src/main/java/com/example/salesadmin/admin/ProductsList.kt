@@ -5,14 +5,13 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -21,9 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.R
 import com.example.salesadmin.SalesApiStatus
 import com.example.salesadmin.isInternetOn
+import com.example.salesadmin.model.Employee
 import com.example.salesadmin.model.Products
 import com.example.salesadmin.repository.FireStoreViewModel
-import java.util.ArrayList
+import java.util.*
 
 class ProductsList : Fragment() {
     private lateinit var rootView: View
@@ -34,6 +34,8 @@ class ProductsList : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var noProduct:TextView
     private var productList: MutableList<Products> = ArrayList()
+    private var searchList: MutableList<Products> = ArrayList()
+    private lateinit var searchEditText: EditText
 
     // TODO: Rename and change types of parameters
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,7 @@ class ProductsList : Fragment() {
         recyclerView = rootView.findViewById(R.id.rv_productList)
         noProduct=rootView.findViewById(R.id.no_product)
         progressBar = rootView.findViewById(R.id.progress_bar)
+        searchEditText=rootView.findViewById(R.id.searchEditText)
     }
 
     override fun onCreateView(
@@ -67,6 +70,9 @@ class ProductsList : Fragment() {
             adapter.productList = productList
             adapter.notifyDataSetChanged()
         })
+
+
+
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkStatus(status)
         })
@@ -74,8 +80,43 @@ class ProductsList : Fragment() {
             val action = ProductsListDirections.actionProductsListToAddProduct()
             findNavController().navigate(action)
         }
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filterList(p0.toString())
+
+            }
+        })
         //loadData()
         return rootView
+    }
+    private fun filterList(filterItem:String){
+        searchList.clear()
+        for (item in productList) {
+            if (item.productName.toLowerCase(Locale.ROOT).contains(filterItem.toLowerCase(Locale.ROOT)))
+            {
+                searchList.add(item)
+                adapter.updateList(searchList)
+                //noProduct.visibility=View.INVISIBLE
+            }
+            else {
+                if(searchEditText.text.isEmpty()){
+                    if(searchList.isEmpty()){
+                        //noProduct.visibility=View.GONE
+                        adapter.updateList(productList)
+                        //loadData()
+                    }
+                }
+            }
+        }
+
+
+        adapter.notifyDataSetChanged()
     }
     private fun configureProductList(){
         adapter = ProductListAdapter(productList)

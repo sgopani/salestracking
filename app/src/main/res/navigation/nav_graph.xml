@@ -5,6 +5,9 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/employeeDashboard">
 
+    <action android:id="@+id/action_global_trackingFragment"
+        app:destination="@id/tracking"
+        app:launchSingleTop="true" />
     <fragment
         android:id="@+id/employeeDashboard"
         android:name="com.example.salestracking.employee.dashboard.EmployeeDashboard"
@@ -33,8 +36,41 @@
             app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_employeeDashboard_to_addOrders"
-            app:destination="@id/addOrders" />
+            app:destination="@id/addOrders"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_employeeDashboard_to_orderList"
+            app:destination="@id/orderList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_employeeDashboard_to_checkInOut"
+            app:destination="@id/checkInOut"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_employeeDashboard_to_tracking"
+            app:destination="@id/tracking"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_employeeDashboard_to_profileInfo"
+            app:destination="@id/profileInfo"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
+
     <fragment
         android:id="@+id/Notes"
         android:name="com.example.salestracking.employee.notes.NotesHome"
@@ -154,29 +190,40 @@
             app:destination="@id/addOrders"
             app:popUpTo="@id/addOrders"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_partyList_to_employeeDashboard"
+            app:destination="@id/employeeDashboard"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/collectionList"
         android:name="com.example.salestracking.collection.CollectionList"
-        android:label="collection_list"
-        tools:layout="@layout/collection_list" >
+        android:label="List of collection"
+        tools:layout="@layout/collection_list">
         <action
             android:id="@+id/action_collectionList_to_employeeDashboard"
             app:destination="@id/employeeDashboard"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_collectionList_to_addCollection"
             app:destination="@id/addCollection"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_collectionList_to_collectionInfo"
-            app:destination="@id/collectionInfo" />
+            app:destination="@id/collectionInfo"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/collectionInfo"
@@ -204,6 +251,117 @@
             android:defaultValue="@null" />
         <action
             android:id="@+id/action_addOrders_to_partyList"
+            app:destination="@id/partyList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_addOrders_to_productsList"
+            app:destination="@id/productsList"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <argument
+            android:name="products"
+            app:argType="com.example.salestracking.databse.model.Products"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_addOrders_to_cartItem"
+            app:destination="@id/cartItem"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/productsList"
+        android:name="com.example.salestracking.products.ProductsList"
+        android:label="ProductsList" >
+        <action
+            android:id="@+id/action_productsList_to_addOrders"
+            app:destination="@id/addOrders"
+            app:popUpTo="@id/addOrders"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/cartItem"
+        android:name="com.example.salestracking.orders.CartList"
+        android:label="Cart Item"
+        tools:layout="@layout/cart_item" >
+        <argument
+            android:name="party"
+            app:argType="com.example.salestracking.databse.model.Party"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_cartItem_to_orderSuccessful"
+            app:destination="@id/orderSuccessful"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/orderSuccessful"
+        android:name="com.example.salestracking.orders.OrderSuccessful"
+        android:label="order_successful"
+        tools:layout="@layout/order_successful" >
+        <action
+            android:id="@+id/action_orderSuccessful_to_partyList"
+            app:destination="@id/partyList"
+            app:popUpTo="@id/partyList"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderList"
+        android:name="com.example.salestracking.orders.OrderList"
+        android:label="List of Orders"
+        tools:layout="@layout/order_list" >
+        <action
+            android:id="@+id/action_orderList_to_partyList"
             app:destination="@id/partyList" />
+        <action
+            android:id="@+id/action_orderList_to_orderDetails"
+            app:destination="@id/orderDetails"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetails"
+        android:name="com.example.salestracking.orders.OrderDetails"
+        android:label="Order details"
+        tools:layout="@layout/order_details">
+        <argument
+            android:name="Order"
+            app:argType="com.example.salestracking.databse.model.Order" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkInOut"
+        android:name="com.example.salestracking.attendance.CheckInOut"
+        android:label="check_in_out"
+        tools:layout="@layout/check_in_out" />
+    <fragment
+        android:id="@+id/tracking"
+        android:name="com.example.salestracking.attendance.Tracking"
+        android:label="tracking"
+        tools:layout="@layout/tracking" >
+        <action
+            android:id="@+id/action_tracking_to_employeeDashboard"
+            app:destination="@id/employeeDashboard"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/employeeDashboard"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

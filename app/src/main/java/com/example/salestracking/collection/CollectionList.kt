@@ -5,14 +5,13 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,7 +23,7 @@ import com.example.salestracking.SalesApiStatus
 import com.example.salestracking.databse.model.Collections
 import com.example.salestracking.isInternetOn
 import com.example.salestracking.repository.FireStoreViewModel
-import java.util.ArrayList
+import java.util.*
 
 class CollectionList : Fragment() {
     private lateinit var rootView: View
@@ -35,6 +34,8 @@ class CollectionList : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var noCollections:TextView
     private lateinit var progressBar: ProgressBar
+    private var searchList: MutableList<Collections> = ArrayList()
+    private lateinit var searchEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,8 @@ class CollectionList : Fragment() {
         recyclerView = rootView.findViewById(R.id.rv_collection_list)
         progressBar = rootView.findViewById(R.id.progress_bar)
         noCollections=rootView.findViewById(R.id.no_collections)
+        searchEditText=rootView.findViewById(R.id.searchEditText)
+        searchEditText.setHint(R.string.search_party)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -76,10 +79,49 @@ class CollectionList : Fragment() {
             adapter.collectionList=collections
             adapter.notifyDataSetChanged()
         })
+
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkStatus(status)
         })
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filterList(p0.toString())
+
+            }
+
+
+
+        })
         return rootView
+    }
+
+    private fun filterList(filterItem:String){
+        searchList.clear()
+        for (item in collectionList) {
+            if (item.partyName.toLowerCase(Locale.ROOT).contains(filterItem.toLowerCase(Locale.ROOT)))
+            {
+                searchList.add(item)
+                //Log.d("searchList","$searchList")
+                adapter.updateList(searchList)
+            }
+            else {
+                if(searchEditText.text.isEmpty()){
+                    if(searchList.isEmpty()){
+                        adapter.updateList(collectionList)
+                        //loadData()
+                    }
+                }
+            }
+        }
+
+
+        adapter.notifyDataSetChanged()
     }
     private fun configureCollectionList(){
         adapter= CollectionListAdapter(collectionList,getCollectionItemClickListener())

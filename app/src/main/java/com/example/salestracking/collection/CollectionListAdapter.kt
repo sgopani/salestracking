@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salestracking.CollectionItemClickListener
 import com.example.salestracking.R
 import com.example.salestracking.databse.model.Collections
 
 class CollectionListAdapter(var collectionList: MutableList<Collections>,
-                            var collectionItemClickListeners: CollectionItemClickListener): RecyclerView.Adapter<CollectionListAdapter.CollectionItem>() {
+                            var collectionItemClickListeners: CollectionItemClickListener)
+    : RecyclerView.Adapter<CollectionListAdapter.CollectionItem>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionItem {
         return CollectionItem.createViewHolder(parent)
     }
@@ -22,7 +24,7 @@ class CollectionListAdapter(var collectionList: MutableList<Collections>,
     override fun onBindViewHolder(holder: CollectionItem, position: Int) {
         val collections=getItem(position)
         holder.bind(collections)
-        holder.itemView.setOnClickListener {
+        holder.tvViewDetails.setOnClickListener {
             collectionItemClickListeners.onCollectionItemClick(collections)
         }
     }
@@ -44,6 +46,7 @@ class CollectionListAdapter(var collectionList: MutableList<Collections>,
         val tvcollectionType=itemView.findViewById<TextView>(R.id.tv_collection_type)
         val tvpartyName=itemView.findViewById<TextView>(R.id.tv_party_name_collection)
         val tvamont=itemView.findViewById<TextView>(R.id.tv_amount_received)
+        val tvViewDetails=itemView.findViewById<TextView>(R.id.tv_view_details_collection)
         companion object{
             fun createViewHolder(parent: ViewGroup): CollectionItem {
                 val view = LayoutInflater.from(parent.context)
@@ -62,5 +65,9 @@ class CollectionListAdapter(var collectionList: MutableList<Collections>,
             tvpartyName.text=partyName
             tvamont.text=amount.toString()
         }
+    }
+    fun updateList(list: MutableList<Collections>){
+        collectionList=list
+        notifyDataSetChanged()
     }
 }

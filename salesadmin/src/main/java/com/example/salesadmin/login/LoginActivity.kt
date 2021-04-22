@@ -44,9 +44,10 @@ class LoginActivity : AppCompatActivity() {
         fstore= FirebaseFirestore.getInstance()
         loginButton.setOnClickListener {
             //Toast.makeText(this,"Clicked",Toast.LENGTH_SHORT).show()
+            loginButton.isClickable=false
             loginUser()
         }
-        val register = findViewById<Button>(R.id.admin_sign_up)
+        val register = findViewById<TextView>(R.id.admin_sign_up)
         register.setOnClickListener {
             val intent = Intent(this@LoginActivity,RegisterActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -73,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
         if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches() || password.length < 7) {
             emailId.error = "Enter valid details"
             passwordEditText.error = "Enter valid details"
+            loginButton.isClickable=true
             return
         }
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
@@ -86,6 +88,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }.addOnFailureListener(OnFailureListener { exeption->
                 //Log.d("exeption", exeption.localizedMessage)
+                loginButton.isClickable=true
                 when {
                     exeption.localizedMessage=="The password is invalid or the user does not have a password." -> {
                         Toast.makeText(this, "Enter Valid Password",Toast.LENGTH_SHORT).show()
@@ -111,6 +114,7 @@ class LoginActivity : AppCompatActivity() {
             })
         }
         else {
+            loginButton.isClickable=true
             progressBar.visibility=View.GONE
             emailId.error="Field cannot be empty"
             passwordEditText.error="Field cannot be empty"
@@ -118,11 +122,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     private fun updateUI() {
+        loginButton.isClickable=false
         user= auth.currentUser!!
         val documentReference=fstore.collection("Sales").document(user.uid)
                 .collection("admin").document("Admin Info")
         documentReference.get().addOnSuccessListener {document->
             if(document.exists()){
+                loginButton.isClickable=false
                 progressBar.visibility=View.GONE
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
@@ -130,6 +136,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, " Welcome ${auth.currentUser?.email}", Toast.LENGTH_SHORT).show()
             }
             else{
+                loginButton.isClickable=true
                 progressBar.visibility=View.GONE
                 Toast.makeText(this, "This Login credentials are not associated with any admin account", Toast.LENGTH_SHORT).show()
                 auth.signOut()

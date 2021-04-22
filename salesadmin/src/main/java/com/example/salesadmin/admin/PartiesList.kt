@@ -5,25 +5,25 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.salesadmin.R
-import com.example.salesadmin.SalesApiStatus
-import com.example.salesadmin.isInternetOn
+import com.example.salesadmin.*
+import com.example.salesadmin.model.Order
 import com.example.salesadmin.model.Party
 import com.example.salesadmin.repository.FireStoreViewModel
-import java.util.ArrayList
+import java.util.*
 
 class PartiesList : Fragment() {
     private lateinit var rootView: View
@@ -34,15 +34,18 @@ class PartiesList : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var noProduct: TextView
     private var partyList: MutableList<Party> = ArrayList()
-
+    private var searchList: MutableList<Party> = ArrayList()
+    private lateinit var searchEditText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this.requireActivity()).get(FireStoreViewModel::class.java)
     }
     private fun init() {
         addPartyBtn = rootView.findViewById(R.id.add_parties_btn)
         recyclerView = rootView.findViewById(R.id.rv_partiesList)
-        noProduct=rootView.findViewById(R.id.no_product)
+        noProduct=rootView.findViewById(R.id.no_party)
         progressBar = rootView.findViewById(R.id.progress_bar)
+        searchEditText=rootView.findViewById(R.id.searchEditText)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -52,29 +55,99 @@ class PartiesList : Fragment() {
         init()
         configurePartyList()
         progressBar.visibility = View.VISIBLE
-        viewModel = FireStoreViewModel()
         viewModel.getAllParty()
         viewModel.partiesList.observe(this.requireActivity(), Observer { parties ->
             //Log.d("loadData1","${viewModel.productList.value}")
             noProduct.visibility=View.GONE
             partyList = parties
-            //progressBar.visibility=View.GONE
+            progressBar.visibility=View.GONE
             adapter.partyList = partyList
             adapter.notifyDataSetChanged()
         })
         viewModel.status.observe(this.requireActivity(), Observer { status ->
             checkStatus(status)
         })
+        viewModel.partyCollectionStatus.observe(this.requireActivity(), Observer {status ->
+            when(status){
+                SalesApiStatus.LOADING-> {
+
+                }
+                SalesApiStatus.EMPTY->{
+                    Toast.makeText(this.context,"No collections taken from this party",Toast.LENGTH_LONG).show()
+                }
+                SalesApiStatus.DONE->{
+
+                }
+                SalesApiStatus.ERROR->{
+                    Toast.makeText(this.context,"Something went wrong",Toast.LENGTH_LONG).show()
+                }
+            }
+
+        })
         addPartyBtn.setOnClickListener {
             val action = PartiesListDirections.actionPartiesListToAddParties()
             findNavController().navigate(action)
         }
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                filterList(p0.toString())
+
+            }
+
+        })
+
+
         //loadData()
         return rootView
 
     }
+
+     private fun filterList(filterItem:String){
+            searchList.clear()
+             for (item in partyList) {
+                 if (item.name.toLowerCase(Locale.ROOT).contains(filterItem.toLowerCase(Locale.ROOT)))
+                 {
+                     searchList.add(item)
+                     //Log.d("searchList","$searchList")
+                     adapter.updateList(searchList)
+                     noProduct.visibility=View.INVISIBLE
+                 }
+                 else {
+                     if(searchEditText.text.isEmpty()){
+                         if(searchList.isEmpty()){
+                             noProduct.visibility=View.GONE
+                             adapter.updateList(partyList)
+                             //loadData()
+                         }
+                     }
+                 }
+             }
+
+
+
+         adapter.notifyDataSetChanged()
+         }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.partyCollection.observe(viewLifecycleOwner, Observer {collection->
+            if(collection!=null){
+
+                val action=PartiesListDirections.actionPartiesListToPartyCollection()
+                findNavController().navigate(action)
+            }
+        })
+
+    }
+
     private fun configurePartyList(){
-        adapter = PartiesListAdapter(partyList)
+        adapter = PartiesListAdapter(partyList,getPartyItemClickListener())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         recyclerView.setHasFixedSize(true)
@@ -100,7 +173,7 @@ class PartiesList : Fragment() {
                 progressBar.visibility = View.GONE
             }
             SalesApiStatus.EMPTY->{
-                noProduct.text=getString(R.string.no_product)
+                //noProduct.text=getString(R.string.no_product)
                 noProduct.visibility=View.VISIBLE
                 progressBar.visibility = View.GONE
             }
@@ -171,4 +244,13 @@ class PartiesList : Fragment() {
             background.draw(c)
         }
     })
+    private fun getPartyItemClickListener(): PartyItemClickListener {
+        return object : PartyItemClickListener {
+
+            override fun onPartyClick(name: String) {
+                viewModel.getPartyCollection(name)
+            }
+
+        }
+    }
 }

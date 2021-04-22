@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.salesadmin.LeaveItemClickListener
 import com.example.salesadmin.R
 import com.example.salesadmin.model.Leave
+import com.example.salesadmin.model.Products
 
 class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:LeaveItemClickListener):
     RecyclerView.Adapter<LeaveListAdapter.LeaveItem>() {
@@ -25,7 +26,7 @@ class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:Le
     override fun onBindViewHolder(holder: LeaveItem, position: Int) {
         val leave=getItem(position)
         holder.bind(leave)
-        holder.itemView.setOnClickListener{
+        holder.tvViewDetails.setOnClickListener {
             leaveItemClickListeners.onLeaveItemClick(leave)
         }
     }
@@ -39,6 +40,7 @@ class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:Le
         val tvname=itemView.findViewById<TextView>(R.id.tv_employee_name)
         val tvDate=itemView.findViewById<TextView>(R.id.tv_leave_date)
         val tvStatus=itemView.findViewById<TextView>(R.id.tv_status)
+        val tvViewDetails=itemView.findViewById<TextView>(R.id.tv_view_details_leave)
         companion object{
             fun createViewHolder(parent: ViewGroup): LeaveItem {
                 val view = LayoutInflater.from(parent.context)
@@ -60,5 +62,9 @@ class LeaveListAdapter(var LeaveList: List<Leave>,var leaveItemClickListeners:Le
                 tvStatus.setTextColor(ContextCompat.getColor(this.itemView.context,R.color.colorRed))
             }
         }
+    }
+    fun updateList(list: List<Leave>){
+        LeaveList=list
+        notifyDataSetChanged()
     }
 }
