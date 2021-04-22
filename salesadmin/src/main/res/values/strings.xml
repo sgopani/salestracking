@@ -35,7 +35,7 @@
     <string name="register">Register</string>
     <string name="Hello">Hello, %1$s!</string>
     <string name="add_new_product">Add new Product</string>
-    <string name="api_key">AIzaSyDklqaN4Gxa4Ej2xhj936gfEmvbG7eOtjk</string>
+    <string name="api_key">your api key</string>
     <string name="name">Name:</string>
     <string name="no_product">No Product Added</string>
     <string name="no_employee">No Employee Added</string>
