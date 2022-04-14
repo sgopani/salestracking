@@ -63,6 +63,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:hint="@string/admin_phone"
+                android:visibility="gone"
                 android:paddingLeft="8dp"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -155,6 +156,7 @@
                 android:layout_height="@dimen/edittext_height"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:visibility="gone"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
@@ -262,9 +264,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:ellipsize="end"
+                android:maxLength="15"
                 android:text="TextView"
                 android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/share_unique_id"
                 app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -279,6 +283,19 @@
                 android:textColor="@color/background"
                 app:layout_constraintStart_toEndOf="@+id/iv_profile_image"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+            <ImageView
+                android:id="@+id/share_unique_id"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="8dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_baseline_share_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

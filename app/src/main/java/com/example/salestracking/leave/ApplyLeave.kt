@@ -16,6 +16,7 @@ import com.example.salestracking.USER
 import com.example.salestracking.databse.model.Leave
 import com.example.salestracking.repository.FireStoreViewModel
 import com.example.salestracking.toSimpleDateFormat
+import com.google.firebase.auth.FirebaseAuth
 import java.security.cert.CertPathValidatorException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -170,7 +171,8 @@ class ApplyLeave : Fragment(), View.OnClickListener {
     private fun addLeave() {
         try {
             val leave=Leave(fromDate.text.toString(),toDate.text.toString(),leaveTypeDb,reason.text.toString(),System.currentTimeMillis()
-                    ,USER?.uid!!,name = prefManager.getFullName().toString())
+                    ,
+                FirebaseAuth.getInstance().currentUser?.uid!!,name = prefManager.getFullName().toString())
             viewModel.applyLeaveFirebase(leave)
             progressBar.visibility= View.GONE
             fromDate.text.clear()

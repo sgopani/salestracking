@@ -2,15 +2,17 @@ package com.example.salesadmin.profile
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.salesadmin.PrefManager
@@ -19,7 +21,6 @@ import com.example.salesadmin.isInternetOn
 import com.example.salesadmin.login.LoginActivity
 import com.example.salesadmin.model.Employee
 import com.example.salesadmin.repository.FireStoreRepository
-import com.example.salesadmin.toSimpleDateFormat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,6 +41,7 @@ class Profile : Fragment() {
     private lateinit var edit: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var profileImageView: ImageView
+    private lateinit var share_unique_id: ImageView
     private lateinit var drawable: TextDrawable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +61,7 @@ class Profile : Fragment() {
         progressBar = rootView.findViewById(R.id.progress_bar)
         edit=rootView.findViewById(R.id.tv_edit_profile)
         profileImageView=rootView.findViewById(R.id.iv_profile_image)
+        share_unique_id=rootView.findViewById(R.id.share_unique_id)
     }
 
     override fun onCreateView(
@@ -74,11 +77,11 @@ class Profile : Fragment() {
         address.setText(prefManager.getAddress())
         phoneNo.setText(prefManager.getPhoneNo())
         email.setText(prefManager.getEmail())
-//        if(prefManager.getFullName()?.isEmpty()!!){
-            firebaseRepository.getUserInfo().addOnSuccessListener {document->
+            firebaseRepository.getUserInfo().addOnSuccessListener { document->
                 if (document.data!=null) {
+                    Log.d("firebaseRepository", "${document.get("userId")}")
+                    prefManager.setCompanyID(document.get("userId").toString());
                     val userInfo = document.toObject(Employee::class.java)
-                    Log.d("firebaseRepository", "${document.data}")
                     prefManager.setFullName(userInfo?.name.toString())
                     prefManager.setAddress(userInfo?.address.toString())
                     prefManager.setEmail(userInfo?.emailId.toString())
@@ -89,41 +92,48 @@ class Profile : Fragment() {
                     phoneNo.setText(prefManager.getPhoneNo())
                     email.setText(prefManager.getEmail())
                     tv_name.text = prefManager.getFullName()
+                    share_unique_id.visibility=VISIBLE
                     //dateOfJoining.setText(toSimpleDateFormat(prefManager.getDOJ()!!))
 
                 }
             }.addOnFailureListener {
-                Toast.makeText(this.requireContext(),"Failed",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.requireContext(), "Failed", Toast.LENGTH_SHORT).show()
             }
 //        }
         val generator: ColorGenerator = ColorGenerator.MATERIAL
         val color: Int = generator.randomColor
         Handler(Looper.getMainLooper()).postDelayed(object : Runnable {
             override fun run() {
-                if(name.text.isNotEmpty()){
-                drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
-                        .buildRound(name.text[0].toString().toUpperCase(Locale.ROOT), color)
-                profileImageView.setImageDrawable(drawable)
-                }
-                else{
+                if (name.text.isNotEmpty()) {
                     drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
-                            .buildRound("K", color)
+                        .buildRound(name.text[0].toString().toUpperCase(Locale.ROOT), color)
+                    profileImageView.setImageDrawable(drawable)
+                } else {
+                    drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
+                        .buildRound("K", color)
                     profileImageView.setImageDrawable(drawable)
                 }
 
             }
-        },1000)
+        }, 1000)
 
-
+        share_unique_id.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            val shareBody = prefManager.getCompanyId()
+            intent.type = "text/plain"
+            //intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject))
+            intent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            startActivity(Intent.createChooser(intent, null))
+        }
         signOut.setOnClickListener {
 
             AlertDialog.Builder(context).apply {
-                setTitle("Are you sure you want to want to sign out")
-                setMessage("You cannot undo this operation")
+                setTitle("Are you sure you want to want to sign out?")
+                setMessage("You will be returned to the sign in screen")
                 setPositiveButton("Yes") { _, _ ->
                     signOut()
                 }
-                setNegativeButton("No") { _, _ ->
+                setNegativeButton("Cancel") { _, _ ->
 
                 }
             }.create().show()
@@ -153,7 +163,11 @@ class Profile : Fragment() {
                                 edit.visibility = View.VISIBLE
                                 name.isEnabled=false
                                 address.isEnabled=false
-                                Toast.makeText(this.requireContext(), "Updated Successfully", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this.requireContext(),
+                                    "Updated Successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
                                 progressBar.visibility = View.GONE
                                 Toast.makeText(this.requireContext(), "Failed", Toast.LENGTH_SHORT).show()
@@ -161,11 +175,19 @@ class Profile : Fragment() {
                         }
                 }
                 else{
-                    Toast.makeText(this.requireContext(), "Field cannot be empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this.requireContext(),
+                        "Field cannot be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             else{
-                Toast.makeText(this.requireContext(), "Please check your Internet connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please check your Internet connection",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
         }
@@ -181,8 +203,12 @@ class Profile : Fragment() {
                 this.activity?.finish()
                 prefManager.clear()
             }
-            catch (e:Exception){
-                Toast.makeText(this.requireContext(), "Please check your Internet connection", Toast.LENGTH_SHORT).show()
+            catch (e: Exception){
+                Toast.makeText(
+                    this.requireContext(),
+                    "Please check your Internet connection",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
