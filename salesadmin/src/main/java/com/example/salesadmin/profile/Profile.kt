@@ -3,6 +3,8 @@ package com.example.salesadmin.profile
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -96,9 +98,22 @@ class Profile : Fragment() {
 //        }
         val generator: ColorGenerator = ColorGenerator.MATERIAL
         val color: Int = generator.randomColor
-        drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
-            .buildRound(name.text[0].toString().toUpperCase(Locale.ROOT), color)
-        profileImageView.setImageDrawable(drawable)
+        Handler(Looper.getMainLooper()).postDelayed(object : Runnable {
+            override fun run() {
+                if(name.text.isNotEmpty()){
+                drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
+                        .buildRound(name.text[0].toString().toUpperCase(Locale.ROOT), color)
+                profileImageView.setImageDrawable(drawable)
+                }
+                else{
+                    drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
+                            .buildRound("K", color)
+                    profileImageView.setImageDrawable(drawable)
+                }
+
+            }
+        },1000)
+
 
         signOut.setOnClickListener {
 
